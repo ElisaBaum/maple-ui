@@ -1,5 +1,0 @@
-
-
-const getToken = (name, code) => {
-
-};

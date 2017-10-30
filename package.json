@@ -20,8 +20,12 @@
     "antd": "^2.13.6",
     "axios": "^0.17.0",
     "classnames": "^2.2.5",
+    "inversify": "^4.3.0",
+    "inversify-inject-decorators": "^3.0.1",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
+    "react-router-dom": "^4.2.2",
+    "reflect-metadata": "^0.1.10",
     "sass-flex-mixin": "^1.0.3"
   },
   "devDependencies": {
@@ -34,6 +38,7 @@
     "@types/node": "^7.0.18",
     "@types/react": "15.0.33",
     "@types/react-dom": "^16.0.2",
+    "@types/react-router-dom": "^4.2.0",
     "@types/sinon": "^2.3.1",
     "@types/sinon-chai": "^2.7.28",
     "chai": "^4.0.2",
