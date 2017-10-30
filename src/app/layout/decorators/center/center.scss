@@ -1,0 +1,12 @@
+@import "../../../../../node_modules/sass-flex-mixin/flex";
+
+.center {
+  @include flexbox();
+  @include align-items(center);
+  @include justify-content(center);
+  height: 100%;
+
+  .centered-component {
+    @include flex(0 0 auto);
+  }
+}
