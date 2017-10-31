@@ -3,7 +3,7 @@
 .form-field {
   $border-color: $brand-1;
 
-  .input{
+  .input {
 
     i {
       font-size: 17px;
@@ -32,10 +32,8 @@
       }
     }
   }
-}
 
-@media #{$desktop} {
-  .form-field {
+  @media #{$desktop} {
     .input {
 
       i {

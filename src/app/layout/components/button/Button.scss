@@ -18,10 +18,8 @@
       border-color: $button-active-color;
     }
   }
-}
 
-@media #{$desktop} {
-  .button {
+  @media #{$desktop} {
     &.ant-btn {
       font-size: 14px;
       width: auto;
