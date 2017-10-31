@@ -10,9 +10,9 @@ export class LoginContainer extends Component {
   @Inject authService: AuthService;
   @Inject userHttpService: UserHttpService;
 
-  async handleLogin({nameOrEmail, codeOrPassword}) {
+  async handleLogin({name, code}) {
     try {
-      const {data} = await this.userHttpService.getUserToken(nameOrEmail, codeOrPassword);
+      const {data} = await this.userHttpService.getUserToken(name, code);
       this.authService.token = data.token;
       console.log(this.authService.token);
     } catch (e) {

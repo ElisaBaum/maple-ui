@@ -8,7 +8,7 @@ import {FormField} from "../layout/components/form-field/FormField";
 import {Button} from "../layout/components/button/Button";
 
 export interface LoginProps {
-  onSubmit(data: {nameOrEmail: string; codeOrPassword: string});
+  onSubmit(data: {name: string; code: string});
 }
 
 export const Login = Form.create<LoginProps>()(
