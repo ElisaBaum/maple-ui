@@ -1,12 +1,13 @@
-@import "../../../../../node_modules/sass-flex-mixin/flex";
+@import "../../../../../node_modules/compass-sass-mixins/lib/compass";
 
 .center {
-  @include flexbox();
+  @include display-flex();
   @include align-items(center);
   @include justify-content(center);
   min-height: 100%;
 
   .centered-component {
     @include flex(0 0 auto);
+    max-width: 100%;
   }
 }

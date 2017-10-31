@@ -15,7 +15,7 @@ export function FormField({id, form, placeholder, iconType, rules}: FormFieldPro
   return (
     <Form.Item className={'form-field'}>
       {form.getFieldDecorator(id, {rules})(
-        <Input prefix={iconType && <Icon type={iconType} style={{fontSize: 13}}/>}
+        <Input prefix={iconType && <Icon type={iconType}/>}
                placeholder={placeholder}
                className={'input'}/>
       )}

@@ -28,7 +28,7 @@ export const Login = Form.create<LoginProps>()(
       const {form} = this.props;
       return (
         <div className={'login'}>
-          <Logo className={'login-logo'}/>
+          <Logo className={'login-logo'} useHalf={true}/>
           <Form onSubmit={e => this.handleSubmit(e)}>
             <FormField form={form}
                        id="name"
