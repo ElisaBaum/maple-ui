@@ -1,0 +1,22 @@
+.form-field {
+  .input{
+
+    .ant-input-prefix {
+      left: 17px;
+    }
+
+    input {
+      border-radius: 0;
+      padding: 25px 25px 25px 20px;
+
+      &.ant-input:not(:first-child) {
+        padding-left: 40px;
+      }
+
+      &:focus {
+        border-color: #50ADBF;
+        box-shadow: 0 0 0 2px rgba(80, 173, 191, 0.2);
+      }
+    }
+  }
+}

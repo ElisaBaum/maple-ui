@@ -1,0 +1,12 @@
+.button {
+  &.ant-btn {
+    background-color: #50ADBF;
+    border-color: #50ADBF;
+    border-radius: 0;
+
+    &:focus, &:hover {
+      background-color: #4b96a8;
+      border-color: #4b96a8;
+    }
+  }
+}

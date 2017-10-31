@@ -4,7 +4,7 @@
   @include flexbox();
   @include align-items(center);
   @include justify-content(center);
-  height: 100%;
+  min-height: 100%;
 
   .centered-component {
     @include flex(0 0 auto);
