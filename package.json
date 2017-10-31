@@ -20,13 +20,13 @@
     "antd": "^2.13.6",
     "axios": "^0.17.0",
     "classnames": "^2.2.5",
+    "compass-sass-mixins": "^0.12.7",
     "inversify": "^4.3.0",
     "inversify-inject-decorators": "^3.0.1",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-router-dom": "^4.2.2",
-    "reflect-metadata": "^0.1.10",
-    "sass-flex-mixin": "^1.0.3"
+    "reflect-metadata": "^0.1.10"
   },
   "devDependencies": {
     "@types/antd": "^1.0.0",
