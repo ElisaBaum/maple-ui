@@ -6,7 +6,7 @@ export class AuthService {
   private _token: string;
 
   get token() {
-    if (!this.isTokenValid()) {
+    if (!this.hasValidToken()) {
       // TODO: redirect to login
       throw new Error('Invalid token');
     }
@@ -16,7 +16,7 @@ export class AuthService {
     this._token = token;
   }
 
-  private isTokenValid() {
+  hasValidToken() {
     // TODO: check exp
     return !!this._token;
   }

@@ -4,9 +4,11 @@ import {Login} from './Login';
 import {Inject} from '../../injector';
 import {UserHttpService} from '../user/UserHttpService';
 import {AuthService} from '../auth/AuthService';
+import {HISTORY_TOKEN, History} from '../common/history';
 
 export class LoginContainer extends Component {
 
+  @Inject(HISTORY_TOKEN) history: History;
   @Inject authService: AuthService;
   @Inject userHttpService: UserHttpService;
 
@@ -14,7 +16,7 @@ export class LoginContainer extends Component {
     try {
       const {data} = await this.userHttpService.getUserToken(name, code);
       this.authService.token = data.token;
-      console.log(this.authService.token);
+      this.history.replace('/');
     } catch (e) {
       alert(e.message);
     }
