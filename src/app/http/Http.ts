@@ -1,9 +1,21 @@
 import axios, {AxiosInstance, AxiosInterceptorManager, AxiosPromise, AxiosRequestConfig, AxiosResponse} from 'axios';
 import {multiInject} from 'inversify';
-import {HttpInterceptor} from './HttpInterceptor';
+import {HttpInterceptor, INTERCEPTOR_TOKEN} from './HttpInterceptor';
+import {container, Injectable} from '../../injector';
 
-export const INTERCEPTOR_TOKEN = 'http-interceptor';
+export interface RequestOptions<IT> extends AxiosRequestConfig {
+  interceptOptions: IT;
+}
 
+export interface AxiosResponse {
+  data: any;
+  status: number;
+  statusText: string;
+  headers: any;
+  config: AxiosRequestConfig;
+}
+
+@Injectable
 export class Http implements AxiosInstance {
 
   defaults: AxiosRequestConfig;
@@ -11,26 +23,39 @@ export class Http implements AxiosInstance {
     request: AxiosInterceptorManager<AxiosRequestConfig>;
     response: AxiosInterceptorManager<AxiosResponse>;
   };
-  request: <T>(config: AxiosRequestConfig) => AxiosPromise<T>;
-  post: <T>(url: string, data?: any, config?: AxiosRequestConfig) => AxiosPromise<T>;
-  put: <T>(url: string, data?: any, config?: AxiosRequestConfig) => AxiosPromise<T>;
-  patch: <T>(url: string, data?: any, config?: AxiosRequestConfig) => AxiosPromise<T>;
-  get: <T>(url: string, config?: AxiosRequestConfig) => AxiosPromise<T>;
-  head: (url: string, config?: AxiosRequestConfig) => AxiosPromise;
-  delete: (url: string, config?: AxiosRequestConfig) => AxiosPromise;
+
+  request: (<T, IT = {}>(config: RequestOptions<IT>) => AxiosPromise<T>);
+  post: (<T, IT = {}>(url: string, data?: any, config?: RequestOptions<IT>) => AxiosPromise<T>);
+  put: (<T, IT = {}>(url: string, data?: any, config?: RequestOptions<IT>) => AxiosPromise<T>);
+  patch: (<T, IT = {}>(url: string, data?: any, config?: RequestOptions<IT>) => AxiosPromise<T>);
+  get: (<T, IT = {}>(url: string, config?: RequestOptions<IT>) => AxiosPromise<T>);
+  head: <IT = {}>(url: string, config?: RequestOptions<IT>) => AxiosPromise;
+  delete: <IT = {}>(url: string, config?: RequestOptions<IT>) => AxiosPromise;
 
   constructor(@multiInject(INTERCEPTOR_TOKEN) interceptors: HttpInterceptor[]) {
-    const http = axios.create();
-
-    interceptors.forEach((interceptor) => {
-      Object.keys(http.interceptors).forEach(key => {
-        if (interceptor[key]) {
-          http.interceptors[key].use(value => interceptor[key](value));
-        }
-      });
-    });
+    const http = axios.create({responseType: 'json'});
+    initInterceptors(interceptors, http);
 
     return http;
   }
 
+  static registerInterceptors(interceptors: any) {
+    interceptors.forEach(interceptor => container.bind(INTERCEPTOR_TOKEN).to(interceptor));
+
+  }
+}
+
+function initInterceptors(interceptors: HttpInterceptor[], http: AxiosInstance) {
+  interceptors.forEach((interceptor) => {
+    Object.keys(http.interceptors).forEach(key => {
+      if (interceptor[key]) {
+        http.interceptors[key].use(value => {
+          if (!value.interceptOptions) {
+            value.interceptOptions = {};
+          }
+          return interceptor[key](value);
+        });
+      }
+    });
+  });
 }

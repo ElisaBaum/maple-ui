@@ -4,7 +4,7 @@ import {Form, Input, Icon, Button} from 'antd';
 import {FormComponentProps} from 'antd/es/form/Form';
 
 export interface LoginProps {
-  onSubmit(data: any);
+  onSubmit(data: {nameOrEmail: string; codeOrPassword: string});
 }
 
 export const Login = Form.create<LoginProps>()(
