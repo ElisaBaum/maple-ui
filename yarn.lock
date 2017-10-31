@@ -763,6 +763,10 @@ commondir@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/commondir/-/commondir-1.0.1.tgz#ddd800da0c66127393cca5950ea968a3aaf1253b"
 
+compass-sass-mixins@^0.12.7:
+  version "0.12.7"
+  resolved "https://registry.yarnpkg.com/compass-sass-mixins/-/compass-sass-mixins-0.12.7.tgz#2ac4d310f2ebe518b7d6aca4ae24f1d325409e8c"
+
 component-classes@1.x, component-classes@^1.2.5, component-classes@^1.2.6:
   version "1.2.6"
   resolved "https://registry.yarnpkg.com/component-classes/-/component-classes-1.2.6.tgz#c642394c3618a4d8b0b8919efccbbd930e5cd691"
@@ -3626,10 +3630,6 @@ safe-buffer@^5.0.1:
 samsam@1.x, samsam@^1.1.3:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/samsam/-/samsam-1.2.1.tgz#edd39093a3184370cb859243b2bdf255e7d8ea67"
-
-sass-flex-mixin@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/sass-flex-mixin/-/sass-flex-mixin-1.0.3.tgz#a504d62062f7b0e773aebc395de1f45aaa6e4fd0"
 
 sass-graph@^2.1.1:
   version "2.2.2"

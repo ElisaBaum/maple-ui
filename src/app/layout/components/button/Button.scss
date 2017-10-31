@@ -1,0 +1,30 @@
+@import "../../constants";
+
+.button {
+  $button-color:        $brand-1;
+  $button-active-color: #4b96a8;
+
+  &.ant-btn {
+    background-color: $button-color;
+    border-color: $button-color;
+    border-radius: 0;
+    height: auto;
+    padding: 15px;
+    font-size: 18px;
+    width: 100%;
+
+    &:focus, &:hover, &:active {
+      background-color: $button-active-color;
+      border-color: $button-active-color;
+    }
+  }
+
+  @media #{$desktop} {
+    &.ant-btn {
+      font-size: 14px;
+      width: auto;
+      padding: 10px 17px;
+    }
+  }
+}
+
