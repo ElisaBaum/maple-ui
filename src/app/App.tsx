@@ -28,7 +28,7 @@ export class App extends Component {
         <Switch>
           <Route path={'/login'} render={() => center(LoginContainer)}/>
           <Route path={'/'} render={() => {
-            if (this.authService.hasValidToken()) {
+            if (this.authService.getValidToken()) {
               return <Skeleton/>;
             }
             return <Redirect to={'/login'}/>;
