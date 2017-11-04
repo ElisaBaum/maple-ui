@@ -5,6 +5,7 @@ import {Inject} from '../../injector';
 import {UserHttpService} from '../user/UserHttpService';
 import {AuthService} from '../auth/AuthService';
 import {HISTORY_TOKEN, History} from '../common/history';
+import {toast} from "react-toastify";
 
 export class LoginContainer extends Component {
 
@@ -18,7 +19,7 @@ export class LoginContainer extends Component {
       this.authService.setToken(data.token);
       this.history.replace('/');
     } catch (e) {
-      alert(e.message);
+      toast.error(<p>Fehler beim Login. Bitte erneut versuchen.</p>);
     }
   }
 

@@ -3,8 +3,8 @@ import {Button as AntdButton} from 'antd';
 import './Button.scss';
 
 interface ButtonProps {
-  htmlType: string
-  text: string
+  htmlType: string;
+  text: string;
 }
 
 export function Button({text, htmlType}: ButtonProps) {

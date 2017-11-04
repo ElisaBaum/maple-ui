@@ -10,6 +10,7 @@ import {Component} from 'react';
 import {Inject} from '../injector';
 import {AuthService} from './auth/AuthService';
 import {HISTORY_TOKEN, History} from './common/history';
+import {Toast} from "./layout/components/toast/Toast";
 import './App.scss';
 
 Http.registerInterceptors([
@@ -24,17 +25,20 @@ export class App extends Component {
 
   render() {
     return (
-      <Router history={this.history}>
-        <Switch>
-          <Route path={'/login'} render={() => center(LoginContainer)}/>
-          <Route path={'/'} render={() => {
-            if (this.authService.getValidToken()) {
-              return <Skeleton/>;
-            }
-            return <Redirect to={'/login'}/>;
-          }}/>
-        </Switch>
-      </Router>
+      <div className={'root-container'}>
+        <Router history={this.history}>
+          <Switch>
+            <Route path={'/login'} render={() => center(LoginContainer)}/>
+            <Route path={'/'} render={() => {
+              if (this.authService.getValidToken()) {
+                return <Skeleton/>;
+              }
+              return <Redirect to={'/login'}/>;
+            }}/>
+          </Switch>
+        </Router>
+        <Toast/>
+      </div>
     );
   }
 }

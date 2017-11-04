@@ -26,6 +26,7 @@
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-router-dom": "^4.2.2",
+    "react-toastify": "^2.1.6",
     "reflect-metadata": "^0.1.10"
   },
   "devDependencies": {
@@ -44,7 +45,7 @@
     "chai": "^4.0.2",
     "cpr": "^2.0.2",
     "enzyme": "^3.1.0",
-    "fuse-box": "^2.3.3",
+    "fuse-box": "^2.4.0",
     "jsdom": "^11.0.0",
     "mocha": "^3.4.2",
     "node-sass": "^4.5.2",
