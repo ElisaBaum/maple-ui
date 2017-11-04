@@ -3,21 +3,18 @@ import {Injectable} from '../../injector';
 @Injectable
 export class AuthService {
 
-  private _token: string;
+  private token: string;
 
-  get token() {
-    if (!this.isTokenValid()) {
-      // TODO: redirect to login
-      throw new Error('Invalid token');
-    }
-    return this._token;
-  }
-  set token(token: string) {
-    this._token = token;
+  setToken(token: string) {
+    this.token = token;
   }
 
-  private isTokenValid() {
+  getValidToken(): string | undefined {
+    if (this.hasValidToken()) return this.token;
+  }
+
+  private hasValidToken(): boolean {
     // TODO: check exp
-    return !!this._token;
+    return !!this.token;
   }
 }

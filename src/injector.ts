@@ -6,10 +6,17 @@ export const container = new Container();
 const {lazyInject} = getDecorators(container);
 
 export const Injectable = (target: any) => {
-  container.bind(target).to(target);
+  container.bind(target).to(target).inSingletonScope();
   return injectable()(target);
 };
 
-export const Inject = (target: any, propertyKey: string) => {
-  return lazyInject(Reflect.getMetadata('design:type', target, propertyKey))(target, propertyKey);
-};
+export function Inject(target: object, propertyKey: string | symbol);
+export function Inject(identifier: any);
+export function Inject(...args: any[]) {
+  if (args.length > 1) {
+    const [target, propertyKey] = args;
+    const type = Reflect.getMetadata('design:type', target, propertyKey);
+    return lazyInject(type)(target, propertyKey);
+  }
+  return lazyInject(args[0]);
+}

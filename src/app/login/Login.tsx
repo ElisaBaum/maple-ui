@@ -8,6 +8,7 @@ import {FormField} from "../layout/components/form-field/FormField";
 import {Button} from "../layout/components/button/Button";
 
 export interface LoginProps {
+  loading: boolean;
   onSubmit(data: {name: string; code: string});
 }
 
@@ -25,7 +26,7 @@ export const Login = Form.create<LoginProps>()(
     }
 
     render() {
-      const {form} = this.props;
+      const {form, loading} = this.props;
       return (
         <div className={'login'}>
           <Logo className={'login-logo'} useHalf={true}/>
@@ -42,6 +43,7 @@ export const Login = Form.create<LoginProps>()(
                        rules={[{required: true, message: 'Bitte Code eingeben!'}]}/>
             <Form.Item>
               <Button text="Einloggen"
+                      loading={loading}
                       htmlType="submit"/>
             </Form.Item>
           </Form>

@@ -4,23 +4,40 @@ import {Login} from './Login';
 import {Inject} from '../../injector';
 import {UserHttpService} from '../user/UserHttpService';
 import {AuthService} from '../auth/AuthService';
+import {HISTORY_TOKEN, History} from '../common/history';
+import {toast} from "react-toastify";
 
-export class LoginContainer extends Component {
+interface LoginContainerState {
+  loading: boolean;
+}
 
+export class LoginContainer extends Component<{}, LoginContainerState> {
+
+  @Inject(HISTORY_TOKEN) history: History;
   @Inject authService: AuthService;
   @Inject userHttpService: UserHttpService;
 
+  constructor(props) {
+    super(props);
+    this.state = {loading: false};
+  }
+
   async handleLogin({name, code}) {
+    this.setState({loading: true});
+
     try {
       const {data} = await this.userHttpService.getUserToken(name, code);
-      this.authService.token = data.token;
-      console.log(this.authService.token);
+      this.authService.setToken(data.token);
+      toast.dismiss();
+      this.history.replace('/');
     } catch (e) {
-      alert(e.message);
+      toast.error(<p>Fehler beim Login. Bitte erneut versuchen.</p>);
+    } finally {
+      this.setState({loading: false});
     }
   }
 
   render() {
-    return (<Login onSubmit={e => this.handleLogin(e)}/>);
+    return (<Login onSubmit={e => this.handleLogin(e)} loading={this.state.loading}/>);
   }
 }

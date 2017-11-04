@@ -3,15 +3,17 @@ import {Button as AntdButton} from 'antd';
 import './Button.scss';
 
 interface ButtonProps {
-  htmlType: string
-  text: string
+  htmlType: string;
+  text: string;
+  loading?: boolean;
 }
 
-export function Button({text, htmlType}: ButtonProps) {
+export function Button({text, htmlType, loading}: ButtonProps) {
   return (
     <AntdButton className={'button'}
             type="primary"
-            htmlType={htmlType}>
+            htmlType={htmlType}
+            loading={loading}>
       {text}
     </AntdButton>
   );
