@@ -8,7 +8,7 @@ export function Toast() {
       position="top-right"
       autoClose={false}
       newestOnTop={false}
-      closeOnClick={false}
+      closeOnClick
     />
   );
 }

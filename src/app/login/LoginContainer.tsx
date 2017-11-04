@@ -11,7 +11,7 @@ interface LoginContainerState {
   loading: boolean;
 }
 
-export class LoginContainer extends Component<any, LoginContainerState> {
+export class LoginContainer extends Component<{}, LoginContainerState> {
 
   @Inject(HISTORY_TOKEN) history: History;
   @Inject authService: AuthService;
@@ -28,10 +28,12 @@ export class LoginContainer extends Component<any, LoginContainerState> {
     try {
       const {data} = await this.userHttpService.getUserToken(name, code);
       this.authService.setToken(data.token);
+      toast.dismiss();
       this.history.replace('/');
     } catch (e) {
-      this.setState({loading: false});
       toast.error(<p>Fehler beim Login. Bitte erneut versuchen.</p>);
+    } finally {
+      this.setState({loading: false});
     }
   }
 
