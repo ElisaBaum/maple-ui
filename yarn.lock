@@ -1801,6 +1801,10 @@ inversify@^4.3.0:
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/inversify/-/inversify-4.3.0.tgz#d2ecd2ae18340e7f1ab5148a3e44b87080391366"
 
+inversify@^4.5.0:
+  version "4.5.1"
+  resolved "https://registry.yarnpkg.com/inversify/-/inversify-4.5.1.tgz#2f8a249e1fc5346e4f28b4b86dfae5af1b673178"
+
 invert-kv@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/invert-kv/-/invert-kv-1.0.0.tgz#104a8e4aaca6d3d8cd157a8ef8bfab2d7a3ffdb6"
@@ -3416,6 +3420,13 @@ react-transition-group@^2.2.1:
     loose-envify "^1.3.1"
     prop-types "^15.5.8"
     warning "^3.0.0"
+
+react.di@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/react.di/-/react.di-1.0.0.tgz#d4f02cfa1fc56602e29a0d8d4bd2bd946f592e69"
+  dependencies:
+    inversify "^4.5.0"
+    prop-types "^15.6.0"
 
 react@^16.0.0:
   version "16.0.0"

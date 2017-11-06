@@ -1,7 +1,6 @@
-import axios, {AxiosInstance, AxiosInterceptorManager, AxiosPromise, AxiosRequestConfig, AxiosResponse} from 'axios';
-import {multiInject} from 'inversify';
+import axios, {AxiosInstance, AxiosInterceptorManager, AxiosPromise, AxiosRequestConfig} from 'axios';
 import {HttpInterceptor, INTERCEPTOR_TOKEN} from './HttpInterceptor';
-import {container, Injectable} from '../../injector';
+import {Inject, Injectable} from 'react.di';
 
 export interface RequestOptions<IT> extends AxiosRequestConfig {
   interceptOptions: IT;
@@ -32,16 +31,11 @@ export class Http implements AxiosInstance {
   head: <IT = {}>(url: string, config?: RequestOptions<IT>) => AxiosPromise;
   delete: <IT = {}>(url: string, config?: RequestOptions<IT>) => AxiosPromise;
 
-  constructor(@multiInject(INTERCEPTOR_TOKEN) interceptors: HttpInterceptor[]) {
+  constructor(@Inject(INTERCEPTOR_TOKEN) interceptors: HttpInterceptor[]) {
     const http = axios.create({responseType: 'json'});
     initInterceptors(interceptors, http);
 
     return http;
-  }
-
-  static registerInterceptors(interceptors: any) {
-    interceptors.forEach(interceptor => container.bind(INTERCEPTOR_TOKEN).to(interceptor));
-
   }
 }
 

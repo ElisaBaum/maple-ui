@@ -1,11 +1,11 @@
 import * as React from 'react';
 import {Component} from 'react';
 import {Login} from './Login';
-import {Inject} from '../../injector';
 import {UserHttpService} from '../user/UserHttpService';
 import {AuthService} from '../auth/AuthService';
 import {HISTORY_TOKEN, History} from '../common/history';
 import {toast} from "react-toastify";
+import {Inject} from 'react.di';
 
 interface LoginContainerState {
   loading: boolean;
@@ -31,9 +31,9 @@ export class LoginContainer extends Component<{}, LoginContainerState> {
       toast.dismiss();
       this.history.replace('/');
     } catch (e) {
-      toast.error(<p>Fehler beim Login. Bitte erneut versuchen.</p>);
-    } finally {
+      console.error(e);
       this.setState({loading: false});
+      toast.error(<p>Fehler beim Login. Bitte erneut versuchen.</p>);
     }
   }
 

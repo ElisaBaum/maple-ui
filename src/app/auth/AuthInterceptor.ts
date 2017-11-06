@@ -1,10 +1,9 @@
 import {HttpRequestInterceptor} from '../http/HttpRequestInterceptor';
 import {AxiosRequestConfig} from 'axios';
 import {RequestOptions} from '../http/Http';
-import {Injectable} from '../../injector';
 import {AuthService} from './AuthService';
-import {inject} from 'inversify';
 import {HISTORY_TOKEN, History} from "../common/history";
+import {Inject, Injectable} from 'react.di';
 
 export interface AuthInterceptorOptions {
   skipAuth?: boolean;
@@ -13,8 +12,8 @@ export interface AuthInterceptorOptions {
 @Injectable
 export class AuthInterceptor implements HttpRequestInterceptor<AuthInterceptorOptions> {
 
-  constructor(@inject(AuthService) private authService: AuthService,
-              @inject(HISTORY_TOKEN) private history: History) {
+  constructor(@Inject private authService: AuthService,
+              @Inject(HISTORY_TOKEN) private history: History) {
   }
 
   request(config: RequestOptions<AuthInterceptorOptions>): Promise<AxiosRequestConfig> | AxiosRequestConfig {

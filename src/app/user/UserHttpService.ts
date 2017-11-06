@@ -1,12 +1,11 @@
-import {Injectable} from '../../injector';
-import {inject} from 'inversify';
 import {Http} from '../http/Http';
 import {AuthInterceptorOptions} from '../auth/AuthInterceptor';
+import {Inject, Injectable} from 'react.di';
 
 @Injectable
 export class UserHttpService {
 
-  constructor(@inject(Http) private http: Http) {
+  constructor(@Inject private http: Http) {
   }
 
   getUserToken(name: string, code: string) {

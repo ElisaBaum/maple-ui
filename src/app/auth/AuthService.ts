@@ -1,4 +1,4 @@
-import {Injectable} from '../../injector';
+import {Injectable} from 'react.di';
 
 @Injectable
 export class AuthService {

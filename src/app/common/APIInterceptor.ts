@@ -1,7 +1,7 @@
 import {HttpRequestInterceptor} from '../http/HttpRequestInterceptor';
 import {AxiosRequestConfig} from 'axios';
 import {RequestOptions} from '../http/Http';
-import {Injectable} from '../../injector';
+import {Injectable} from 'react.di';
 
 export interface APIInterceptorOptions {
   omitAPIUrl?: boolean;
