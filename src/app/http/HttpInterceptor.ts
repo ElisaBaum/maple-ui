@@ -3,4 +3,4 @@ import {HttpRequestInterceptor} from './HttpRequestInterceptor';
 
 export type HttpInterceptor = Partial<HttpResponseInterceptor> & Partial<HttpRequestInterceptor<any>>;
 
-export const INTERCEPTOR_TOKEN = 'http-interceptor';
+export const HTTP_INTERCEPTOR_TOKEN = 'http-interceptor';

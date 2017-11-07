@@ -4,7 +4,7 @@ import {Inject, Module} from 'react.di';
 import {Switch, Route, Router, Redirect} from 'react-router';
 import {AuthInterceptor} from './auth/AuthInterceptor';
 import {APIInterceptor} from './common/APIInterceptor';
-import {INTERCEPTOR_TOKEN} from './http/HttpInterceptor';
+import {HTTP_INTERCEPTOR_TOKEN} from './http/HttpInterceptor';
 import {HISTORY_TOKEN, history} from './common/history';
 import {AuthService} from './auth/AuthService';
 import {UserHttpService} from './user/UserHttpService';
@@ -21,8 +21,8 @@ export const App = () => (
     UserHttpService,
     Http,
     {provide: HISTORY_TOKEN, useValue: history},
-    {provide: INTERCEPTOR_TOKEN, useClass: APIInterceptor},
-    {provide: INTERCEPTOR_TOKEN, useClass: AuthInterceptor},
+    {provide: HTTP_INTERCEPTOR_TOKEN, useClass: APIInterceptor},
+    {provide: HTTP_INTERCEPTOR_TOKEN, useClass: AuthInterceptor},
   ]}>
     <Content/>
   </Module>
