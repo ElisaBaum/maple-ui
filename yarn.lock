@@ -3421,9 +3421,9 @@ react-transition-group@^2.2.1:
     prop-types "^15.5.8"
     warning "^3.0.0"
 
-react.di@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/react.di/-/react.di-1.0.0.tgz#d4f02cfa1fc56602e29a0d8d4bd2bd946f592e69"
+react.di@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/react.di/-/react.di-1.0.1.tgz#e886fe7ef14816aa336a5973b5fe06940e933235"
   dependencies:
     inversify "^4.5.0"
     prop-types "^15.6.0"
