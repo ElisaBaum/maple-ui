@@ -1,5 +1,5 @@
 import {Http} from '../http/Http';
-import {AuthInterceptorOptions} from '../auth/AuthInterceptor';
+import {AuthInterceptorOptions} from '../auth/AuthHttpInterceptor';
 import {Inject, Injectable} from 'react.di';
 
 @Injectable

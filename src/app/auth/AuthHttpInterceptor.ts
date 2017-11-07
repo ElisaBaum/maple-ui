@@ -10,7 +10,7 @@ export interface AuthInterceptorOptions {
 }
 
 @Injectable
-export class AuthInterceptor implements HttpRequestInterceptor<AuthInterceptorOptions> {
+export class AuthHttpInterceptor implements HttpRequestInterceptor<AuthInterceptorOptions> {
 
   constructor(@Inject private authService: AuthService,
               @Inject(HISTORY_TOKEN) private history: History) {

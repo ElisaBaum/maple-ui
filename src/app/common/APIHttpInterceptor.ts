@@ -8,7 +8,7 @@ export interface APIInterceptorOptions {
 }
 
 @Injectable
-export class APIInterceptor implements HttpRequestInterceptor<APIInterceptorOptions> {
+export class APIHttpInterceptor implements HttpRequestInterceptor<APIInterceptorOptions> {
 
   request(config: RequestOptions<APIInterceptorOptions>): Promise<AxiosRequestConfig> | AxiosRequestConfig {
 

@@ -2,8 +2,8 @@ import * as React from 'react';
 import {Component} from 'react';
 import {Inject, Module} from 'react.di';
 import {Switch, Route, Router, Redirect} from 'react-router';
-import {AuthInterceptor} from './auth/AuthInterceptor';
-import {APIInterceptor} from './common/APIInterceptor';
+import {AuthHttpInterceptor} from './auth/AuthHttpInterceptor';
+import {APIHttpInterceptor} from './common/APIHttpInterceptor';
 import {HTTP_INTERCEPTOR_TOKEN} from './http/HttpInterceptor';
 import {HISTORY_TOKEN, history} from './common/history';
 import {AuthService} from './auth/AuthService';
@@ -21,8 +21,8 @@ export const App = () => (
     UserHttpService,
     Http,
     {provide: HISTORY_TOKEN, useValue: history},
-    {provide: HTTP_INTERCEPTOR_TOKEN, useClass: APIInterceptor},
-    {provide: HTTP_INTERCEPTOR_TOKEN, useClass: AuthInterceptor},
+    {provide: HTTP_INTERCEPTOR_TOKEN, useClass: APIHttpInterceptor},
+    {provide: HTTP_INTERCEPTOR_TOKEN, useClass: AuthHttpInterceptor},
   ]}>
     <Content/>
   </Module>
