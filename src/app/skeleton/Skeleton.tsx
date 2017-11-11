@@ -1,15 +1,17 @@
 import * as React from 'react';
-import {Layout} from 'antd';
+import {Switch, Route} from 'react-router';
+import {Header} from "../layout/components/header/Header";
+import {Footer} from "../layout/components/footer/footer";
+import {JourneyComponent} from "../journey/JourneyComponent";
 import './Skeleton.scss';
 
 export const Skeleton = () => (
-  <Layout className={'skeleton'}>
-    <Layout.Sider collapsed={true}>Nav</Layout.Sider>
-    <Layout.Content className={'meta-container'}>
-      Image
-    </Layout.Content>
-    <Layout.Content className={'content-container'}>
-      Content
-    </Layout.Content>
-  </Layout>
+  <div className={'skeleton'}>
+    <Header/>
+    <Switch>
+      <Route path={'/anfahrt'} component={JourneyComponent}/>
+    </Switch>
+    <Footer/>
+  </div>
+
 );
