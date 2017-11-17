@@ -14,11 +14,13 @@ import {LoginContainer} from './login/LoginContainer';
 import {Skeleton} from './skeleton/Skeleton';
 import {Toast} from './layout/components/toast/Toast';
 import './App.scss';
+import {DynamicContentHttpService} from "./dynamic-content/DynamicContentHttpService";
 
 export const App = () => (
   <Module providers={[
     AuthService,
     UserHttpService,
+    DynamicContentHttpService,
     Http,
     {provide: HISTORY_TOKEN, useValue: history},
     {provide: HTTP_INTERCEPTOR_TOKEN, useClass: APIHttpInterceptor},
