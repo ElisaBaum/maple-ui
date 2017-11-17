@@ -8,9 +8,11 @@ import './Skeleton.scss';
 export const Skeleton = () => (
   <div className={'skeleton'}>
     <Header/>
-    <Switch>
-      <Route path={'/anfahrt'} component={JourneyContainer}/>
-    </Switch>
+    <div className={'content-area'}>
+      <Switch>
+        <Route path={'/anfahrt'} component={JourneyContainer}/>
+      </Switch>
+    </div>
     <Footer/>
   </div>
 

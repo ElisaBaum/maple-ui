@@ -22,21 +22,21 @@ export class LoginContainer extends Component<{}, LoginContainerState> {
     this.state = {loading: false};
   }
 
-  async handleLogin({name, code}) {
+  render() {
+    return (<Login onSubmit={e => this.handleLogin(e)} loading={this.state.loading}/>);
+  }
+
+  private async handleLogin({name, code}) {
     this.setState({loading: true});
 
     try {
       const {data} = await this.userHttpService.getUserToken(name, code);
       this.authService.setToken(data.token);
       toast.dismiss();
-      this.history.replace('/');
+      this.history.replace('/anfahrt');
     } catch (e) {
       this.setState({loading: false});
       toast.error(<p>Fehler beim Login. Bitte erneut versuchen.</p>);
     }
-  }
-
-  render() {
-    return (<Login onSubmit={e => this.handleLogin(e)} loading={this.state.loading}/>);
   }
 }

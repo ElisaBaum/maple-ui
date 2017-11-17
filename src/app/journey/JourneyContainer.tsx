@@ -2,27 +2,40 @@ import * as React from 'react';
 import {Component} from 'react';
 import {Inject} from 'react.di';
 import {DynamicContentHttpService} from "../dynamic-content/DynamicContentHttpService";
+import {JourneyData} from "./JourneyData";
 import {Journey} from "./Journey";
 
-export class JourneyContainer extends Component<{}, {}> {
+interface JourneyContainerState {
+  content: JourneyData;
+}
 
-  @Inject dynamicContentService: DynamicContentHttpService<any>;
+export class JourneyContainer extends Component<{}, JourneyContainerState> {
+
+  @Inject dynamicContentService: DynamicContentHttpService<JourneyData>;
 
   private journeyContentKey: string = 'journey';
 
   constructor(props) {
     super(props);
+  }
+
+  componentWillMount() {
     this.loadContent();
   }
 
-  async loadContent() {
-
-    const content = await this.dynamicContentService.getDynamicContent(this.journeyContentKey);
-    console.log(content);
-
+  render() {
+    return (
+      <div>
+        {
+          this.state && this.state.content &&
+          <Journey content={this.state.content}/>
+        }
+      </div>
+    );
   }
 
-  render() {
-    return (<div></div>);
+  private async loadContent() {
+    const content = await this.dynamicContentService.getDynamicContent(this.journeyContentKey);
+    this.setState({content});
   }
 }

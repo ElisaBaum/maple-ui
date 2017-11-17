@@ -1,6 +1,5 @@
 import {Http} from '../http/Http';
 import {Inject, Injectable} from "react.di";
-import {AuthInterceptorOptions} from "../auth/AuthHttpInterceptor";
 
 @Injectable
 export class DynamicContentHttpService<T> {
@@ -9,13 +8,8 @@ export class DynamicContentHttpService<T> {
   }
 
   async getDynamicContent(contentKey: string) {
-    const dynamicContent = await this.http.get<T, AuthInterceptorOptions>(
-      `/dynamicContent/${contentKey}`,
-      {
-        interceptOptions: {skipAuth: false}
-      }
-    );
-    return dynamicContent;
+    const dynamicContent = await this.http.get<{data: {content: T}}>(`/dynamicContent/${contentKey}`);
+    return dynamicContent.data.content;
   }
 
 }

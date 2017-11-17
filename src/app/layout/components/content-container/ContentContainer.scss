@@ -1,25 +1,24 @@
 .content-container {
-    flex: auto;
 
-    .headline {
-      text-align: right;
+  .headline {
+    text-align: right;
+    font-size: 28px;
+    font-weight: 400;
+    transform: translateY(-90%);
+    padding-right: 20px;
+    color: #52BEBF;
+
+    & i {
       font-size: 28px;
-      font-weight: 400;
-      transform: translateY(-90%);
-      padding-right: 20px;
-      color: #52BEBF;
-
-      & i {
-        font-size: 28px;
-        top: 3px;
-        right: 5px;
-        position: relative;
-      }
-    }
-
-    .content {
-      padding: 0 30px 30px 30px;
-      font-size: 15px;
-      transform: translateY(-15px);
+      top: 3px;
+      right: 5px;
+      position: relative;
     }
   }
+
+  .content {
+    padding: 0 30px 30px 30px;
+    font-size: 15px;
+    transform: translateY(-15px);
+  }
+}

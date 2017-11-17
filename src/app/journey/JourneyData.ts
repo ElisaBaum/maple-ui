@@ -1,8 +1,7 @@
-export interface Journey {
+export interface JourneyData {
 
   headline: string;
   headlineIcon: string;
-  googleMapsApiKey: string;
   journeyDescription: string;
 
 }
