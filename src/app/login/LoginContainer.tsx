@@ -22,11 +22,7 @@ export class LoginContainer extends Component<{}, LoginContainerState> {
     this.state = {loading: false};
   }
 
-  render() {
-    return (<Login onSubmit={e => this.handleLogin(e)} loading={this.state.loading}/>);
-  }
-
-  private async handleLogin({name, code}) {
+  async handleLogin({name, code}) {
     this.setState({loading: true});
 
     try {
@@ -38,5 +34,9 @@ export class LoginContainer extends Component<{}, LoginContainerState> {
       this.setState({loading: false});
       toast.error(<p>Fehler beim Login. Bitte erneut versuchen.</p>);
     }
+  }
+
+  render() {
+    return (<Login onSubmit={e => this.handleLogin(e)} loading={this.state.loading}/>);
   }
 }

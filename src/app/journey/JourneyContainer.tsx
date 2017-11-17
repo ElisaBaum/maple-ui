@@ -19,6 +19,11 @@ export class JourneyContainer extends Component<{}, JourneyContainerState> {
     super(props);
   }
 
+  async loadContent() {
+    const content = await this.dynamicContentService.getDynamicContent(this.journeyContentKey);
+    this.setState({content});
+  }
+
   componentWillMount() {
     this.loadContent();
   }
@@ -32,10 +37,5 @@ export class JourneyContainer extends Component<{}, JourneyContainerState> {
         }
       </div>
     );
-  }
-
-  private async loadContent() {
-    const content = await this.dynamicContentService.getDynamicContent(this.journeyContentKey);
-    this.setState({content});
   }
 }
