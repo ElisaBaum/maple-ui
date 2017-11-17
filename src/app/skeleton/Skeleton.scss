@@ -2,14 +2,6 @@
 
 .skeleton {
   height: 100%;
-  @include flex-wrap(wrap);
-
-  .meta-container {
-    @include flex(4 2 50%);
-    background: #fff;
-  }
-  .content-container {
-    @include flex(3 1 400px);
-    background: #ff95ab;
-  }
+  @include display-flex;
+  @include flex-direction(column);
 }
