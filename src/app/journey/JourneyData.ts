@@ -1,7 +1,7 @@
-export interface JourneyData {
+import {ContentData} from "../dynamic-content/ContentData";
 
-  headline: string;
-  headlineIcon: string;
+export interface JourneyData extends ContentData {
+
   journeyDescription: string;
 
 }
