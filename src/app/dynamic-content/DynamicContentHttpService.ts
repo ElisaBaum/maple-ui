@@ -8,7 +8,7 @@ export class DynamicContentHttpService<T> {
   }
 
   async getDynamicContent(contentKey: string) {
-    const dynamicContent = await this.http.get<{content: T}>(`/dynamicContent/${contentKey}`);
+    const dynamicContent = await this.http.get<{content: T}>(`/dynamic-content/${contentKey}`);
     return dynamicContent.data.content;
   }
 
