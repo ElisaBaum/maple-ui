@@ -1,13 +1,13 @@
 import * as React from 'react';
-import './ContentContainer.scss';
+import './Content.scss';
 
-interface ContentContainerProps {
+interface ContentProps {
   headline: string;
   headlineIcon: string;
   children: any;
 }
 
-export function ContentContainer({headline, headlineIcon, children}: ContentContainerProps) {
+export function Content({headline, headlineIcon, children}: ContentProps) {
   return (
     <div className={'content-container'}>
       <div className={'headline'}>

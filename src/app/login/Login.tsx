@@ -7,7 +7,7 @@ import './Login.scss';
 import {FormField} from "../layout/components/form-field/FormField";
 import {Button} from "../layout/components/button/Button";
 
-export interface LoginProps {
+interface LoginProps {
   loading: boolean;
   onSubmit(data: {name: string; code: string});
 }
