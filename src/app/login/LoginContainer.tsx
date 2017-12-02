@@ -24,7 +24,6 @@ export class LoginContainer extends Component<{}, LoginContainerState> {
 
   async handleLogin({name, code}) {
     this.setState({loading: true});
-
     try {
       const {data} = await this.userHttpService.getUserToken(name, code);
       this.authService.setToken(data.token);

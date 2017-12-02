@@ -1,54 +1,32 @@
 import * as React from 'react';
-import {Component} from 'react';
-import {Form} from 'antd';
-import {FormComponentProps} from 'antd/es/form/Form';
 import {Logo} from "../layout/components/logo/Logo";
+import {Form} from '../layout/components/form/Form';
+import {Button} from '../layout/components/button/Button';
+import {FormInput} from '../layout/components/form-input/FormInput';
 import './Login.scss';
-import {FormField} from "../layout/components/form-field/FormField";
-import {Button} from "../layout/components/button/Button";
 
 interface LoginProps {
   loading: boolean;
-  onSubmit(data: {name: string; code: string});
+  onSubmit(data: { name: string; code: string });
 }
 
-export const Login = Form.create<LoginProps>()(
-  class extends Component<LoginProps & FormComponentProps> {
+export function Login({loading, onSubmit}: LoginProps) {
+  return (
+    <div className={'login'}>
+      <Logo className={'login-logo'} useHalf={true}/>
+      <Form onSubmit={({isValid, values}) => isValid && onSubmit(values)}>
+        <FormInput name="name"
+                   placeholder="Name"
+                   iconType="user"
+                   required={'Bitte Name eingeben!'}/>
+        <FormInput name="code"
+                   placeholder="Code"
+                   iconType="lock"
+                   required={'Bitte Code eingeben!'}/>
+        <Button loading={loading}
+                htmlType="submit">Einloggen</Button>
+      </Form>
+    </div>
+  );
+}
 
-    handleSubmit(e) {
-      const {form, onSubmit} = this.props;
-      e.preventDefault();
-      form.validateFields((err, values) => {
-        if (!err) {
-          onSubmit(values);
-        }
-      });
-    }
-
-    render() {
-      const {form, loading} = this.props;
-      return (
-        <div className={'login'}>
-          <Logo className={'login-logo'} useHalf={true}/>
-          <Form onSubmit={e => this.handleSubmit(e)}>
-            <FormField form={form}
-                       id="name"
-                       placeholder="Name"
-                       iconType="user"
-                       rules={[{required: true, message: 'Bitte Name eingeben!'}]}/>
-            <FormField form={form}
-                       placeholder="Code"
-                       iconType="lock"
-                       id="code"
-                       rules={[{required: true, message: 'Bitte Code eingeben!'}]}/>
-            <Form.Item>
-              <Button text="Einloggen"
-                      loading={loading}
-                      htmlType="submit"/>
-            </Form.Item>
-          </Form>
-        </div>
-      );
-    }
-  }
-);

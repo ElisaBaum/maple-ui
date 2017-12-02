@@ -1,22 +1,22 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
-import 'spectre.css/dist/spectre.css';
 import './Button.scss';
+import 'spectre.css/dist/spectre.css';
 
 type ButtonType = 'primary' | 'link' | 'default';
 
 interface ButtonProps {
   htmlType: string;
-  text: string;
+  children: string;
   loading?: boolean;
   type?: ButtonType;
 }
 
-export function Button({text, htmlType, loading, type}: ButtonProps) {
+export function Button({children, htmlType, loading, type}: ButtonProps) {
   return (
     <button className={classnames(
       'btn', getButtonClass(type), {loading}
-    )} type={htmlType}>{text}</button>
+    )} type={htmlType}>{children}</button>
   );
 }
 
