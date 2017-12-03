@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
-import './Button.scss';
 import 'spectre.css/dist/spectre.css';
+import './Button.scss';
 
 type ButtonType = 'primary' | 'link' | 'default';
 

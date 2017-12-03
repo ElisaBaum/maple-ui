@@ -10,7 +10,6 @@ export interface SubmitEvent<T = any> {
 
 interface FormProps {
   children: any[];
-
   onSubmit(e: SubmitEvent);
 }
 
@@ -33,7 +32,7 @@ export class Form extends Component<FormProps> {
     e.preventDefault();
     const {onSubmit} = this.props;
     const isValid = this.validate();
-    this.setTriedToSubmit();
+    this.fields.forEach(field => field.validateOnChange = true);
     onSubmit({
       isValid,
       values: this.getValues()
@@ -45,10 +44,6 @@ export class Form extends Component<FormProps> {
       values[field.getName()] = field.getValue();
       return values;
     }, {});
-  }
-
-  setTriedToSubmit() {
-    this.fields.forEach(field => field.triedToSubmit());
   }
 
   validate() {

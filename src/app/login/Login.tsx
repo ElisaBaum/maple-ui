@@ -17,11 +17,9 @@ export function Login({loading, onSubmit}: LoginProps) {
       <Form onSubmit={({isValid, values}) => isValid && onSubmit(values)}>
         <FormInput name="name"
                    placeholder="Name"
-                   iconType="user"
                    required={'Bitte Name eingeben!'}/>
         <FormInput name="code"
                    placeholder="Code"
-                   iconType="lock"
                    required={'Bitte Code eingeben!'}/>
         <Button loading={loading}
                 htmlType="submit">Einloggen</Button>

@@ -1,7 +1,13 @@
 import {FormField} from '../FormField';
 
-export interface Validator {
-  getMessage(): string;
-  validate(): boolean;
-  setFormField(field: FormField);
+export abstract class Validator {
+
+  protected formField: FormField;
+
+  abstract getMessage(): string;
+  abstract validate(): boolean;
+
+  init(formField: FormField) {
+    this.formField = formField;
+  }
 }

@@ -5,8 +5,8 @@ import {func} from 'prop-types';
 import {RequiredOptions, RequiredValidator} from '../form/validators/RequiredValidator';
 import {Validator} from '../form/validators/Validator';
 import {FormField} from '../form/FormField';
-import './FormInput.scss';
-
+import 'spectre.css/dist/spectre.css';
+import 'spectre.css/dist/spectre-icons.min.css';
 
 interface FormInputProps {
   name: string;
@@ -15,25 +15,34 @@ interface FormInputProps {
   type?: string;
   required?: RequiredOptions;
   validators?: Validator[];
-  iconType?: string;
+  icon?: string | [string, 'left' | 'right'];
 }
 
-export class FormInput extends Component<FormInputProps, any> implements FormField {
+interface FormInputState {
+  errorMessages: string[];
+}
+
+export class FormInput extends Component<FormInputProps, FormInputState> implements FormField {
   static contextTypes = {addField: func};
 
-  hasTriedToSubmit: boolean;
+  validateOnChange: boolean;
   validators: Validator[] = [];
   value: string;
 
-  constructor(props) {
-    super(props);
+  constructor(props, context) {
+    super(props, context);
     this.state = {errorMessages: []};
   }
 
   componentDidMount() {
     this.context.addField(this);
+    this.initValidators();
+  }
+
+  initValidators() {
     this.applyBuiltInValidators();
     this.applyCustomValidators();
+    this.validators.forEach(validator => validator.init(this));
   }
 
   applyBuiltInValidators() {
@@ -43,11 +52,7 @@ export class FormInput extends Component<FormInputProps, any> implements FormFie
     const validators = Object
       .keys(validatorMap)
       .filter(key => this.props[key])
-      .map(key => {
-        const validator: Validator = new validatorMap[key](this.props[key]);
-        validator.setFormField(this);
-        return validator;
-      });
+      .map(key => new validatorMap[key](this.props[key]));
     this.validators.push(...validators);
   }
 
@@ -74,33 +79,53 @@ export class FormInput extends Component<FormInputProps, any> implements FormFie
     return this.props.name;
   }
 
-  triedToSubmit() {
-    this.hasTriedToSubmit = true;
-  }
-
   handleChange(e) {
     this.value = e.target.value;
-    if (this.hasTriedToSubmit) {
+    if (this.validateOnChange) {
       this.validate();
     }
   }
 
+  renderLabel() {
+    const {label} = this.props;
+    if (label) {
+      return (<label className="form-label" htmlFor={name}>{label}</label>);
+    }
+  }
+
+  renderIcon() {
+    const {icon} = this.props;
+    const iconCss = !!icon && (typeof icon === 'string' ? icon : icon[0]);
+    if (iconCss) {
+      return (<i className={classnames('form-icon', 'icon', iconCss)}></i>);
+    }
+  }
+
+  renderErrorMessages() {
+    const {errorMessages} = this.state;
+    return errorMessages.map((errorMessage, index) => (
+      <p key={index} className="form-input-hint">{errorMessage}</p>
+    ));
+  }
+
   render() {
-    const {name, label, placeholder, type} = this.props;
+    const {name, placeholder, type, icon} = this.props;
     const {errorMessages} = this.state;
     const hasErrors = !!errorMessages.length;
+    const hasIconCss = !!icon && ('has-icon-' + (typeof icon !== 'string' ? icon[1] : 'left'));
+    const labelElement = this.renderLabel();
+    const iconElement = this.renderIcon();
+    const errorMessageElements = this.renderErrorMessages();
     return (
-      <div className={classnames('form-group', {'has-error': hasErrors})}>
-        {label && <label className="form-label"
-                         htmlFor={name}>{label}</label>}
+      <div className={classnames('form-group', hasIconCss, {'has-error': hasErrors})}>
+        {labelElement}
         <input className="form-input"
                type={type || 'text'}
                name={name}
                onChange={e => this.handleChange(e)}
                placeholder={placeholder}/>
-        {errorMessages.map((errorMessage, index) => (
-          <p key={index} className="form-input-hint">{errorMessage}</p>
-        ))}
+        {iconElement}
+        {errorMessageElements}
       </div>
     );
   }
