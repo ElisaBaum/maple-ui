@@ -15,6 +15,7 @@ import {
   WebIndexPlugin,
   HTMLPlugin,
   FuseBoxOptions,
+  QuantumPlugin,
   ImageBase64Plugin,
 } from 'fuse-box';
 
@@ -41,14 +42,9 @@ const DEFAULT_CONFIG: FuseBoxOptions = {
       SassPlugin(),
       CSSPlugin(),
     ] as any,
-    TypeScriptHelpers(),
     HTMLPlugin({useDefault: false}),
 
   ],
-  alias: {
-    // workaround to fix "WARNING Statement 'component-indexof.js' has failed to resolve in module 'component-classes'"
-    '~/component-indexof.js': 'component-indexof/index.js',
-  },
   shim: {
     axios: {
       source: 'node_modules/axios/dist/axios.min.js',
@@ -70,20 +66,34 @@ const config: { [env: string]: FuseBoxOptions } = {
   qa: {
     plugins: [
       EnvPlugin({
+        API_URL: 'http://localhost:3000',
         NODE_ENV: 'production',
       }),
       ...DEFAULT_CONFIG.plugins,
       UglifyJSPlugin({})
-    ]
+    ],
   },
   prod: {
     plugins: [
       EnvPlugin({
+        API_URL: 'http://localhost:3000',
         NODE_ENV: 'production',
       }),
       ...DEFAULT_CONFIG.plugins,
-      UglifyJSPlugin({})
-    ]
+      UglifyJSPlugin({fromString: true}),
+      QuantumPlugin({
+        uglify: true,
+        treeshake: true,
+      })
+    ],
+    alias: {
+      'react-dom': 'react-dom/umd/react-dom.production.min',
+      'react': 'react/umd/react.production.min',
+      'react-router': 'react-router/umd/react-router.min',
+      'glamor': 'glamor/umd/index.min',
+      'react-toastify': 'react-toastify/dist/ReactToastify.min',
+      'recompose': 'recompose/build/Recompose.min',
+    },
   }
 };
 

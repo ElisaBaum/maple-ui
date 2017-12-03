@@ -5,7 +5,7 @@ import {func} from 'prop-types';
 import {RequiredOptions, RequiredValidator} from '../form/validators/RequiredValidator';
 import {Validator} from '../form/validators/Validator';
 import {FormField} from '../form/FormField';
-import 'spectre.css/dist/spectre.css';
+import 'spectre.css/dist/spectre.min.css';
 import 'spectre.css/dist/spectre-icons.min.css';
 
 interface FormInputProps {
