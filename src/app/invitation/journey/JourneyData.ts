@@ -1,4 +1,4 @@
-import {ContentData} from "../dynamic-content/ContentData";
+import {ContentData} from "../../dynamic-content/ContentData";
 
 export interface JourneyData extends ContentData {
 

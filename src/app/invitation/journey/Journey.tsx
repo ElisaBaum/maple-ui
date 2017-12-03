@@ -1,8 +1,8 @@
 import * as React from 'react';
 import {JourneyData} from "./JourneyData";
-import {ContentComponentProps} from "../dynamic-content/ContentContainer";
-import {Map} from "../map/Map";
-import {Paragraph} from "../layout/components/content/Paragraph";
+import {ContentComponentProps} from "../../dynamic-content/ContentContainer";
+import {Map} from "../../map/Map";
+import {Paragraph} from "../../layout/components/content/Paragraph";
 
 export function Journey({content}: ContentComponentProps<JourneyData>) {
   const {locationAddress, apiToken, journeyByPublicTransport, journeyByCar} = content;

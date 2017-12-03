@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {Component} from 'react';
 import {func} from 'prop-types';
-import {FormField} from './FormField';
+import {FormInput, FormInputProps, FormInputState} from './FormInput';
 
 export interface SubmitEvent<T = any> {
   isValid: boolean;
@@ -17,7 +17,7 @@ export class Form extends Component<FormProps> {
 
   static childContextTypes = {addField: func};
 
-  fields: FormField[] = [];
+  inputs: Array<FormInput<FormInputProps, FormInputState>> = [];
 
   constructor(props, context) {
     super(props, context);
@@ -25,14 +25,14 @@ export class Form extends Component<FormProps> {
   }
 
   getChildContext() {
-    return {addField: field => this.fields.push(field)};
+    return {addField: field => this.inputs.push(field)};
   }
 
   handleSubmit(e) {
     e.preventDefault();
     const {onSubmit} = this.props;
     const isValid = this.validate();
-    this.fields.forEach(field => field.validateOnChange = true);
+    this.inputs.forEach(field => field.validateOnChange = true);
     onSubmit({
       isValid,
       values: this.getValues()
@@ -40,14 +40,14 @@ export class Form extends Component<FormProps> {
   }
 
   getValues() {
-    return this.fields.reduce((values, field) => {
+    return this.inputs.reduce((values, field) => {
       values[field.getName()] = field.getValue();
       return values;
     }, {});
   }
 
   validate() {
-    return this.fields.reduce((isValid, field) => {
+    return this.inputs.reduce((isValid, field) => {
       const result = field.validate();
       return result && isValid;
     }, true);

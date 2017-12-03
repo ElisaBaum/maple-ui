@@ -1,89 +1,34 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
-import {Component} from 'react';
-import {func} from 'prop-types';
-import {RequiredOptions, RequiredValidator} from '../form/validators/RequiredValidator';
-import {Validator} from '../form/validators/Validator';
-import {FormField} from '../form/FormField';
+import {FormInput, FormInputProps, FormInputState} from '../FormInput';
+import {RequiredValidator} from "../validators/RequiredValidator";
 import 'spectre.css/dist/spectre.css';
 import 'spectre.css/dist/spectre-icons.min.css';
 
-interface FormInputProps {
-  name: string;
+interface FormFieldProps extends FormInputProps {
   placeholder: string;
   label?: string;
   type?: string;
-  required?: RequiredOptions;
-  validators?: Validator[];
   icon?: string | [string, 'left' | 'right'];
 }
 
-interface FormInputState {
-  errorMessages: string[];
-}
+export class FormField extends FormInput<FormFieldProps, FormInputState> {
 
-export class FormInput extends Component<FormInputProps, FormInputState> implements FormField {
-  static contextTypes = {addField: func};
-
-  validateOnChange: boolean;
-  validators: Validator[] = [];
   value: string;
 
   constructor(props, context) {
-    super(props, context);
-    this.state = {errorMessages: []};
-  }
-
-  componentDidMount() {
-    this.context.addField(this);
-    this.initValidators();
-  }
-
-  initValidators() {
-    this.applyBuiltInValidators();
-    this.applyCustomValidators();
-    this.validators.forEach(validator => validator.init(this));
-  }
-
-  applyBuiltInValidators() {
-    const validatorMap = {
+    super(props, context, {
       required: RequiredValidator
-    };
-    const validators = Object
-      .keys(validatorMap)
-      .filter(key => this.props[key])
-      .map(key => new validatorMap[key](this.props[key]));
-    this.validators.push(...validators);
-  }
-
-  applyCustomValidators() {
-    const {validators} = this.props;
-    if (validators) {
-      this.validators.push(...validators);
-    }
-  }
-
-  validate(): boolean {
-    const errorMessages = this.validators
-      .filter(validator => !validator.validate())
-      .map(validator => validator.getMessage());
-    this.setState({errorMessages});
-    return !errorMessages.length;
+    });
   }
 
   getValue() {
     return this.value;
   }
 
-  getName() {
-    return this.props.name;
-  }
-
   handleChange(e) {
     this.value = e.target.value;
-    if (this.validateOnChange) {
-      this.validate();
-    }
+    super.handleChange(e);
   }
 
   renderLabel() {

@@ -1,13 +1,13 @@
-import {FormField} from '../FormField';
+import {FormInput, FormInputProps, FormInputState} from '../FormInput';
 
 export abstract class Validator {
 
-  protected formField: FormField;
+  protected formInput: FormInput<FormInputProps, FormInputState>;
 
   abstract getMessage(): string;
   abstract validate(): boolean;
 
-  init(formField: FormField) {
-    this.formField = formField;
+  init(formInput: FormInput<FormInputProps, FormInputState>) {
+    this.formInput = formInput;
   }
 }
