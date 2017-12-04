@@ -31,8 +31,8 @@ export class ApprovalContainer extends Component<{}, ApprovalContainerState> {
     // todo error handling
   }
 
-  async updateCompanionApproval(approved: boolean) {
-    this.userService.updateCompanionApproval(approved);
+  async updateCompanionPartially(user: User) {
+    this.userService.updateCompanionPartially(user);
     // todo error handling
   }
 
@@ -45,6 +45,7 @@ export class ApprovalContainer extends Component<{}, ApprovalContainerState> {
     return (
       <ContentContainer contentKey={'approval'} render={(content: ApprovalData) => (
         <Approval users={this.state.users}
+                  updateCompanion={user => this.updateCompanionPartially(user)}
                   addCompanion={name => this.addCompanion(name)}
                   content={content}/>
       )}/>

@@ -26,16 +26,16 @@ export class UserHttpService {
   }
 
   async getPartyUsers() {
-    const companions = await this.http.get<{users: User[]}>('/users/me/party');
+    const companions = await this.http.get<{ users: User[] }>('/users/me/party');
     return companions.data.users;
   }
 
   addCompanion(name: string) {
-    return this.http.post('/users/me/users', {name});
+    return this.http.post('/users/me/companions', {name});
   }
 
-  updateCompanionApproval(accepted: boolean) {
-    return this.http.patch('/users/me/users/:companionId', {accepted});
+  updateCompanionPartially(user: Partial<User> & { id: number }) {
+    return this.http.patch(`/users/me/companions/${user.id}`, {...user});
   }
 
 }

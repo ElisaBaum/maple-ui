@@ -11,8 +11,8 @@ export class FormCheckbox extends FormInput<FormInputProps, FormInputState> {
     this.state = {...this.state, value: false};
   }
 
-  handleChange(e) {
-    this.setValue(e.target.checked);
+  async handleChange(e) {
+    await this.setValue(e.target.checked);
     super.handleChange(e);
   }
 

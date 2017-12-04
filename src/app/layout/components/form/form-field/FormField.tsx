@@ -21,8 +21,8 @@ export class FormField extends FormInput<FormFieldProps, FormInputState> {
     this.state = {...this.state, value: ''};
   }
 
-  handleChange(e) {
-    this.setValue(e.target.value);
+  async handleChange(e) {
+    await this.setValue(e.target.value);
     super.handleChange(e);
   }
 

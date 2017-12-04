@@ -3,9 +3,10 @@ import {Validator} from "./validators/Validator";
 import {RequiredOptions} from "./validators/RequiredValidator";
 import {func} from "prop-types";
 
-export interface FormInputChangeEvent {
+export interface FormInputChangeEvent<T = any> {
   isValid?: boolean;
   event: any;
+  value: T;
 }
 
 export interface FormInputProps {
@@ -13,7 +14,6 @@ export interface FormInputProps {
   value?: any;
   required?: RequiredOptions;
   validators?: Validator[];
-
   onChange?(e: FormInputChangeEvent);
 }
 
@@ -40,7 +40,7 @@ export abstract class FormInput<P extends FormInputProps, S extends FormInputSta
   }
 
   setValue(value: any) {
-    this.setState({value});
+    return new Promise(resolve => this.setState({value}, resolve));
   }
 
   componentWillReceiveProps(props: FormInputProps) {
@@ -66,7 +66,7 @@ export abstract class FormInput<P extends FormInputProps, S extends FormInputSta
       isValid = this.validate();
     }
     if (onChange) {
-      onChange({isValid, event});
+      onChange({isValid, event, value: this.getValue()});
     }
   }
 

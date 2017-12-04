@@ -11,23 +11,27 @@ import {Button} from "../../layout/components/button/Button";
 interface ApprovalProps extends ContentComponentProps<ApprovalData> {
   users: User[];
   addCompanion(name: string);
+  updateCompanion(companion: User);
 }
 
-export function Approval({users, addCompanion, content: {description, companions}}: ApprovalProps) {
+export function Approval({users, addCompanion, updateCompanion, content: {description, companions}}: ApprovalProps) {
   return (
     <div>
       <div>{description}</div>
       {
         users &&
         users.map((user, index) =>
-          (<FormCheckbox key={index} name={user.name}/>)
+          (<FormCheckbox key={index}
+                         name={user.name}
+                         onChange={({value}) => updateCompanion({...user, accepted: value})}
+                         value={user.accepted}/>)
         )
       }
       <div>{companions.description}</div>
       <Form onSubmit={({isValid, values}) => isValid && addCompanion(values)}>
         <FormField name="name"
                    placeholder="Name"
-                   required={'Bitte Name eingeben!'} />
+                   required={'Bitte Name eingeben!'}/>
         <Button htmlType="submit">Hinzufügen</Button>
       </Form>
     </div>
