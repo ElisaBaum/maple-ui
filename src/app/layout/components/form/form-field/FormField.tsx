@@ -14,20 +14,15 @@ interface FormFieldProps extends FormInputProps {
 
 export class FormField extends FormInput<FormFieldProps, FormInputState> {
 
-  value: string;
-
   constructor(props, context) {
     super(props, context, {
       required: RequiredValidator
     });
-  }
-
-  getValue() {
-    return this.value;
+    this.state = {...this.state, value: ''};
   }
 
   handleChange(e) {
-    this.value = e.target.value;
+    this.setValue(e.target.value);
     super.handleChange(e);
   }
 
@@ -55,7 +50,7 @@ export class FormField extends FormInput<FormFieldProps, FormInputState> {
 
   render() {
     const {name, placeholder, type, icon} = this.props;
-    const {errorMessages} = this.state;
+    const {errorMessages, value} = this.state;
     const hasErrors = !!errorMessages.length;
     const hasIconCss = !!icon && ('has-icon-' + (typeof icon !== 'string' ? icon[1] : 'left'));
     const labelElement = this.renderLabel();
@@ -67,6 +62,7 @@ export class FormField extends FormInput<FormFieldProps, FormInputState> {
         <input className="form-input"
                type={type || 'text'}
                name={name}
+               value={value}
                onChange={e => this.handleChange(e)}
                placeholder={placeholder}/>
         {iconElement}

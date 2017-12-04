@@ -10,6 +10,7 @@ export interface SubmitEvent<T = any> {
 
 interface FormProps {
   children: any[];
+  values?: any;
   onSubmit(e: SubmitEvent);
 }
 
@@ -28,6 +29,13 @@ export class Form extends Component<FormProps> {
     return {addField: field => this.inputs.push(field)};
   }
 
+  componentDidMount() {
+    const {values} = this.props;
+    if (values) {
+      this.setValues(values);
+    }
+  }
+
   handleSubmit(e) {
     e.preventDefault();
     const {onSubmit} = this.props;
@@ -44,6 +52,15 @@ export class Form extends Component<FormProps> {
       values[field.getName()] = field.getValue();
       return values;
     }, {});
+  }
+
+  setValues(values: any) {
+    this.inputs.forEach(input => {
+      const value = values[input.getName()];
+      if (value) {
+        input.setValue(value);
+      }
+    });
   }
 
   validate() {

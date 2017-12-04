@@ -4,29 +4,26 @@ import {RequiredValidator} from "../validators/RequiredValidator";
 
 export class FormCheckbox extends FormInput<FormInputProps, FormInputState> {
 
-  value: boolean;
-
   constructor(props, context) {
     super(props, context, {
       required: RequiredValidator
     });
-  }
-
-  getValue() {
-    return this.value;
+    this.state = {...this.state, value: false};
   }
 
   handleChange(e) {
-    this.value = e.target.checked;
+    this.setValue(e.target.checked);
     super.handleChange(e);
   }
 
   render() {
+    const {value} = this.state;
     const {name} = this.props;
     return (
       <div className="form-group">
         <label className="form-checkbox">
           <input type="checkbox"
+                 checked={value}
                  onChange={e => this.handleChange(e)}/>
           <i className="form-icon"></i>
           {name}
