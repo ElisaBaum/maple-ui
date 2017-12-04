@@ -1,12 +1,15 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
 import {FormInput, FormInputProps, FormInputState} from '../FormInput';
-import {RequiredValidator} from "../validators/RequiredValidator";
+import {RequiredOptions, RequiredValidator} from "../validators/RequiredValidator";
 import 'spectre.css/dist/spectre.css';
 import 'spectre.css/dist/spectre-icons.min.css';
+import {MaxLengthOptions, MaxLengthValidator} from '../validators/MaxLengthValidator';
 
 interface FormFieldProps extends FormInputProps {
   placeholder: string;
+  required?: RequiredOptions;
+  maxLength?: MaxLengthOptions;
   label?: string;
   type?: string;
   icon?: string | [string, 'left' | 'right'];
@@ -16,7 +19,8 @@ export class FormField extends FormInput<FormFieldProps, FormInputState> {
 
   constructor(props, context) {
     super(props, context, {
-      required: RequiredValidator
+      required: RequiredValidator,
+      maxLength: MaxLengthValidator,
     });
     this.state = {...this.state, value: ''};
   }

@@ -1,6 +1,5 @@
 import {Component} from "react";
 import {Validator} from "./validators/Validator";
-import {RequiredOptions} from "./validators/RequiredValidator";
 import {func} from "prop-types";
 
 export interface FormInputChangeEvent<T = any> {
@@ -12,7 +11,6 @@ export interface FormInputChangeEvent<T = any> {
 export interface FormInputProps {
   name: string;
   value?: any;
-  required?: RequiredOptions;
   validators?: Validator[];
   onChange?(e: FormInputChangeEvent);
 }
