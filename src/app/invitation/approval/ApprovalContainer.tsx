@@ -7,9 +7,11 @@ import {Approval} from "./Approval";
 import {ContentContainer} from "../../dynamic-content/ContentContainer";
 import {ApprovalData} from "./ApprovalData";
 import {toast} from "react-toastify";
+import {Party} from "../../user/Party";
 
 interface ApprovalContainerState {
   users: User[];
+  action: Promise<Party>;
   maxPersonCount: number;
   newCompanionName?: string;
 }
@@ -24,6 +26,12 @@ export class ApprovalContainer extends Component<{}, ApprovalContainerState> {
       users: [],
       maxPersonCount: 0
     };
+  }
+
+  componentWillMount() {
+    this.setState({
+      action: this.loadParty()
+    });
   }
 
   async loadParty() {
@@ -66,8 +74,9 @@ export class ApprovalContainer extends Component<{}, ApprovalContainerState> {
   }
 
   render() {
+    const {action} = this.state;
     return (
-      <ContentContainer contentKey={'approval'} action={this.loadParty()} render={(content: ApprovalData) => (
+      <ContentContainer contentKey={'approval'} action={action} render={(content: ApprovalData) => (
         <Approval users={this.state.users}
                   maxPersonCount={this.state.maxPersonCount}
                   newCompanionName={this.state.newCompanionName}
