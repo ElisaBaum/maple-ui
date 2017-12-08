@@ -37,7 +37,7 @@ export class ContentContainer<T extends ContentData> extends Component<ContentCo
     try {
       const {action} = this.props;
       const futureContent = this.dynamicContentService.getDynamicContent(contentKey);
-      const content = action ? (await Promise.all([futureContent, action]))[0] : await futureContent;
+      const [content] = await Promise.all([futureContent, action]);
       this.setState({content});
     } catch (e) {
       this.setState({errorMessage: 'Fehler beim Laden'});
