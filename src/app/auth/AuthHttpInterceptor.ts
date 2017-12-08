@@ -25,6 +25,7 @@ export class AuthHttpInterceptor implements HttpRequestInterceptor<AuthIntercept
         config.headers['Authorization'] = `Bearer ${token}`;
       } else {
         this.history.replace('/login');
+        throw new Error('No valid JWT');
       }
     }
     return config;
