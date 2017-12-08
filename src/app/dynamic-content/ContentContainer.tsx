@@ -12,6 +12,7 @@ interface ContentContainerProps<T extends ContentData> {
   contentKey: string;
   component?: React.ComponentType<ContentComponentProps<T>>;
   render?: (content: T) => ReactNode;
+  action?: Promise;
 }
 
 interface ContentContainerState<T extends ContentData> {
@@ -34,7 +35,9 @@ export class ContentContainer<T extends ContentData> extends Component<ContentCo
     const {contentKey} = this.props;
 
     try {
-      const content = await this.dynamicContentService.getDynamicContent(contentKey);
+      const {action} = this.props;
+      const futureContent = this.dynamicContentService.getDynamicContent(contentKey);
+      const content = action ? (await Promise.all([futureContent, action]))[0] : await futureContent;
       this.setState({content});
     } catch (e) {
       this.setState({errorMessage: 'Fehler beim Laden'});

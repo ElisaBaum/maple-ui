@@ -26,8 +26,7 @@ export class ApprovalContainer extends Component<{}, ApprovalContainerState> {
     };
   }
 
-  async componentWillMount() {
-    // todo error handling
+  async loadParty() {
     const party = await this.userService.getParty();
 
     this.setState({
@@ -68,7 +67,7 @@ export class ApprovalContainer extends Component<{}, ApprovalContainerState> {
 
   render() {
     return (
-      <ContentContainer contentKey={'approval'} render={(content: ApprovalData) => (
+      <ContentContainer contentKey={'approval'} action={this.loadParty()} render={(content: ApprovalData) => (
         <Approval users={this.state.users}
                   maxPersonCount={this.state.maxPersonCount}
                   newCompanionName={this.state.newCompanionName}
