@@ -74,12 +74,12 @@ export class ApprovalContainer extends Component<{}, ApprovalContainerState> {
   }
 
   render() {
-    const {action} = this.state;
+    const {action, users, maxPersonCount, newCompanionName} = this.state;
     return (
       <ContentContainer contentKey={'approval'} action={action} render={(content: ApprovalData) => (
-        <Approval users={this.state.users}
-                  maxPersonCount={this.state.maxPersonCount}
-                  newCompanionName={this.state.newCompanionName}
+        <Approval users={users}
+                  maxPersonCount={maxPersonCount}
+                  newCompanionName={newCompanionName}
                   updateCompanion={user => this.updateCompanionPartially(user)}
                   addCompanion={name => this.addCompanion(name)}
                   content={content}/>
