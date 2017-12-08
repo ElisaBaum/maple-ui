@@ -7,35 +7,52 @@ import {Form} from "../../layout/components/form/Form";
 import {FormField} from "../../layout/components/form/form-field/FormField";
 import {Button} from "../../layout/components/button/Button";
 import {MAX_LENGTH_PLACEHOLDER} from '../../layout/components/form/validators/MaxLengthValidator';
+import {Paragraph} from "../../layout/components/content/Paragraph";
 import 'spectre.css';
 
 interface ApprovalProps extends ContentComponentProps<ApprovalData> {
   users: User[];
-  addCompanion(name: string);
+  maxPersonCount: number;
+  newCompanionName?: string;
+  addCompanion(name);
   updateCompanion(companion: User);
 }
 
-export function Approval({users, addCompanion, updateCompanion, content: {description, companions}}: ApprovalProps) {
+export function Approval(props: ApprovalProps) {
+  const {users, maxPersonCount, newCompanionName, addCompanion, updateCompanion} = props;
+  const {content: {description, companions}} = props;
+  const isAddCompanionPossible = users && maxPersonCount && users.length < maxPersonCount;
+
   return (
     <div>
-      <div>{description}</div>
+      <Paragraph>
+        <div>{description}</div>
+        {
+          users &&
+          users.map((user, index) =>
+            (<FormCheckbox key={index}
+                           name={user.name}
+                           onChange={({value}) => updateCompanion({...user, accepted: value})}
+                           value={user.accepted}/>)
+          )
+        }
+      </Paragraph>
+
       {
-        users &&
-        users.map((user, index) =>
-          (<FormCheckbox key={index}
-                         name={user.name}
-                         onChange={({value}) => updateCompanion({...user, accepted: value})}
-                         value={user.accepted}/>)
-        )
+        isAddCompanionPossible &&
+        <Paragraph>
+          <div>{companions.description}</div>
+          <Form onSubmit={({isValid, values}) => isValid && addCompanion(values)}>
+            <FormField name="name"
+                       value={newCompanionName || ''}
+                       placeholder="Name"
+                       maxLength={[255, `Maximale Zeichenlänge überschritten (${MAX_LENGTH_PLACEHOLDER} Zeichen erlaubt)`]}
+                       required={'Bitte einen Namen eingeben!'}/>
+            <Button htmlType="submit">Hinzufügen</Button>
+          </Form>
+        </Paragraph>
       }
-      <div>{companions.description}</div>
-      <Form onSubmit={({isValid, values}) => isValid && addCompanion(values)}>
-        <FormField name="name"
-                   placeholder="Name"
-                   maxLength={[5, `Maximale Zeichenlänge überschritten (${MAX_LENGTH_PLACEHOLDER} Zeichen erlaubt)`]}
-                   required={'Bitte Name eingeben!'}/>
-        <Button htmlType="submit">Hinzufügen</Button>
-      </Form>
+
     </div>
   );
 }

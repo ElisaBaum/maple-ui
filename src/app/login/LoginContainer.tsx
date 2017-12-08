@@ -31,7 +31,7 @@ export class LoginContainer extends Component<{}, LoginContainerState> {
       this.history.replace('/approval');
     } catch (e) {
       this.setState({loading: false});
-      toast.error(<p>Fehler beim Login. Bitte erneut versuchen.</p>);
+      toast.error(<p>Fehler beim Login. Bitte versuche es erneut.</p>);
     }
   }
 

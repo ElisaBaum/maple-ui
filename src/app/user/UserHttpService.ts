@@ -2,6 +2,7 @@ import {Http} from '../http/Http';
 import {AuthInterceptorOptions} from '../auth/AuthHttpInterceptor';
 import {Inject, Injectable} from 'react.di';
 import {User} from "./User";
+import {Party} from "./Party";
 
 @Injectable
 export class UserHttpService {
@@ -21,21 +22,18 @@ export class UserHttpService {
     );
   }
 
-  updateUser(accepted: boolean) {
-    return this.http.patch('/users/me', {accepted});
+  async getParty() {
+    const companions = await this.http.get('/users/me/party');
+    return companions.data as Party;
   }
 
-  async getPartyUsers() {
-    const companions = await this.http.get<{ users: User[] }>('/users/me/party');
-    return companions.data.users;
+  async addCompanion(partialUser: Partial<User>) {
+    const addedUser = await this.http.post('/users/me/companions', partialUser);
+    return addedUser.data as User;
   }
 
-  addCompanion(name: string) {
-    return this.http.post('/users/me/companions', {name});
-  }
-
-  updateCompanionPartially(user: Partial<User> & { id: number }) {
-    return this.http.patch(`/users/me/companions/${user.id}`, {...user});
+  updateCompanionPartially(partialUser: Partial<User> & { id: number }) {
+    return this.http.patch(`/users/me/companions/${partialUser.id}`, {...partialUser});
   }
 
 }
