@@ -12,7 +12,7 @@ export class RequiredValidator extends Validator {
   }
 
   validate() {
-    return !!this.formField.getValue();
+    return !!this.formInput.getValue();
   }
 
   getMessage(): string {

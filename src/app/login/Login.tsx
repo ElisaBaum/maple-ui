@@ -2,7 +2,7 @@ import * as React from 'react';
 import {Logo} from "../layout/components/logo/Logo";
 import {Form} from '../layout/components/form/Form';
 import {Button} from '../layout/components/button/Button';
-import {FormInput} from '../layout/components/form-input/FormInput';
+import {FormField} from '../layout/components/form/form-field/FormField';
 import './Login.scss';
 
 interface LoginProps {
@@ -15,10 +15,10 @@ export function Login({loading, onSubmit}: LoginProps) {
     <div className={'login'}>
       <Logo className={'login-logo'} useHalf={true}/>
       <Form onSubmit={({isValid, values}) => isValid && onSubmit(values)}>
-        <FormInput name="name"
+        <FormField name="name"
                    placeholder="Name"
                    required={'Bitte Name eingeben!'}/>
-        <FormInput name="code"
+        <FormField name="code"
                    placeholder="Code"
                    required={'Bitte Code eingeben!'}/>
         <Button loading={loading}
