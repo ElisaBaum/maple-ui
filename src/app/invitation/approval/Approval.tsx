@@ -5,12 +5,11 @@ import {ContentComponentProps} from "../../dynamic-content/ContentContainer";
 import {FormCheckbox} from '../../layout/components/form/form-checkbox/FormCheckbox';
 import {Form} from "../../layout/components/form/Form";
 import {FormField} from "../../layout/components/form/form-field/FormField";
-import {Button} from "../../layout/components/button/Button";
 import {MAX_LENGTH_PLACEHOLDER} from '../../layout/components/form/validators/MaxLengthValidator';
 import {Paragraph} from "../../layout/components/content/Paragraph";
 import {LinkButton} from "../../layout/components/link-button/LinkButton";
 import {OVERNIGHT_STAY_PATH} from "../../skeleton/Skeleton";
-import 'spectre.css';
+import {FormButton} from '../../layout/components/form/form-button/FormButton';
 
 interface ApprovalProps extends ContentComponentProps<ApprovalData> {
   users: User[];
@@ -55,7 +54,7 @@ export function Approval(props: ApprovalProps) {
                        placeholder="Name"
                        maxLength={[255, `Maximale Zeichenlänge überschritten (${MAX_LENGTH_PLACEHOLDER} Zeichen erlaubt)`]}
                        required={'Bitte einen Namen eingeben!'}/>
-            <Button htmlType="submit">Hinzufügen</Button>
+            <FormButton>Hinzufügen</FormButton>
           </Form>
         </Paragraph>
       }

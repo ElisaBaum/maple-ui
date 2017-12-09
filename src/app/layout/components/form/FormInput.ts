@@ -1,6 +1,7 @@
 import {Component} from "react";
 import {Validator} from "./validators/Validator";
-import {func} from "prop-types";
+import {bool, func} from "prop-types";
+import {FormContext, PropTypesFormContext} from './Form';
 
 export interface FormInputChangeEvent<T = any> {
   isValid?: boolean;
@@ -21,11 +22,12 @@ export interface FormInputState {
 }
 
 export abstract class FormInput<P extends FormInputProps, S extends FormInputState> extends Component<P, S> {
-  static contextTypes = {addField: func};
+  static contextTypes: PropTypesFormContext = {addField: func, loading: bool};
 
   validateOnChange: boolean;
   validators: Validator[] = [];
   validatorMap: { [key: string]: Validator };
+  context: FormContext;
 
   constructor(props, context, validatorMap) {
     super(props, context);
