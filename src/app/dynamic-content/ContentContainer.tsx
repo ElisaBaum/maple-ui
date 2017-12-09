@@ -12,7 +12,7 @@ interface ContentContainerProps<T extends ContentData> {
   contentKey: string;
   component?: React.ComponentType<ContentComponentProps<T>>;
   render?: (content: T) => ReactNode;
-  action?: Promise;
+  action?: Promise<any>;
 }
 
 interface ContentContainerState<T extends ContentData> {

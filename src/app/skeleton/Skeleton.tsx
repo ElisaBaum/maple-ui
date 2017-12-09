@@ -3,8 +3,8 @@ import {Switch, Route} from 'react-router';
 import {Header} from "../layout/components/header/Header";
 import {Footer} from "../layout/components/footer/footer";
 import {JourneyContainer} from "../invitation/journey/JourneyContainer";
-import './Skeleton.scss';
 import {ApprovalContainer} from "../invitation/approval/ApprovalContainer";
+import './Skeleton.scss';
 
 export const JOURNEY_PATH = '/journey';
 export const APPROVAL_PATH = '/approval';

@@ -7,11 +7,10 @@ import {Approval} from "./Approval";
 import {ContentContainer} from "../../dynamic-content/ContentContainer";
 import {ApprovalData} from "./ApprovalData";
 import {toast} from "react-toastify";
-import {Party} from "../../user/Party";
 
 interface ApprovalContainerState {
   users: User[];
-  action: Promise<Party>;
+  action?: Promise<void>;
   maxPersonCount: number;
   newCompanionName?: string;
 }
