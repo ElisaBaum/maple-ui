@@ -15,8 +15,9 @@
     "lib": ["es6", "dom"]
   },
   "include": [
-    "./**/*.tsx",
-    "./**/*.ts",
+    "declarations/*.d.ts",
+    "app/**/*.ts",
+    "app/**/*.tsx",
     "index.tsx"
   ],
   "exclude": [

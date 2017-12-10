@@ -1,6 +1,6 @@
 import * as React from 'react';
-import {Component} from 'react';
-import {func} from 'prop-types';
+import {ChildContextProvider, Component} from 'react';
+import {func, bool} from 'prop-types';
 import {FormInput, FormInputProps, FormInputState} from './FormInput';
 
 export interface SubmitEvent<T = any> {
@@ -8,15 +8,26 @@ export interface SubmitEvent<T = any> {
   values: T;
 }
 
+export type PropTypesFormContext = {
+  [P in keyof FormContext]: any;
+  };
+
+export interface FormContext {
+  loading?: boolean;
+  addField(input: FormInput<FormInputProps, FormInputState>);
+}
+
 interface FormProps {
   children: any[];
   values?: any;
+  loading?: boolean;
+  disabled?: boolean;
   onSubmit(e: SubmitEvent);
 }
 
-export class Form extends Component<FormProps> {
+export class Form extends Component<FormProps> implements ChildContextProvider<FormContext> {
 
-  static childContextTypes = {addField: func};
+  static childContextTypes: PropTypesFormContext = {addField: func, loading: bool};
 
   inputs: Array<FormInput<FormInputProps, FormInputState>> = [];
 
@@ -26,7 +37,8 @@ export class Form extends Component<FormProps> {
   }
 
   getChildContext() {
-    return {addField: field => this.inputs.push(field)};
+    const {loading} = this.props;
+    return {addField: field => this.inputs.push(field), loading};
   }
 
   componentDidMount() {
@@ -71,10 +83,13 @@ export class Form extends Component<FormProps> {
   }
 
   render() {
-    const {children} = this.props;
+    const {children, loading, disabled} = this.props;
+    const isDisabled = (loading && disabled === undefined) || disabled;
     return (
       <form onSubmit={e => this.handleSubmit(e)}>
-        {...children as any}
+        <fieldset disabled={isDisabled}>
+          {...children as any}
+        </fieldset>
       </form>
     );
   }
