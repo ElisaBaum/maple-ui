@@ -6,7 +6,6 @@ import {AuthService} from '../auth/AuthService';
 import {HISTORY_TOKEN, History} from '../common/history';
 import {toast} from "react-toastify";
 import {Inject} from 'react.di';
-import {APPROVAL_PATH} from '../skeleton/Skeleton';
 
 interface LoginContainerState {
   loading: boolean;
@@ -29,7 +28,7 @@ export class LoginContainer extends Component<{}, LoginContainerState> {
       const {data} = await this.userHttpService.getUserToken(name, code);
       this.authService.setToken(data.token);
       toast.dismiss();
-      this.history.replace(APPROVAL_PATH);
+      this.history.replace(this.history.getPrevPath());
     } catch (e) {
       this.setState({loading: false});
       toast.error(<p>Fehler beim Login. Bitte versuche es erneut.</p>);
