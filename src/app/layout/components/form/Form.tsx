@@ -1,23 +1,35 @@
 import * as React from 'react';
-import {Component} from 'react';
-import {func} from 'prop-types';
-import {FormField} from './FormField';
+import {ChildContextProvider, Component} from 'react';
+import {func, bool} from 'prop-types';
+import {FormInput, FormInputProps, FormInputState} from './FormInput';
 
 export interface SubmitEvent<T = any> {
   isValid: boolean;
   values: T;
 }
 
+export type PropTypesFormContext = {
+  [P in keyof FormContext]: any;
+  };
+
+export interface FormContext {
+  loading?: boolean;
+  addField(input: FormInput<FormInputProps, FormInputState>);
+}
+
 interface FormProps {
   children: any[];
+  values?: any;
+  loading?: boolean;
+  disabled?: boolean;
   onSubmit(e: SubmitEvent);
 }
 
-export class Form extends Component<FormProps> {
+export class Form extends Component<FormProps> implements ChildContextProvider<FormContext> {
 
-  static childContextTypes = {addField: func};
+  static childContextTypes: PropTypesFormContext = {addField: func, loading: bool};
 
-  fields: FormField[] = [];
+  inputs: Array<FormInput<FormInputProps, FormInputState>> = [];
 
   constructor(props, context) {
     super(props, context);
@@ -25,14 +37,22 @@ export class Form extends Component<FormProps> {
   }
 
   getChildContext() {
-    return {addField: field => this.fields.push(field)};
+    const {loading} = this.props;
+    return {addField: field => this.inputs.push(field), loading};
+  }
+
+  componentDidMount() {
+    const {values} = this.props;
+    if (values) {
+      this.setValues(values);
+    }
   }
 
   handleSubmit(e) {
     e.preventDefault();
     const {onSubmit} = this.props;
     const isValid = this.validate();
-    this.fields.forEach(field => field.validateOnChange = true);
+    this.inputs.forEach(field => field.validateOnChange = true);
     onSubmit({
       isValid,
       values: this.getValues()
@@ -40,24 +60,36 @@ export class Form extends Component<FormProps> {
   }
 
   getValues() {
-    return this.fields.reduce((values, field) => {
+    return this.inputs.reduce((values, field) => {
       values[field.getName()] = field.getValue();
       return values;
     }, {});
   }
 
+  setValues(values: any) {
+    this.inputs.forEach(input => {
+      const value = values[input.getName()];
+      if (value) {
+        input.setValue(value);
+      }
+    });
+  }
+
   validate() {
-    return this.fields.reduce((isValid, field) => {
+    return this.inputs.reduce((isValid, field) => {
       const result = field.validate();
       return result && isValid;
     }, true);
   }
 
   render() {
-    const {children} = this.props;
+    const {children, loading, disabled} = this.props;
+    const isDisabled = (loading && disabled === undefined) || disabled;
     return (
       <form onSubmit={e => this.handleSubmit(e)}>
-        {...children as any}
+        <fieldset disabled={isDisabled}>
+          {...children as any}
+        </fieldset>
       </form>
     );
   }

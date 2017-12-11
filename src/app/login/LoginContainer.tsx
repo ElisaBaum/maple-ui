@@ -28,10 +28,10 @@ export class LoginContainer extends Component<{}, LoginContainerState> {
       const {data} = await this.userHttpService.getUserToken(name, code);
       this.authService.setToken(data.token);
       toast.dismiss();
-      this.history.replace('/anfahrt');
+      this.history.replace(this.history.getPrevPath());
     } catch (e) {
       this.setState({loading: false});
-      toast.error(<p>Fehler beim Login. Bitte erneut versuchen.</p>);
+      toast.error(<p>Fehler beim Login. Bitte versuche es erneut.</p>);
     }
   }
 

@@ -1,9 +1,13 @@
-import {Injectable} from 'react.di';
+import {Inject, Injectable} from 'react.di';
+import {JWTService} from '../common/JWTService';
 
 @Injectable
 export class AuthService {
 
   private token: string;
+
+  constructor(@Inject private jwtService: JWTService) {
+  }
 
   setToken(token: string) {
     this.token = token;
@@ -14,7 +18,6 @@ export class AuthService {
   }
 
   private hasValidToken(): boolean {
-    // TODO: check exp
-    return !!this.token;
+    return !!this.token && !this.jwtService.isExpired(this.token);
   }
 }
