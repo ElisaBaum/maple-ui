@@ -40,7 +40,7 @@ export abstract class FormInput<P extends FormInputProps, S extends FormInputSta
   }
 
   setValue(value: any) {
-    return new Promise(resolve => this.setState({value}, resolve));
+    return new Promise(resolve => this.setState({value, errorMessages: []}, resolve));
   }
 
   componentWillReceiveProps(props: FormInputProps) {
