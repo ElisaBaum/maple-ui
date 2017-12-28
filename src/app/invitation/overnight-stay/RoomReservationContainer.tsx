@@ -12,6 +12,7 @@ interface RoomReservationContainerState {
   hotelRooms: HotelRoom[];
   reservedHotelRoom?: HotelRoom;
   action?: Promise<any>;
+  loading: boolean;
 }
 
 @Module({
@@ -26,7 +27,8 @@ export class RoomReservationContainer extends Component<{}, RoomReservationConta
   constructor(props) {
     super(props);
     this.state = {
-      hotelRooms: []
+      hotelRooms: [],
+      loading: false
     };
   }
 
@@ -42,14 +44,8 @@ export class RoomReservationContainer extends Component<{}, RoomReservationConta
   }
 
   async loadReservedHotelRoom() {
-    try {
-      const reservedHotelRoom = await this.hotelRoomHttpService.getReservedHotelRoom();
-      this.setState({reservedHotelRoom});
-    } catch (e) {
-      if (e.response && e.response.status === 404) {
-        return;
-      }
-    }
+    const reservedHotelRoom = await this.hotelRoomHttpService.getReservedHotelRoom();
+    this.setState({reservedHotelRoom});
   }
 
   async updateRoomReservation(room: HotelRoom) {
@@ -58,23 +54,27 @@ export class RoomReservationContainer extends Component<{}, RoomReservationConta
   }
 
   async deleteRoomReservation() {
+    this.setState({loading: true});
     try {
       await this.hotelRoomHttpService.deleteRoomReservation();
       this.setState({reservedHotelRoom: undefined});
       toast.dismiss();
     } catch (e) {
       toast.error(<p>Es ist ein Fehler aufgetreten. Bitte versuche es erneut.</p>);
+    } finally {
+      this.setState({loading: false});
     }
   }
 
   render() {
-    const {hotelRooms, reservedHotelRoom, action} = this.state;
+    const {hotelRooms, reservedHotelRoom, action, loading} = this.state;
     return (
       <ContentContainer contentKey={'overnight-stay'} action={action} render={(content: RoomReservationData) => (
         <RoomReservation hotelRooms={hotelRooms}
                          reservedHotelRoom={reservedHotelRoom}
                          updateRoomReservation={(room) => this.updateRoomReservation(room)}
                          deleteRoomReservation={() => this.deleteRoomReservation()}
+                         loading={loading}
                          content={content}/>
       )}/>
     );

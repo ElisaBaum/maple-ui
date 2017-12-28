@@ -14,8 +14,14 @@ export class HotelRoomHttpService {
   }
 
   async getReservedHotelRoom() {
-    const reservedRoom = await this.http.get('/users/me/hotel-rooms/reserved');
-    return reservedRoom.data as HotelRoom;
+    try {
+      const reservedRoom = await this.http.get('/users/me/hotel-rooms/reserved');
+      return reservedRoom.data as HotelRoom;
+    } catch (e) {
+      if (e.response && e.response.status === 404) {
+        return;
+      }
+    }
   }
 
   async reserveHotelRoom(room: HotelRoom) {

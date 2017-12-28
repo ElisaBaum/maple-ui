@@ -17,12 +17,13 @@ const formatter = new Intl.NumberFormat('de-DE', {
 interface RoomReservationProps extends ContentComponentProps<RoomReservationData> {
   hotelRooms: HotelRoom[];
   reservedHotelRoom?: HotelRoom;
+  loading: boolean;
   updateRoomReservation(room: HotelRoom);
   deleteRoomReservation();
 }
 
 export function RoomReservation(props: RoomReservationProps) {
-  const {hotelRooms, reservedHotelRoom, updateRoomReservation, deleteRoomReservation, content} = props;
+  const {hotelRooms, reservedHotelRoom, updateRoomReservation, deleteRoomReservation, content, loading} = props;
   const {description, hint, deleteText} = content;
 
   return (
@@ -49,7 +50,7 @@ export function RoomReservation(props: RoomReservationProps) {
         {content.hotelRooms.priceHint}
         {
           reservedHotelRoom &&
-          <Form onSubmit={() => deleteRoomReservation()}>
+          <Form loading={loading} onSubmit={() => deleteRoomReservation()}>
             <FormButton>{deleteText}</FormButton>
           </Form>
         }
