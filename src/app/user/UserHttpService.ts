@@ -1,5 +1,4 @@
 import {Http} from '../http/Http';
-import {CSRFTokenHttpInterceptorOptions} from '../auth/CSRFTokenHttpInterceptor';
 import {Inject, Injectable} from 'react.di';
 import {User} from "./User";
 import {Party} from "./Party";
@@ -8,18 +7,6 @@ import {Party} from "./Party";
 export class UserHttpService {
 
   constructor(@Inject private http: Http) {
-  }
-
-  getUserToken(name: string, code: string) {
-    return this.http.get<{ token: string }, CSRFTokenHttpInterceptorOptions>(
-      `/users/me/token`,
-      {
-        headers: {
-          Authorization: `Basic ${btoa(`${name}:${code}`)}`
-        },
-        interceptOptions: {skipAuth: true}
-      }
-    );
   }
 
   async getParty() {
