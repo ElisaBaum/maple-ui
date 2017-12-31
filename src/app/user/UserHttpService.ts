@@ -1,5 +1,5 @@
 import {Http} from '../http/Http';
-import {AuthInterceptorOptions} from '../auth/AuthHttpInterceptor';
+import {CSRFTokenHttpInterceptorOptions} from '../auth/CSRFTokenHttpInterceptor';
 import {Inject, Injectable} from 'react.di';
 import {User} from "./User";
 import {Party} from "./Party";
@@ -11,7 +11,7 @@ export class UserHttpService {
   }
 
   getUserToken(name: string, code: string) {
-    return this.http.get<{ token: string }, AuthInterceptorOptions>(
+    return this.http.get<{ token: string }, CSRFTokenHttpInterceptorOptions>(
       `/users/me/token`,
       {
         headers: {

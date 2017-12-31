@@ -1,23 +1,24 @@
 import {Inject, Injectable} from 'react.di';
-import {JWTService} from '../common/JWTService';
+import {StorageService} from '../common/StorageService';
+
+const CSRF_TOKEN_KEY = 'csrfToken';
+export const CSRF_TOKEN_HEADER_KEY = 'x-csrf-token';
 
 @Injectable
 export class AuthService {
 
-  private token: string;
-
-  constructor(@Inject private jwtService: JWTService) {
+  constructor(@Inject private storageService: StorageService) {
   }
 
-  setToken(token: string) {
-    this.token = token;
+  setCSRFToken(csrfToken: string) {
+    this.storageService.set(CSRF_TOKEN_KEY, csrfToken);
   }
 
-  getValidToken(): string | undefined {
-    if (this.hasValidToken()) return this.token;
+  isLoggedIn() {
+    return this.storageService.has(CSRF_TOKEN_KEY);
   }
 
-  private hasValidToken(): boolean {
-    return !!this.token && !this.jwtService.isExpired(this.token);
+  getCSRFToken() {
+    return this.storageService.get<string>(CSRF_TOKEN_KEY);
   }
 }
