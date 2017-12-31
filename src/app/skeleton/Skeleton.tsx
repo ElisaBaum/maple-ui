@@ -6,10 +6,12 @@ import {JourneyContainer} from "../invitation/journey/JourneyContainer";
 import {ApprovalContainer} from "../invitation/approval/ApprovalContainer";
 import './Skeleton.scss';
 import {RoomReservationContainer} from "../invitation/overnight-stay/RoomReservationContainer";
+import {MusicRequestsContainer} from "../music-requests/MusicRequestsContainer";
 
 export const JOURNEY_PATH = '/journey';
 export const APPROVAL_PATH = '/approval';
 export const OVERNIGHT_STAY_PATH = '/overnight-stay';
+export const MUSIC_REQUESTS_PATH = '/music-requests';
 
 export const Skeleton = () => (
   <div className={'skeleton'}>
@@ -19,6 +21,7 @@ export const Skeleton = () => (
         <Route path={JOURNEY_PATH} component={JourneyContainer}/>
         <Route path={APPROVAL_PATH} component={ApprovalContainer}/>
         <Route path={OVERNIGHT_STAY_PATH} component={RoomReservationContainer}/>
+        <Route path={MUSIC_REQUESTS_PATH} component={MusicRequestsContainer}/>
       </Switch>
     </div>
     <Footer/>

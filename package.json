@@ -39,6 +39,7 @@
     "@types/axios": "^0.14.0",
     "@types/chai": "^4.0.0",
     "@types/classnames": "^0.0.32",
+    "@types/enzyme": "^3.1.6",
     "@types/express": "^4.0.38",
     "@types/history": "^4.6.2",
     "@types/mocha": "^2.2.41",

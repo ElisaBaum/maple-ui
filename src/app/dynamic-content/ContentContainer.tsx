@@ -53,13 +53,13 @@ export class ContentContainer<T extends ContentData> extends Component<ContentCo
   render() {
     const {content, isLoading, errorMessage} = this.state;
     const {component, render} = this.props;
-    const Component = component;
+    const WrappedComponent = component;
 
     if (content) {
       return (
         <Content headline={content.headline} headlineIcon={content.headlineIcon}>
-          {Component
-            ? <Component content={content}/>
+          {WrappedComponent
+            ? <WrappedComponent content={content}/>
             : (render && render(content))
           }
         </Content>
