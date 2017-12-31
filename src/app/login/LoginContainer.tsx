@@ -6,6 +6,7 @@ import {AuthService} from '../auth/AuthService';
 import {HISTORY_TOKEN, History} from '../common/history';
 import {toast} from "react-toastify";
 import {Inject} from 'react.di';
+import {UserAuthHttpService} from '../auth/UserAuthHttpService';
 
 interface LoginContainerState {
   loading: boolean;
@@ -16,6 +17,7 @@ export class LoginContainer extends Component<{}, LoginContainerState> {
   @Inject(HISTORY_TOKEN) history: History;
   @Inject authService: AuthService;
   @Inject userHttpService: UserHttpService;
+  @Inject userAuthHttpService: UserAuthHttpService;
 
   constructor(props) {
     super(props);
@@ -25,8 +27,8 @@ export class LoginContainer extends Component<{}, LoginContainerState> {
   async handleLogin({name, code}) {
     this.setState({loading: true});
     try {
-      const {data} = await this.userHttpService.getUserToken(name, code);
-      this.authService.setToken(data.token);
+      const {data: {csrfToken}} = await this.userAuthHttpService.login(name, code);
+      await this.authService.setCSRFToken(csrfToken);
       toast.dismiss();
       this.history.replace(this.history.getPrevPath());
     } catch (e) {
