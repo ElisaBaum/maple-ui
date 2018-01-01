@@ -6,14 +6,17 @@ import {Song} from "./Song";
 import {Album} from "./Album";
 import {MusicServiceError} from "./MusicServiceError";
 
+export const MIN_LISTENERS_COUNT = 10;
+export const MAX_SEARCH_RESULT_COUNT = 5;
+
 @Injectable
 export class LastFmHttpService {
 
   private apiBaseUrl = 'http://ws.audioscrobbler.com/2.0/';
 
   private maxApiResultCount = 40;
-  private minListenersCount = 10;
-  private maxSearchResultCount = 5;
+  private minListenersCount = MIN_LISTENERS_COUNT;
+  private maxSearchResultCount = MAX_SEARCH_RESULT_COUNT;
 
   private defaultRequestParams = {
     limit: this.maxApiResultCount,
@@ -109,7 +112,7 @@ export class LastFmHttpService {
 
 }
 
-interface ArtistResults {
+export interface ArtistResults {
   results: {
     artistmatches: {
       artist: Artist[]
@@ -117,7 +120,7 @@ interface ArtistResults {
   };
 }
 
-interface SongResults {
+export interface SongResults {
   results: {
     trackmatches: {
       track: Song[]
@@ -125,7 +128,7 @@ interface SongResults {
   };
 }
 
-interface AlbumResults {
+export interface AlbumResults {
   results: {
     albummatches: {
       album: Album[]
