@@ -26,14 +26,10 @@ interface IAutoCompleteProps {
   placeholder: string;
   delay?: number;
   children: any[];
-
   cancelPreviousSearch();
-
   onSearch(searchTerm: string);
-
   onSelect(index: number, sectionKey?: string);
-
-  onClear();
+  onClear?();
 }
 
 const FIRST_INDEX = 0;
@@ -72,7 +68,7 @@ export class AutoComplete extends Component<IAutoCompleteProps, IAutoCompleteSta
       this.setState({focusedIndex: 0});
       this.timeoutId = setTimeout(() => onSearch(searchTerm), (delay !== undefined) ? delay : 300);
     } else {
-      onClear();
+      onClear && onClear();
     }
   }
 

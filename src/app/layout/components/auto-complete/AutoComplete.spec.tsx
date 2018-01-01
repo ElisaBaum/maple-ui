@@ -1,12 +1,14 @@
 import * as React from 'react';
+import * as Adapter from 'enzyme-adapter-react-16';
 import {use, expect} from 'chai';
 import {spy} from 'sinon';
 import * as sinonChai from 'sinon-chai';
-import {mount} from 'enzyme';
+import {configure, mount} from 'enzyme';
 import {AutoComplete} from "./AutoComplete";
 import {AutoCompleteResultSection} from "../auto-complete-result-section/AutoCompleteResultSection";
 
 use(sinonChai);
+configure({adapter: new Adapter()});
 
 describe('layout.components.AutoComplete', () => {
 
@@ -55,7 +57,7 @@ describe('layout.components.AutoComplete', () => {
     const wrapper = getWrapper({onSearch});
     const input = wrapper.find('input.form-input');
 
-    input.getNode()['value'] = SEARCH_TERM;
+    input.instance()['value'] = SEARCH_TERM;
     input.simulate('change');
 
     setTimeout(() => {
@@ -78,7 +80,7 @@ describe('layout.components.AutoComplete', () => {
     const wrapper = getWrapper({data: ['test']});
     const menu = wrapper.find('ul.menu');
 
-    expect(menu.hasClass('hide')).to.be.true;
+    expect(menu.hasClass('d-none')).to.be.true;
   });
 
   it('should show autocomplete menu', done => {
@@ -88,7 +90,8 @@ describe('layout.components.AutoComplete', () => {
     input.simulate('focus');
 
     setTimeout(() => {
-      expect(menu.hasClass('show')).to.be.true;
+      // render().hasClass() needed due to https://github.com/airbnb/enzyme/issues/1177
+      expect(menu.render().hasClass('d-block')).to.be.true;
       done();
     }, 50);
   });
@@ -100,10 +103,12 @@ describe('layout.components.AutoComplete', () => {
     input.simulate('focus');
 
     setTimeout(() => {
-      expect(menu.hasClass('show')).to.be.true;
+      // render().hasClass() needed due to https://github.com/airbnb/enzyme/issues/1177
+      expect(menu.render().hasClass('d-block')).to.be.true;
       input.simulate('blur');
       setTimeout(() => {
-        expect(menu.hasClass('hide')).to.be.true;
+        // render().hasClass() needed due to https://github.com/airbnb/enzyme/issues/1177
+        expect(menu.render().hasClass('d-none')).to.be.true;
         done();
       }, 190);
     }, 25);
