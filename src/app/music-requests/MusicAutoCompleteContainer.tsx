@@ -51,7 +51,7 @@ export class MusicAutoCompleteContainer extends Component<MusicAutoCompleteProps
   cancelAlbumsSearch = () => null;
   cancelSongsSearch = () => null;
 
-  async searchForArtist(searchTerm: string) {
+  async search(searchTerm: string) {
     const {apiKey} = this.props;
     try {
       const [artists, songs, albums] = await Promise.all([
@@ -92,7 +92,7 @@ export class MusicAutoCompleteContainer extends Component<MusicAutoCompleteProps
     const {artists, albums, songs} = this.state;
     return (
       <AutoComplete placeholder="Künstler, Album oder Lied"
-                    onSearch={(searchTerm) => this.searchForArtist(searchTerm)}
+                    onSearch={(searchTerm) => this.search(searchTerm)}
                     onSelect={(index, sectionKey) => this.onSelect(index, sectionKey)}
                     cancelPreviousSearch={() => this.cancelSearches()}
                     onClear={() => this.onClear()}>
