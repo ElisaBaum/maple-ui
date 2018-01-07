@@ -4,7 +4,7 @@ import {ApprovalData} from "./ApprovalData";
 import {ContentComponentProps} from "../../dynamic-content/ContentContainer";
 import {FormCheckbox} from '../../layout/components/form/form-checkbox/FormCheckbox';
 import {Form} from "../../layout/components/form/Form";
-import {FormField} from "../../layout/components/form/form-field/FormField";
+import {FormTextField} from "../../layout/components/form/form-text-field/FormTextField";
 import {MAX_LENGTH_PLACEHOLDER} from '../../layout/components/form/validators/MaxLengthValidator';
 import {Paragraph} from "../../layout/components/content/Paragraph";
 import {LinkButton} from "../../layout/components/link-button/LinkButton";
@@ -39,25 +39,25 @@ export function Approval(props: ApprovalProps) {
         }
       </Paragraph>
 
-      <Paragraph>
-        <div>{overnightStay.description}</div>
-        <LinkButton target={OVERNIGHT_STAY_PATH}>{overnightStay.linkText}</LinkButton>
-      </Paragraph>
-
       {
         isAddCompanionPossible &&
         <Paragraph>
           <div>{companions.description}</div>
           <Form onSubmit={({isValid, values}) => isValid && addCompanion(values)}>
-            <FormField name="name"
-                       value={newCompanionName || ''}
-                       placeholder="Name"
-                       maxLength={[255, `Maximale Zeichenlänge überschritten (${MAX_LENGTH_PLACEHOLDER} Zeichen erlaubt)`]}
-                       required={'Bitte einen Namen eingeben!'}/>
+            <FormTextField name="name"
+                           value={newCompanionName || ''}
+                           placeholder="Name"
+                           maxLength={[255, `Maximale Zeichenlänge überschritten (${MAX_LENGTH_PLACEHOLDER} Zeichen erlaubt)`]}
+                           required={'Bitte einen Namen eingeben!'}/>
             <FormButton>Hinzufügen</FormButton>
           </Form>
         </Paragraph>
       }
+
+      <Paragraph>
+        <div>{overnightStay.description}</div>
+        <LinkButton target={OVERNIGHT_STAY_PATH}>{overnightStay.linkText}</LinkButton>
+      </Paragraph>
 
     </div>
   );

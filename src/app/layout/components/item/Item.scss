@@ -1,0 +1,11 @@
+@import "../../constants";
+@import "../../mixins/common";
+
+.item {
+  @include itemize();
+}
+
+p.item {
+  @include itemize();
+  margin: 0;
+}

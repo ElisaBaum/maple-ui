@@ -1,0 +1,40 @@
+@import "../../../constants";
+@import "../../../mixins/common";
+
+.form-text-field {
+  @include form-field();
+
+  padding-top: $padding-default + .2rem;
+  padding-bottom: $padding-default;
+
+  input {
+    @include control-transition();
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    &:focus {
+      border-bottom-color: $primary-color;
+    }
+    &::placeholder {
+      color: $text-secondary-color;
+    }
+  }
+
+  .form-label {
+    position: absolute;
+    z-index: 0;
+    top: $padding-default + .2rem;
+    color: $text-secondary-color;
+
+    &.floated {
+      top: .13rem;
+      font-size: .6rem;
+      color: $primary-color;
+      @include control-transition();
+
+      &.form-error {
+        color: $error-color;
+      }
+    }
+  }
+}
