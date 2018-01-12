@@ -36,17 +36,13 @@ export class LastFmHttpService {
 
     const getNameFilterRegex = () => /\(|\)|feat\.|\sfeaturing\s|www\.(.+?)\./g;
 
-    if (response) {
-      return response.results.artistmatches.artist
-        .filter((artist) =>
-          artist.listeners as any > this.minListenersCount &&
-          !getNameFilterRegex().test(artist.name) &&
-          this.imageOrMBIDExists(artist)
-        )
-        .slice(0, this.maxSearchResultCount);
-    }
-    return [];
-
+    return response.results.artistmatches.artist
+      .filter((artist) =>
+        artist.listeners as any > this.minListenersCount &&
+        !getNameFilterRegex().test(artist.name) &&
+        this.imageOrMBIDExists(artist)
+      )
+      .slice(0, this.maxSearchResultCount);
   }
 
   async searchSongs(songName: string, apiKey: string, onGetCancel, artistName?: string) {
@@ -60,17 +56,14 @@ export class LastFmHttpService {
 
     const getNameFilterRegex = () => /www\.(.+?)\./g;
 
-    if (response) {
-      return response.results.trackmatches.track
-        .filter(({listeners, name, artist}) =>
-          listeners as any > this.minListenersCount &&
-          !getNameFilterRegex().test(name) &&
-          artist.indexOf('[unknown]') === -1 &&
-          name.indexOf(artist) === -1
-        )
-        .slice(0, this.maxSearchResultCount);
-    }
-    return [];
+    return response.results.trackmatches.track
+      .filter(({listeners, name, artist}) =>
+        listeners as any > this.minListenersCount &&
+        !getNameFilterRegex().test(name) &&
+        artist.indexOf('[unknown]') === -1 &&
+        name.indexOf(artist) === -1
+      )
+      .slice(0, this.maxSearchResultCount);
   }
 
   async searchAlbums(albumName: string, apiKey: string, onGetCancel, artistName?: string) {
@@ -82,12 +75,9 @@ export class LastFmHttpService {
       api_key: apiKey
     }, onGetCancel);
 
-    if (response) {
-      return response.results.albummatches.album
-        .filter(this.imageOrMBIDExists)
-        .slice(0, this.maxSearchResultCount);
-    }
-    return [];
+    return response.results.albummatches.album
+      .filter(this.imageOrMBIDExists)
+      .slice(0, this.maxSearchResultCount);
   }
 
   getArtistInfo(artistName: string, apiKey: string) {
@@ -96,10 +86,10 @@ export class LastFmHttpService {
       method: 'artist.getinfo',
       artist: artistName,
       api_key: apiKey
-    }) ;
+    });
   }
 
-  private async doLastFmApiRequest<T>(params, onGetCancel?): Promise<T | undefined> {
+  private async doLastFmApiRequest<T>(params, onGetCancel?): Promise<T> {
     try {
       const response = await this.http.get<T>(this.apiBaseUrl, {
         params,
@@ -110,8 +100,7 @@ export class LastFmHttpService {
     } catch (e) {
       if (e.response && e.response.data && e.response.data.error) {
         throw new LastFmMusicServiceError(e.response.data.error);
-      }
-      if (!e.__CANCEL__) {
+      } else {
         throw e;
       }
     }

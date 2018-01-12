@@ -12,8 +12,11 @@ import {AutoCompleteResultSection} from "../layout/components/auto-complete-resu
 
 interface MusicAutoCompleteProps {
   apiKey: string;
+
   onArtistSelect(artist: LastFmArtist);
+
   onAlbumSelect(album: LastFmAlbum);
+
   onSongSelect(song: LastFmSong);
 }
 
@@ -62,26 +65,33 @@ export class MusicAutoCompleteContainer extends Component<MusicAutoCompleteProps
       this.setState({artists, albums, songs});
       toast.dismiss();
     } catch (e) {
-      this.handleRequestError(e);
+      if (!e.__CANCEL__) {
+        this.handleRequestError(e);
+      }
     }
   }
 
   async onSelect(index: number, sectionKey?: string) {
     if (sectionKey) {
       const {onArtistSelect, onAlbumSelect, onSongSelect} = this.props;
-
-      if (sectionKey === 'albums') {
-        const selectedAlbum = this.state.albums[index];
-        const artistInfo = await this.getArtistInfo(selectedAlbum.artist);
-        selectedAlbum.artistInfo = {...artistInfo.artist};
-        onAlbumSelect(selectedAlbum);
-      } else if (sectionKey === 'songs') {
-        const selectedSong = this.state.songs[index];
-        const artistInfo = await this.getArtistInfo(selectedSong.artist);
-        selectedSong.artistInfo = {...artistInfo.artist};
-        onSongSelect(selectedSong);
-      } else {
-        onArtistSelect(this.state.artists[index]);
+      try {
+        if (sectionKey === 'albums') {
+          const selectedAlbum = this.state.albums[index];
+          const artistInfo = await this.getArtistInfo(selectedAlbum.artist);
+          selectedAlbum.artistInfo = {...artistInfo.artist};
+          onAlbumSelect(selectedAlbum);
+        } else if (sectionKey === 'songs') {
+          const selectedSong = this.state.songs[index];
+          const artistInfo = await this.getArtistInfo(selectedSong.artist);
+          selectedSong.artistInfo = {...artistInfo.artist};
+          onSongSelect(selectedSong);
+        } else {
+          onArtistSelect(this.state.artists[index]);
+        }
+      } catch (e) {
+        if (!e.__CANCEL__) {
+          this.handleRequestError(e);
+        }
       }
     }
   }
@@ -94,15 +104,10 @@ export class MusicAutoCompleteContainer extends Component<MusicAutoCompleteProps
     });
   }
 
-  async getArtistInfo(artistName: string): Promise<any> {
-    try {
-      const artistInfo = await this.lastFmService.getArtistInfo(artistName, this.props.apiKey);
-      toast.dismiss();
-      // todo
-      return artistInfo as any;
-    } catch (e) {
-      this.handleRequestError(e);
-    }
+  async getArtistInfo(artistName: string) {
+    const artistInfo = await this.lastFmService.getArtistInfo(artistName, this.props.apiKey);
+    toast.dismiss();
+    return artistInfo;
   }
 
   handleRequestError(e) {
