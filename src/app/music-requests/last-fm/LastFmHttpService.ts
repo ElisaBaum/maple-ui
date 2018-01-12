@@ -1,10 +1,10 @@
 import {Inject, Injectable} from "react.di";
-import {Http} from "../http/Http";
+import {Http} from "../../http/Http";
 import axios from 'axios';
-import {Artist} from "./Artist";
-import {Song} from "./Song";
-import {Album} from "./Album";
-import {MusicServiceError} from "./MusicServiceError";
+import {LastFmArtist} from "./LastFmArtist";
+import {LastFmSong} from "./LastFmSong";
+import {LastFmAlbum} from "./LastFmAlbum";
+import {LastFmMusicServiceError} from "./LastFmMusicServiceError";
 
 export const MIN_LISTENERS_COUNT = 10;
 export const MAX_SEARCH_RESULT_COUNT = 5;
@@ -27,7 +27,7 @@ export class LastFmHttpService {
   }
 
   async searchArtists(artistName: string, apiKey: string, onGetCancel) {
-    const response = await this.doSearchRequest<ArtistResults>({
+    const response = await this.doLastFmApiRequest<ArtistResults>({
       ...this.defaultRequestParams,
       method: 'artist.search',
       artist: artistName,
@@ -50,7 +50,7 @@ export class LastFmHttpService {
   }
 
   async searchSongs(songName: string, apiKey: string, onGetCancel, artistName?: string) {
-    const response = await this.doSearchRequest<SongResults>({
+    const response = await this.doLastFmApiRequest<SongResults>({
       ...this.defaultRequestParams,
       method: 'track.search',
       track: songName,
@@ -74,7 +74,7 @@ export class LastFmHttpService {
   }
 
   async searchAlbums(albumName: string, apiKey: string, onGetCancel, artistName?: string) {
-    const response = await this.doSearchRequest<AlbumResults>({
+    const response = await this.doLastFmApiRequest<AlbumResults>({
       ...this.defaultRequestParams,
       method: 'album.search',
       album: albumName,
@@ -90,17 +90,26 @@ export class LastFmHttpService {
     return [];
   }
 
-  private async doSearchRequest<T>(params, onGetCancel): Promise<T | undefined> {
+  getArtistInfo(artistName: string, apiKey: string) {
+    return this.doLastFmApiRequest<LastFmArtistInfo>({
+      ...this.defaultRequestParams,
+      method: 'artist.getinfo',
+      artist: artistName,
+      api_key: apiKey
+    }) ;
+  }
+
+  private async doLastFmApiRequest<T>(params, onGetCancel?): Promise<T | undefined> {
     try {
       const response = await this.http.get<T>(this.apiBaseUrl, {
         params,
         interceptOptions: {skipAuth: true},
-        cancelToken: new axios.CancelToken(onGetCancel)
+        cancelToken: onGetCancel && new axios.CancelToken(onGetCancel)
       });
       return response.data;
     } catch (e) {
-      if (e.response && e.response.data) {
-        throw new MusicServiceError(e.response.data.error);
+      if (e.response && e.response.data && e.response.data.error) {
+        throw new LastFmMusicServiceError(e.response.data.error);
       }
       if (!e.__CANCEL__) {
         throw e;
@@ -115,7 +124,7 @@ export class LastFmHttpService {
 export interface ArtistResults {
   results: {
     artistmatches: {
-      artist: Artist[]
+      artist: LastFmArtist[]
     }
   };
 }
@@ -123,7 +132,7 @@ export interface ArtistResults {
 export interface SongResults {
   results: {
     trackmatches: {
-      track: Song[]
+      track: LastFmSong[]
     }
   };
 }
@@ -131,9 +140,13 @@ export interface SongResults {
 export interface AlbumResults {
   results: {
     albummatches: {
-      album: Album[]
+      album: LastFmAlbum[]
     }
   };
+}
+
+export interface LastFmArtistInfo {
+  artist: LastFmArtist;
 }
 
 

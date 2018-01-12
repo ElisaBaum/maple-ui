@@ -3,11 +3,11 @@ import {
   ArtistResults, LastFmHttpService, MIN_LISTENERS_COUNT, MAX_SEARCH_RESULT_COUNT,
   AlbumResults, SongResults
 } from "./LastFmHttpService";
-import {Http} from "../http/Http";
-import {Artist} from "./Artist";
+import {Http} from "../../http/Http";
+import {LastFmArtist} from "./LastFmArtist";
 import {expect} from "chai";
-import {Album} from "./Album";
-import {Song} from "./Song";
+import {LastFmAlbum} from "./LastFmAlbum";
+import {LastFmSong} from "./LastFmSong";
 
 describe('LastFmHttpService', () => {
 
@@ -61,7 +61,7 @@ describe('LastFmHttpService', () => {
       const artists = [mockArtist({
         mbid: '',
         image: [
-          {'#text': ''}
+          {'#text': '', 'size': ''}
         ]
       })];
       container.unbind(Http);
@@ -73,7 +73,7 @@ describe('LastFmHttpService', () => {
       expect(response.length).to.eql(0);
     });
 
-    function createArtistResults(artists: Artist[]): ArtistResults {
+    function createArtistResults(artists: LastFmArtist[]): ArtistResults {
       return {
         results: {
           artistmatches: {
@@ -83,14 +83,14 @@ describe('LastFmHttpService', () => {
       };
     }
 
-    function mockArtist(artist: Partial<Artist>) {
+    function mockArtist(artist: Partial<LastFmArtist>) {
       return {
         name: 'Emarosa',
         url: 'www.url.com',
         listeners: '20',
         mbid: 'id',
         image: [
-          {'#text': 'imageUrl'}
+          {'#text': 'imageUrl', 'size': ''}
         ],
         ...artist
       };
@@ -119,7 +119,7 @@ describe('LastFmHttpService', () => {
       const albums = [mockAlbum({
         mbid: '',
         image: [
-          {'#text': ''}
+          {'#text': '', 'size': ''}
         ]
       })];
       container.unbind(Http);
@@ -131,7 +131,7 @@ describe('LastFmHttpService', () => {
       expect(response.length).to.eql(0);
     });
 
-    function createAlbumResults(albums: Album[]): AlbumResults {
+    function createAlbumResults(albums: LastFmAlbum[]): AlbumResults {
       return {
         results: {
           albummatches: {
@@ -141,14 +141,14 @@ describe('LastFmHttpService', () => {
       };
     }
 
-    function mockAlbum(album: Partial<Album>) {
+    function mockAlbum(album: Partial<LastFmAlbum>) {
       return {
         name: 'Emarosa',
         artist: 'Emarosa',
         url: 'www.url.com',
         mbid: 'id',
         image: [
-          {'#text': 'imageUrl'}
+          {'#text': 'imageUrl', 'size': ''}
         ],
         ...album
       };
@@ -209,7 +209,7 @@ describe('LastFmHttpService', () => {
       expect(response.length).to.eql(0);
     });
 
-    function createSongResults(songs: Song[]): SongResults {
+    function createSongResults(songs: LastFmSong[]): SongResults {
       return {
         results: {
           trackmatches: {
@@ -219,7 +219,7 @@ describe('LastFmHttpService', () => {
       };
     }
 
-    function mockSong(song: Partial<Song>) {
+    function mockSong(song: Partial<LastFmSong>) {
       return {
         name: 'A Toast to the Future Kids!',
         artist: 'Emarosa',
@@ -228,6 +228,25 @@ describe('LastFmHttpService', () => {
         ...song
       };
     }
+  });
+
+  describe('getArtistInfo', () => {
+
+    it(`should return artistInfo for given artist name`, async () => {
+      const artistInfo = {
+        artist: {
+          name: 'artistName'
+        }
+      };
+      container.unbind(Http);
+      container.bind(Http).toConstantValue(createHttpGetMock(artistInfo));
+
+      const service = container.get(LastFmHttpService);
+      const response = await service.getArtistInfo('artistName', 'apiKey');
+
+      expect(response).to.eql(artistInfo);
+    });
+
   });
 
   function createHttpGetMock(data) {
