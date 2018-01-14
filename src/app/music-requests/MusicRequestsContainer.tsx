@@ -12,12 +12,14 @@ import {RequestedArtist} from "./RequestedArtist";
 import {RequestedAlbum} from "./RequestedAlbum";
 import {RequestedSong} from "./RequestedSong";
 import {LastFmMusicImage} from "./last-fm/LastFmMusicImage";
+import {toast} from "react-toastify";
 
 interface MusicRequestsContainerState {
   action?: Promise<any>;
   requestedArtists: RequestedArtist[];
   requestedAlbums: RequestedAlbum[];
   requestedSongs: RequestedSong[];
+  loading: boolean;
 }
 
 @Module({
@@ -34,7 +36,8 @@ export class MusicRequestsContainer extends Component<{}, MusicRequestsContainer
     this.state = {
       requestedArtists: [],
       requestedAlbums: [],
-      requestedSongs: []
+      requestedSongs: [],
+      loading: false
     };
   }
 
@@ -64,8 +67,8 @@ export class MusicRequestsContainer extends Component<{}, MusicRequestsContainer
   }
 
   async addSelectedArtist(artist: LastFmArtist) {
-    // TODO: error handling
-    if (!this.state.requestedArtists.some(currentArtist => currentArtist.url === artist.url)) {
+    this.processAction(async () => {
+      if (!this.state.requestedArtists.some(currentArtist => currentArtist.url === artist.url)) {
         const requestedArtist = await this.musicRequestsHttpService.addRequestedArtist(
           this.getRequestedArtist(artist)
         );
@@ -73,79 +76,80 @@ export class MusicRequestsContainer extends Component<{}, MusicRequestsContainer
         this.setState(prevState => ({
           requestedArtists: [...prevState.requestedArtists, requestedArtist]
         }));
-    }
+      }
+    });
   }
 
 
   async addSelectedAlbum(album: LastFmAlbum) {
-    // TODO: error handling
+    this.processAction(async () => {
+      if (!this.state.requestedAlbums.some(currentAlbum => currentAlbum.url === album.url)) {
+        const requestedAlbum = await this.musicRequestsHttpService.addRequestedAlbum({
+          name: album.name,
+          url: album.url,
+          imageUrl: this.getImageUrl(album.image),
+          artist: album.artistInfo && this.getRequestedArtist(album.artistInfo)
+        });
 
-    if (!this.state.requestedAlbums.some(currentAlbum => currentAlbum.url === album.url)) {
-      const requestedAlbum = await this.musicRequestsHttpService.addRequestedAlbum({
-        name: album.name,
-        url: album.url,
-        imageUrl: this.getImageUrl(album.image),
-        artist: album.artistInfo && this.getRequestedArtist(album.artistInfo)
-      });
-
-      this.setState(prevState => ({
-        requestedAlbums: [...prevState.requestedAlbums, requestedAlbum]
-      }));
-    }
+        this.setState(prevState => ({
+          requestedAlbums: [...prevState.requestedAlbums, requestedAlbum]
+        }));
+      }
+    });
   }
 
   async addSelectedSong(song: LastFmSong) {
-    // TODO: error handling
+    this.processAction(async () => {
+      if (!this.state.requestedSongs.some(currentSong => currentSong.url === song.url)) {
+        const requestedSong = await this.musicRequestsHttpService.addRequestedSong({
+          name: song.name,
+          url: song.url,
+          artist: song.artistInfo && this.getRequestedArtist(song.artistInfo)
+        });
 
-    if (!this.state.requestedSongs.some(currentSong => currentSong.url === song.url)) {
-      const requestedSong = await this.musicRequestsHttpService.addRequestedSong({
-        name: song.name,
-        url: song.url,
-        artist: song.artistInfo && this.getRequestedArtist(song.artistInfo)
-      });
-
-      this.setState(prevState => ({
-        requestedSongs: [...prevState.requestedSongs, requestedSong]
-      }));
-    }
+        this.setState(prevState => ({
+          requestedSongs: [...prevState.requestedSongs, requestedSong]
+        }));
+      }
+    });
   }
 
   async deleteRequestedArtist(artistId: number) {
-    // todo loading & error handling
-
-    try {
+    this.processAction(async () => {
       await this.musicRequestsHttpService.deleteRequestedArtist(artistId);
       this.setState(prevState => ({
         requestedArtists: prevState.requestedArtists.filter(artist => artist.id !== artistId)
       }));
-    } catch (e) {
-
-    }
+    });
   }
 
   async deleteRequestedAlbum(albumId: number) {
-    // todo loading & error handling
-
-    try {
+    this.processAction(async () => {
       await this.musicRequestsHttpService.deleteRequestedAlbum(albumId);
       this.setState(prevState => ({
         requestedAlbums: prevState.requestedAlbums.filter(album => album.id !== albumId)
       }));
-    } catch (e) {
-
-    }
+    });
   }
 
   async deleteRequestedSong(songId: number) {
-    // todo loading & error handling
-
-    try {
+    this.processAction(async () => {
       await this.musicRequestsHttpService.deleteRequestedSong(songId);
       this.setState(prevState => ({
         requestedSongs: prevState.requestedSongs.filter(song => song.id !== songId)
       }));
-    } catch (e) {
+    });
+  }
 
+  async processAction(action: () => Promise<void>) {
+    this.setState({loading: true});
+    try {
+      await action();
+      toast.dismiss();
+    } catch (e) {
+      toast.error(<p>Es ist ein Fehler aufgetreten. Bitte versuche es erneut.</p>);
+    } finally {
+      this.setState({loading: false});
     }
   }
 
@@ -165,10 +169,11 @@ export class MusicRequestsContainer extends Component<{}, MusicRequestsContainer
   }
 
   render() {
-    const {action, requestedArtists, requestedAlbums, requestedSongs} = this.state;
+    const {action, requestedArtists, requestedAlbums, requestedSongs, loading} = this.state;
     return (
       <ContentContainer contentKey={'music-requests'} action={action} render={(content: MusicRequestsData) => (
         <MusicRequests content={content}
+                       loading={loading}
                        requestedArtists={requestedArtists}
                        requestedAlbums={requestedAlbums}
                        requestedSongs={requestedSongs}

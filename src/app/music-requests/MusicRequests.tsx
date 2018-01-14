@@ -12,6 +12,7 @@ import {MusicRequest} from "./MusicRequest";
 import {Paragraph} from "../layout/components/content/Paragraph";
 
 interface MusicRequestsProps extends ContentComponentProps<MusicRequestsData> {
+  loading: boolean;
   requestedArtists: RequestedArtist[];
   requestedAlbums: RequestedAlbum[];
   requestedSongs: RequestedSong[];
