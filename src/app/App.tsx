@@ -30,7 +30,7 @@ export class App extends Component {
 
   render() {
     return (
-      <div className={'root-container'}>
+      <div className={'app'}>
         <Router history={this.history}>
           <Switch>
             <Route path={'/login'} render={() => center(LoginContainer)}/>

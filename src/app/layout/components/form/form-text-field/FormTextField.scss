@@ -12,6 +12,7 @@
     position: relative;
     z-index: 1;
     width: 100%;
+    color: $text-primary-color;
     &:focus {
       border-bottom-color: $primary-color;
     }

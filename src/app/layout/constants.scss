@@ -6,13 +6,15 @@ $desktop: "only screen and (min-width:600px)";
 
 // Adapted from spectre.css:
 
-$text-primary-color:      #2a2f40;
-$text-secondary-color:    #caced7;
+$text-primary-color:      #333;
+$text-secondary-color:    transparentize($text-primary-color, .5);
 $font-size-default:       .8rem;
 $padding-default:         .7rem;
 
 // Core colors
-$primary-color: #69bede !default;
+//$primary-color: #69bede !default;
+//$primary-color: #2be6bf !default;
+$primary-color: #ff6b76 !default;
 $primary-color-dark: darken($primary-color, 3%) !default;
 $primary-color-light: lighten($primary-color, 3%) !default;
 $secondary-color: lighten($primary-color, 37.5%) !default;

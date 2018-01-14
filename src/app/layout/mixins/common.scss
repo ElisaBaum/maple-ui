@@ -188,9 +188,8 @@
 
 // Items
 @mixin itemize() {
-  padding: $padding-default;
-  //background-image: linear-gradient(0deg, #ededed, #ededed 50%, transparent 50%); TODO 100 or 50 ???
-  background-image: linear-gradient(0deg, #ededed, #ededed 100%, transparent 100%);
+  padding: ($padding-default + 0.2rem) $padding-default;
+  background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.06) 100%, transparent 100%);
   background-size: 100% 1px;
   background-repeat: no-repeat;
   background-position: bottom;

@@ -1,9 +1,0 @@
-@import "../../../../../node_modules/compass-sass-mixins/lib/compass";
-@import '../../mixins/angled-edges';
-@import '../../mixins/animation';
-
-.meta-container {
-  @include flex(none);
-  @include angle-edge($angle: 8, $angle-position-y: 'bottom', $angle-position-x: 'right');
-  @include animation-fadein(2s);
-}

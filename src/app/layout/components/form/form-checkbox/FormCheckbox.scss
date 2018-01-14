@@ -1,0 +1,24 @@
+@import "../../../constants";
+@import "../../../mixins/common";
+
+.form-checkbox {
+  @include form-radio-checkbox();
+  padding-left: 2rem;
+
+
+  input:checked + .form-icon::before {
+    background-clip: padding-box;
+    border: .1rem solid $primary-color;
+    border-left-width: 0;
+    border-top-width: 0;
+    content: "";
+    height: 12px;
+    left: 50%;
+    margin-left: -4px;
+    margin-top: -8px;
+    position: absolute;
+    top: 50%;
+    transform: rotate(45deg);
+    width: 8px;
+  }
+}

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as headerImg from './IMG_9247.jpg';
 import './Content.scss';
 
 interface ContentProps {
@@ -9,12 +10,14 @@ interface ContentProps {
 
 export function Content({headline, headlineIcon, children}: ContentProps) {
   return (
-    <div className={'content-container'}>
-      <div className={'headline'}>
-        <i className={'material-icons'}>{headlineIcon}</i>
-        {headline}
+    <div className={'content'}>
+      <div className={'header'}>
+        <img className={'header-img'} src={headerImg} />
+        <div className={'header-text'}>
+          Bist du dabei?
+        </div>
       </div>
-      <div className={'content'}>
+      <div className={'content-content'}>
         {...children}
       </div>
     </div>

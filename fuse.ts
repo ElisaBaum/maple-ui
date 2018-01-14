@@ -17,7 +17,7 @@ import {
   HTMLPlugin,
   FuseBoxOptions,
   QuantumPlugin,
-  ImageBase64Plugin,
+  ImageBase64Plugin, CSSResourcePlugin,
 } from 'fuse-box';
 
 // CONFIGURATION
@@ -41,6 +41,10 @@ const DEFAULT_CONFIG: FuseBoxOptions = {
     CSSPlugin(),
     [
       SassPlugin(),
+      CSSResourcePlugin({
+        resolve: file => `/resources/${file}`,
+        dist: `${DIST_FOLDER}/resources/`,
+      }),
       CSSPlugin(),
     ] as any,
     HTMLPlugin({useDefault: false}),
@@ -98,7 +102,7 @@ const config: { [env: string]: FuseBoxOptions } = {
   }
 };
 const proxies = {
-  default: 'http://localhost:3000'
+  default: 'http://192.168.178.29:3000'
 };
 
 function fuseBox(env) {
