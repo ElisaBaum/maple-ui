@@ -102,7 +102,7 @@ const config: { [env: string]: FuseBoxOptions } = {
   }
 };
 const proxies = {
-  default: 'http://192.168.178.29:3000'
+  default: 'http://localhost:3000'
 };
 
 function fuseBox(env) {
