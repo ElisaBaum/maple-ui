@@ -1,13 +1,9 @@
 @import "../../constants";
+@import "../../../../../node_modules/compass-sass-mixins/lib/animate";
 
 .navigation {
 
-  $button-height: 27px;
-  $button-width: 35px;
-
-
   .button_container {
-
     padding: 0;
     border: none;
     background: transparent;
@@ -16,28 +12,36 @@
     position: fixed;
     top: 1rem;
     right: 1rem;
-    height: $button-height;
-    width: $button-width;
+    height: 27px;
+    width: 35px;
     cursor: pointer;
     z-index: 100;
-    transition: opacity .25s ease;
+    @include transition(opacity .25s ease);
+
+    &:before {
+      position: absolute;
+      top: -60%;
+      content: '';
+      width: 220%;
+      height: 220%;
+      left: -60%;
+    }
 
     &:hover {
-      opacity: .7;
+      opacity: .5;
     }
 
     &.active {
       .top {
-        transform: translateY(11px) translateX(0) rotate(45deg);
+        @include transform(translateY(11px) translateX(0) rotate(45deg));
         background: #ffffff;
       }
       .middle {
         opacity: 0;
-        background: #ffffff;
       }
 
       .bottom {
-        transform: translateY(-11px) translateX(0) rotate(-45deg);
+        @include transform(translateY(-11px) translateX(0) rotate(-45deg));
         background: #ffffff;
       }
     }
@@ -50,7 +54,7 @@
       position: absolute;
       top: 0;
       left: 0;
-      transition:  all .35s ease;
+      @include transition(all .35s ease);
       cursor: pointer;
 
       &:nth-of-type(2) {
@@ -72,8 +76,8 @@
     height: 0;
     opacity: 0;
     visibility: hidden;
-    transition: opacity .4s, visibility .4s, height .4s;
     overflow: hidden;
+    @include transition(opacity .4s, visibility .4s, height .4s);
 
     &.open {
       opacity: .9;
@@ -82,17 +86,17 @@
       z-index: 2;
 
       li {
-        animation: fadeInRight .5s ease forwards;
-        animation-delay: .35s;
+        @include animation(fadeInRight .5s ease forwards);
+        @include animation-delay(.35s);
 
         &:nth-of-type(2) {
-          animation-delay: .4s;
+          @include animation-delay(.4s);
         }
         &:nth-of-type(3) {
-          animation-delay: .45s;
+          @include animation-delay(.45s);
         }
         &:nth-of-type(4) {
-          animation-delay: .50s;
+          @include animation-delay(.5s);
         }
       }
     }
@@ -100,8 +104,8 @@
       position: relative;
       height: 70%;
       top: 50%;
-      transform: translateY(-50%);
-      font-size: 50px;
+      @include transform(translateY(-50%));
+      font-size: 2.5rem;
       text-align: center;
     }
     ul {
@@ -115,8 +119,7 @@
       li {
         display: block;
         height: 25%;
-        height: calc(100% / 4);
-        min-height: 50px;
+        min-height: 2.5rem;
         position: relative;
         opacity: 0;
 
@@ -127,29 +130,17 @@
           text-decoration: none;
           overflow: hidden;
 
-          &:hover:after,
-          &:focus:after,
-          &:active:after {
-            width: 100%;
-          }
-
-          &:after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            width: 0%;
-            transform: translateX(-50%);
-            height: 3px;
-            background: #ffffff;
-            transition: .35s;
+          &:hover,
+          &:focus,
+          &:active {
+            opacity: .4;
           }
         }
       }
     }
   }
 
-  @keyframes fadeInRight {
+  @include keyframes(fadeInRight) {
     0% {
       opacity: 0;
       left: 20%;

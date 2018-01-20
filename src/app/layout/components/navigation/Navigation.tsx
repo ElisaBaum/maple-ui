@@ -1,17 +1,17 @@
 import * as React from 'react';
 import {Component} from "react";
 import * as classNames from 'classnames';
-import './Nav.scss';
+import './Navigation.scss';
 
-interface NavProps {
+interface NavigationProps {
   children: any[];
 }
 
-interface NavState {
+interface NavigationState {
   isActive: boolean;
 }
 
-export class Nav extends Component<NavProps, NavState> {
+export class Navigation extends Component<NavigationProps, NavigationState> {
 
   constructor(props) {
     super(props);
@@ -30,18 +30,17 @@ export class Nav extends Component<NavProps, NavState> {
     const {children} = this.props;
     const {isActive} = this.state;
     const buttonClass = classNames('button_container', {active: isActive});
-    const otherClass = classNames('overlay', {open: isActive});
+    const overlayClass = classNames('overlay', {open: isActive});
 
     return (
       <div className="navigation">
-
         <button className={buttonClass}  onClick={() => this.onClick()}>
-          <span className="top"></span>
-          <span className="middle"></span>
-          <span className="bottom"></span>
+          <span className="top"/>
+          <span className="middle"/>
+          <span className="bottom"/>
         </button>
 
-        <div className={otherClass} id="overlay">
+        <div className={overlayClass} id="overlay">
           <nav className="overlay-menu">
             <ul>
               {
