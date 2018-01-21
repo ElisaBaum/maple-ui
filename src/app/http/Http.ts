@@ -42,6 +42,7 @@ export class Http implements AxiosInstance {
 function initInterceptors(interceptors: HttpInterceptor[], http: AxiosInstance) {
   interceptors.forEach((interceptor) => {
     Object.keys(http.interceptors).forEach(key => {
+      const errorKey = `${key}Error`;
       if (interceptor[key]) {
         http.interceptors[key].use(value => {
           if (!value.interceptOptions) {
@@ -49,6 +50,9 @@ function initInterceptors(interceptors: HttpInterceptor[], http: AxiosInstance) 
           }
           return interceptor[key](value);
         });
+      }
+      if (interceptor[errorKey]) {
+        http.interceptors[key].use(_ => _, err => interceptor[errorKey](err));
       }
     });
   });

@@ -12,7 +12,7 @@ interface InternalHistory extends History {
 export const HISTORY_TOKEN = 'history';
 export const history = createBrowserHistory() as InternalHistory;
 
-const proxy = fn => function(...args: any[]) {
+const proxy = fn => function(this: InternalHistory, ...args: any[]) {
   this.prevPath = location.pathname;
   fn.call(this, ...args);
 };
