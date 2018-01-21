@@ -20,7 +20,7 @@ export class Navigation extends Component<NavigationProps, NavigationState> {
     };
   }
 
-  onClick() {
+  toggleActiveState() {
     this.setState(prevState => ({
       isActive: !prevState.isActive
     }));
@@ -34,7 +34,7 @@ export class Navigation extends Component<NavigationProps, NavigationState> {
 
     return (
       <div className="navigation">
-        <button className={buttonClass}  onClick={() => this.onClick()}>
+        <button className={buttonClass}  onClick={() => this.toggleActiveState()}>
           <span className="top"/>
           <span className="middle"/>
           <span className="bottom"/>
