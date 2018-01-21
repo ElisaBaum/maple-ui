@@ -28,7 +28,7 @@
     }
 
     &:hover {
-      opacity: .5;
+      opacity: .7;
     }
 
     &.active {
@@ -39,10 +39,12 @@
       .middle {
         opacity: 0;
       }
-
       .bottom {
         @include transform(translateY(-11px) translateX(0) rotate(-45deg));
         background: #ffffff;
+      }
+      &:hover {
+        opacity: .4;
       }
     }
 
@@ -80,7 +82,7 @@
     @include transition(opacity .4s, visibility .4s, height .4s);
 
     &.open {
-      opacity: .9;
+      opacity: .95;
       visibility: visible;
       height: 100%;
       z-index: 2;
@@ -98,6 +100,9 @@
         &:nth-of-type(4) {
           @include animation-delay(.5s);
         }
+        &:nth-of-type(5) {
+          @include animation-delay(.55s);
+        }
       }
     }
     nav {
@@ -105,7 +110,7 @@
       height: 70%;
       top: 50%;
       @include transform(translateY(-50%));
-      font-size: 2.5rem;
+      font-size: 1.8rem;
       text-align: center;
     }
     ul {
@@ -118,7 +123,7 @@
 
       li {
         display: block;
-        height: 25%;
+        height: 4rem;
         min-height: 2.5rem;
         position: relative;
         opacity: 0;
