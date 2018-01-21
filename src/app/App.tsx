@@ -6,7 +6,7 @@ import {HISTORY_TOKEN} from './common/history';
 import {AuthService} from './auth/AuthService';
 import {center} from './layout/decorators/center/center';
 import {LoginContainer} from './login/LoginContainer';
-import {Skeleton} from './skeleton/Skeleton';
+import {APPROVAL_PATH, Skeleton} from './skeleton/Skeleton';
 import {Toast} from './layout/components/toast/Toast';
 import {AuthModule} from './auth/AuthModule';
 import {CommonModule} from './common/CommonModule';
@@ -14,6 +14,9 @@ import {HttpModule} from './http/HttpModule';
 import {DynamicContentModule} from './dynamic-content/DynamicContentModule';
 import {UserModule} from './user/UserModule';
 import './App.scss';
+
+export const LOGIN_PATH = '/login';
+export const ROOT_PATH = '/';
 
 @Module({
   imports: [
@@ -30,16 +33,17 @@ export class App extends Component {
 
   render() {
     return (
-      <div className={'root-container'}>
+      <div className={'app'}>
         <Router history={this.history}>
           <Switch>
-            <Route path={'/login'} render={() => center(LoginContainer)}/>
-            <Route path={'/'} render={() => {
-              if (this.authService.getValidToken()) {
-                return <Skeleton/>;
+            <Route path={LOGIN_PATH} render={() => center(LoginContainer)}/>
+            <Route path={ROOT_PATH} exact render={() => {
+              if (this.authService.isLoggedIn()) {
+                return <Redirect to={APPROVAL_PATH}/>;
               }
-              return <Redirect to={'/login'}/>;
+              return <Redirect to={LOGIN_PATH}/>;
             }}/>
+            <Route render={() => <Skeleton/>} />
           </Switch>
         </Router>
         <Toast/>

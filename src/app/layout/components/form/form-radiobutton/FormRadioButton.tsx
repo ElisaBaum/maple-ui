@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {FormInput, FormInputProps, FormInputState} from "../FormInput";
 import {RequiredValidator} from "../validators/RequiredValidator";
+import './FormRadioButton.scss';
 
 interface FormRadioButtonProps extends FormInputProps {
   label: string;
@@ -24,7 +25,7 @@ export class FormRadioButton extends FormInput<FormRadioButtonProps, FormInputSt
     const {value} = this.state;
     const {name, label} = this.props;
     return (
-      <label className="form-radio">
+      <label className="form-radio-button">
         <input type="radio"
                name={name}
                checked={value}

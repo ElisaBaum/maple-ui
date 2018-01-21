@@ -1,6 +1,7 @@
 import * as crypto from 'crypto';
 import * as express from 'express';
-import {Request} from 'express';
+import * as prepareArgs from 'minimist';
+import * as proxyMiddleware from 'http-proxy-middleware';
 import * as path from 'path';
 import {existsSync, readdirSync, unlinkSync, statSync} from 'fs';
 import {
@@ -16,7 +17,7 @@ import {
   HTMLPlugin,
   FuseBoxOptions,
   QuantumPlugin,
-  ImageBase64Plugin,
+  ImageBase64Plugin, CSSResourcePlugin,
 } from 'fuse-box';
 
 // CONFIGURATION
@@ -40,6 +41,10 @@ const DEFAULT_CONFIG: FuseBoxOptions = {
     CSSPlugin(),
     [
       SassPlugin(),
+      CSSResourcePlugin({
+        resolve: file => `/resources/${file}`,
+        dist: `${DIST_FOLDER}/resources/`,
+      }),
       CSSPlugin(),
     ] as any,
     HTMLPlugin({useDefault: false}),
@@ -57,7 +62,7 @@ const config: { [env: string]: FuseBoxOptions } = {
     sourceMaps: true,
     plugins: [
       EnvPlugin({
-        API_URL: 'http://localhost:3000',
+        API_URL: '/api',
         NODE_ENV: 'development',
       }),
       ...DEFAULT_CONFIG.plugins
@@ -66,7 +71,7 @@ const config: { [env: string]: FuseBoxOptions } = {
   qa: {
     plugins: [
       EnvPlugin({
-        API_URL: 'http://localhost:3000',
+        API_URL: '/api',
         NODE_ENV: 'production',
       }),
       ...DEFAULT_CONFIG.plugins,
@@ -76,7 +81,7 @@ const config: { [env: string]: FuseBoxOptions } = {
   prod: {
     plugins: [
       EnvPlugin({
-        API_URL: 'http://localhost:3000',
+        API_URL: '/api',
         NODE_ENV: 'production',
       }),
       ...DEFAULT_CONFIG.plugins,
@@ -96,16 +101,15 @@ const config: { [env: string]: FuseBoxOptions } = {
     },
   }
 };
+const proxies = {
+  default: 'http://localhost:3000'
+};
 
 function fuseBox(env) {
-
   if (!config[env]) {
     throw new Error(`Unknown environment name "${env}"`);
   }
-
-  const options = {...DEFAULT_CONFIG, ...config[env]};
-
-  return FuseBox.init(options);
+  return FuseBox.init({...DEFAULT_CONFIG, ...config[env]});
 }
 
 // TASKS
@@ -125,34 +129,19 @@ const tasks = {
     })
     ;
   },
-  serve([env]) {
+  serve(env, {proxy}) {
     this.clearDist();
     const fuse = fuseBox(env);
 
     fuse.dev({}, server => {
-
+      const dist = path.resolve(`./${DIST_FOLDER}`);
+      const app = server.httpServer.app;
+      app.use(express.static(path.join(dist)));
+      app.use('/api', proxyMiddleware({target: proxies[proxy], changeOrigin: true}));
       // ensure that any path redirects to index.html
       // so that refreshing in case of html5 routes
       // does not lead to a 404
-      const dist = path.resolve(`./${DIST_FOLDER}`);
-      const app = server.httpServer.app;
-      app.use("/static/", express.static(path.join(dist, 'static')));
-      app.get("*", (req: Request, res) => {
-        const indexFile = 'index.html';
-        const requestedSource = req.url.replace('/', '');
-        const requestedPath = path.join(dist, requestedSource);
-        let pathname;
-
-        // if requested source exists, use this instead of index file
-        if (existsSync(requestedPath)) {
-          pathname = requestedPath;
-        } else {
-          // fallback
-          pathname = path.join(dist, indexFile);
-        }
-
-        res.sendFile(pathname);
-      });
+      app.get('*', (req, res) => res.sendFile(path.join(dist, 'index.html')));
     });
 
     fuse
@@ -163,7 +152,7 @@ const tasks = {
 
     fuse.run();
   },
-  build([env]) {
+  build(env) {
     this.clearDist();
     const fuse = fuseBox(env);
 
@@ -181,9 +170,16 @@ const tasks = {
 
 // [0]    [1]       [2]               [3]
 // node   fuse.js   serve|build|...  dev|prod
-const task = process.argv[2];
-const args = process.argv.slice(3, process.argv.length);
-tasks[task](args.length ? args : undefined);
+const args = prepareArgs(process.argv.slice(2), {
+  alias: {
+    proxy: 'p'
+  },
+  default: {
+    proxy: 'default'
+  }
+});
+const task = args._.shift();
+tasks[task](...args._, args);
 
 // HELPER
 // -------------------------------------------------
