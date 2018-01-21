@@ -3,10 +3,6 @@ import {HISTORY_TOKEN, History} from "../common/history";
 import {Inject, Injectable} from 'react.di';
 import {LOGIN_PATH} from '../App';
 
-export interface CSRFTokenHttpInterceptorOptions {
-  skipAuth?: boolean;
-}
-
 @Injectable
 export class UnAuthRedirectHttpInterceptor implements HttpResponseErrorInterceptor {
 

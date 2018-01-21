@@ -13,7 +13,6 @@ export const HISTORY_TOKEN = 'history';
 export const history = createBrowserHistory() as InternalHistory;
 
 const proxy = fn => function(this: InternalHistory, ...args: any[]) {
-  console.log(args, location.pathname);
   this.prevPath = location.pathname;
   fn.call(this, ...args);
 };
