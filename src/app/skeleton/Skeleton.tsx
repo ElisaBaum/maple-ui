@@ -4,6 +4,7 @@ import {JourneyContainer} from "../invitation/journey/JourneyContainer";
 import {ApprovalContainer} from "../invitation/approval/ApprovalContainer";
 import {RoomReservationContainer} from "../invitation/overnight-stay/RoomReservationContainer";
 import {Navigation} from '../layout/components/navigation/Navigation';
+import {NavigationItem} from "../layout/components/navigation/NavigationItem";
 import './Skeleton.scss';
 
 export const JOURNEY_PATH = '/journey';
@@ -12,7 +13,11 @@ export const OVERNIGHT_STAY_PATH = '/overnight-stay';
 
 export const Skeleton = () => (
   <div className={'skeleton'}>
-    <Navigation />
+    <Navigation>
+      <NavigationItem target={JOURNEY_PATH} text='Anfahrt'/>
+      <NavigationItem target={APPROVAL_PATH} text='Anmeldung'/>
+      <NavigationItem target={OVERNIGHT_STAY_PATH} text='Übernachtung'/>
+    </Navigation>
     <Switch>
       <Route path={JOURNEY_PATH} component={JourneyContainer}/>
       <Route path={APPROVAL_PATH} component={ApprovalContainer}/>
