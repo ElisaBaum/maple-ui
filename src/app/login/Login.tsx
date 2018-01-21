@@ -9,24 +9,14 @@ import {Item} from '../layout/components/item/Item';
 
 interface LoginProps {
   loading: boolean;
-
   onSubmit(data: { name: string; code: string });
 }
 
 export function Login({loading, onSubmit}: LoginProps) {
   return (
     <div className={'login'}>
-      <Card className={''}>
-        <div style={{
-          position: 'absolute',
-          color: 'white',
-          top: '-43px',
-          right: '7px',
-          letterSpacing: '.03rem',
-          fontWeight: 100
-        }}>
-          <div style={{marginTop: '-9px', fontSize: '1.7rem'}}>Login</div>
-        </div>
+      <Card>
+        <div className="title">Login</div>
         <Logo className={'login-logo'}/>
         <Form onSubmit={({isValid, values}) => isValid && onSubmit(values)}
               loading={loading}>

@@ -3,5 +3,7 @@ import {FormCheckbox, FormCheckboxProps} from '../form-checkbox/FormCheckbox';
 import './FormSwitch.scss';
 
 export function FormSwitch(props: FormCheckboxProps) {
-  return (<FormCheckbox useSwitch={true} {...props}/>);
+  return (
+    <FormCheckbox useSwitch={true} {...props}/>
+  );
 }
