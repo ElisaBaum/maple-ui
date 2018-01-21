@@ -6,13 +6,11 @@ import {bool} from 'prop-types';
 
 interface FormButtonProps {
   children: string;
-  className?: string;
 }
 
-export function FormButton({children, className}: FormButtonProps,
-                           {loading}: FormContext) {
+export function FormButton({children}: FormButtonProps, {loading}: FormContext) {
   return (
-    <Button htmlType={'submit'} loading={loading} className={`btn-block ${className}`}>
+    <Button htmlType={'submit'} loading={loading} className={`btn-block`}>
       {children}
     </Button>
   );
