@@ -1,12 +1,78 @@
+@import "../../constants";
+@import "../../mixins/common";
+
 .form-autocomplete {
-  .menu .menu-item > a {
-    &.is-focused {
-      color: #5764c6;
-      box-shadow: 0 0 0 0.2rem rgba(87,100,198,.15);
+  position: relative;
+
+  .menu {
+    left: 0;
+    position: absolute;
+    top: 100%;
+    width: 100%;
+
+    .menu-item > a {
+      &.is-focused {
+        color: $primary-color;
+        box-shadow: 0 0 0 0.2rem rgba(87, 100, 198, .15);
+      }
+    }
+
+  }
+}
+
+// Menus
+.menu {
+  @include shadow-variant(.05rem);
+  background: $bg-color-light;
+  border-radius: $border-radius;
+  list-style: none;
+  margin: 0;
+  min-width: $control-width-xs;
+  padding: 0;
+  transform: translateY($layout-spacing-sm);
+  z-index: $zindex-1;
+
+  &.menu-nav {
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .menu-item {
+    margin-top: 0;
+    padding: 0 $unit-2;
+    text-decoration: none;
+    user-select: none;
+
+    & > a {
+      border-radius: $border-radius;
+      color: inherit;
+      display: block;
+      margin: 0 (-$unit-2);
+      padding: .7rem;
+      text-decoration: none;
+      &:focus,
+      &:hover {
+        background: $secondary-color;
+        color: $primary-color;
+      }
+      &:active,
+      &.active {
+        background: $secondary-color;
+        color: $primary-color;
+      }
+    }
+
+    & + .menu-item {
+      margin-top: $unit-1;
     }
   }
-  .custom-divider {
-    padding-top: 1.5rem;
-    padding-bottom: 1.2rem;
+
+  .menu-badge {
+    float: right;
+    padding: $unit-1 0;
+
+    .btn {
+      margin-top: -$unit-h;
+    }
   }
 }

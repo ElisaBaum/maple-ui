@@ -9,18 +9,26 @@ import {RequestedArtist} from "./RequestedArtist";
 import {RequestedAlbum} from "./RequestedAlbum";
 import {RequestedSong} from "./RequestedSong";
 import {MusicRequest} from "./MusicRequest";
-import {Paragraph} from "../layout/components/content/Paragraph";
+import {Item} from '../layout/components/item/Item';
+import {Card} from '../layout/components/card/Card';
+import {Headline} from '../layout/components/headline/Headline';
 
 interface MusicRequestsProps extends ContentComponentProps<MusicRequestsData> {
   loading: boolean;
   requestedArtists: RequestedArtist[];
   requestedAlbums: RequestedAlbum[];
   requestedSongs: RequestedSong[];
+
   onArtistSelect(artist: LastFmArtist);
+
   onAlbumSelect(album: LastFmAlbum);
+
   onSongSelect(song: LastFmSong);
+
   onArtistDelete(artistId: number);
+
   onAlbumDelete(albumId: number);
+
   onSongDelete(songId: number);
 }
 
@@ -31,67 +39,78 @@ export function MusicRequests(props: MusicRequestsProps) {
 
   return (
     <div>
-      <Paragraph>
-        {description}
-      </Paragraph>
-      <Paragraph>
+      <Card>
+        <Item>
+          {description}
+        </Item>
+      </Card>
+      <Card>
+        <Headline text={'Suche'}/>
         <MusicAutoCompleteContainer apiKey={lastFmApiKey}
                                     onArtistSelect={onArtistSelect}
                                     onAlbumSelect={onAlbumSelect}
                                     onSongSelect={onSongSelect}/>
-      </Paragraph>
 
-      {
-        !!requestedArtists.length &&
-          <Paragraph>
-            <h5>Künstler</h5>
+        {
+          !!requestedArtists.length &&
+          <div>
+            <Headline text={'Künstler'}/>
             {
               requestedArtists.map(artist => (
-                <MusicRequest key={artist.id}
-                              id={artist.id}
-                              title={artist.name}
-                              imageUrl={artist.imageUrl}
-                              deleteFn={onArtistDelete}/>
+                <Item>
+                  <MusicRequest key={artist.id}
+                                id={artist.id}
+                                title={artist.name}
+                                imageUrl={artist.imageUrl}
+                                deleteFn={onArtistDelete}/>
+                </Item>
               ))
             }
-          </Paragraph>
-      }
+          </div>
+        }
 
-      {
-        !!requestedSongs.length &&
-          <Paragraph>
-            <h5>Lieder</h5>
+        {
+          !!requestedSongs.length &&
+          <div>
+            <Headline text={'Lieder'}/>
             {
               requestedSongs.map(song => (
-                <MusicRequest key={song.id}
-                              id={song.id}
-                              title={song.name}
-                              subtitle={song.artist.name}
-                              deleteFn={onSongDelete}/>
+                <Item>
+                  <MusicRequest key={song.id}
+                                id={song.id}
+                                title={song.name}
+                                subtitle={song.artist.name}
+                                deleteFn={onSongDelete}/>
+                </Item>
               ))
             }
-          </Paragraph>
-      }
+          </div>
+        }
 
-      {
-        !!requestedAlbums.length &&
-          <Paragraph>
-            <h5>Alben</h5>
+        {
+          !!requestedAlbums.length &&
+          <div>
+            <Headline text={'Alben'}/>
             {
               requestedAlbums.map(album => (
-                <MusicRequest key={album.id}
-                              id={album.id}
-                              title={album.name}
-                              subtitle={album.artist.name}
-                              imageUrl={album.imageUrl}
-                              deleteFn={onAlbumDelete}/>
+                <Item>
+                  <MusicRequest key={album.id}
+                                id={album.id}
+                                title={album.name}
+                                subtitle={album.artist.name}
+                                imageUrl={album.imageUrl}
+                                deleteFn={onAlbumDelete}/>
+                </Item>
               ))
             }
-          </Paragraph>
-      }
-      <Paragraph>
-        {hint}
-      </Paragraph>
+          </div>
+        }
+      </Card>
+      <Card>
+        <Item>
+          {hint}
+        </Item>
+      </Card>
     </div>
   );
 }

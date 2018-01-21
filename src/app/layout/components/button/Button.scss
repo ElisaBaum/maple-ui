@@ -92,6 +92,7 @@
   &.btn-link {
     background: transparent;
     border-color: transparent;
+    box-shadow: none;
     color: $link-color;
     &:focus,
     &:hover,

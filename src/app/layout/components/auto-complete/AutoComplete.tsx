@@ -6,8 +6,9 @@ import {
   IAutoCompleteResultSection
 } from "../auto-complete-result-section/AutoCompleteResultSection";
 import {Divider} from "../divider/Divider";
-import 'spectre.css/dist/spectre.min.css';
+import {TextField} from '../controls/text-field/TextField';
 import './AutoComplete.scss';
+import {Label} from '../controls/label/Label';
 
 interface ISection {
   name?: string;
@@ -24,11 +25,16 @@ interface IAutoCompleteState {
 
 interface IAutoCompleteProps {
   placeholder: string;
+  label?: string;
   delay?: number;
   children: any[];
+
   cancelPreviousSearch();
+
   onSearch(searchTerm: string);
+
   onSelect(index: number, sectionKey?: string);
+
   onClear?();
 }
 
@@ -38,6 +44,7 @@ const NO_INDEX = undefined;
 export class AutoComplete extends Component<IAutoCompleteProps, IAutoCompleteState> {
 
   timeoutId: any;
+  searchInput: HTMLInputElement;
 
   constructor(props) {
     super(props);
@@ -120,10 +127,9 @@ export class AutoComplete extends Component<IAutoCompleteProps, IAutoCompleteSta
       // In case of mouse click event, reset focus index
       this.setState({focusedIndex: undefined});
     }
-    const {searchInput} = this.refs;
     const {onSelect} = this.props;
     onSelect(index, sectionName);
-    (searchInput as HTMLInputElement).blur();
+    this.searchInput.blur();
   }
 
   setupSections(children) {
@@ -259,24 +265,20 @@ export class AutoComplete extends Component<IAutoCompleteProps, IAutoCompleteSta
 
   render() {
     const {hasFocus, sections} = this.state;
-    const {placeholder} = this.props;
+    const {placeholder, label} = this.props;
     const showMenu = !!sections.length && hasFocus;
 
     return (
       <div className="form-autocomplete">
-        <div className={classNames('form-autocomplete-input', 'form-input', {
-          'is-focused': hasFocus
-        })}>
-          <input className="form-input"
-                 type="text"
-                 ref="searchInput"
-                 onKeyDown={e => e.keyCode === 13 && e.preventDefault()}
-                 onKeyUp={e => this.handleKeyUp(e)}
-                 onFocus={() => this.handleFocus(true)}
-                 onBlur={() => this.handleFocus(false)}
-                 onChange={e => this.handleInputChange(e)}
-                 placeholder={placeholder}/>
-        </div>
+        <TextField type="text"
+                   labels={() => (<Label floated>{label}</Label>)}
+                   inputRef={input => this.searchInput = input}
+                   onKeyDown={e => e.keyCode === 13 && e.preventDefault()}
+                   onKeyUp={e => this.handleKeyUp(e)}
+                   onFocus={() => this.handleFocus(true)}
+                   onBlur={() => this.handleFocus(false)}
+                   onChange={e => this.handleInputChange(e)}
+                   placeholder={placeholder}/>
         <ul className={classNames('menu', showMenu ? 'd-block' : 'd-none')}>
           {sections.map(({name, key, children}, sectionIndex) => (
             <div key={sectionIndex}>

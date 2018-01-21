@@ -7,7 +7,7 @@ import {LastFmAlbum} from "./LastFmAlbum";
 import {LastFmMusicServiceError} from "./LastFmMusicServiceError";
 
 export const MIN_LISTENERS_COUNT = 10;
-export const MAX_SEARCH_RESULT_COUNT = 5;
+export const MAX_SEARCH_RESULT_COUNT = 3;
 
 @Injectable
 export class LastFmHttpService {

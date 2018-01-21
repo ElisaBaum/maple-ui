@@ -1,4 +1,5 @@
 import * as React from 'react';
+import '../layout/tiles.scss';
 
 interface MusicRequestProps {
   id: number;
