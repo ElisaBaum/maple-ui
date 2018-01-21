@@ -1,9 +1,11 @@
 import * as React from 'react';
 import {Logo} from "../layout/components/logo/Logo";
 import {Form} from '../layout/components/form/Form';
-import {FormField} from '../layout/components/form/form-field/FormField';
+import {FormTextField} from '../layout/components/form/form-text-field/FormTextField';
 import {FormButton} from '../layout/components/form/form-button/FormButton';
+import {Card} from '../layout/components/card/Card';
 import './Login.scss';
+import {Item} from '../layout/components/item/Item';
 
 interface LoginProps {
   loading: boolean;
@@ -13,17 +15,22 @@ interface LoginProps {
 export function Login({loading, onSubmit}: LoginProps) {
   return (
     <div className={'login'}>
-      <Logo className={'login-logo'} useHalf={true}/>
-      <Form onSubmit={({isValid, values}) => isValid && onSubmit(values)}
-            loading={loading}>
-        <FormField name="name"
-                   placeholder="Name"
-                   required={'Bitte Name eingeben!'}/>
-        <FormField name="code"
-                   placeholder="Code"
-                   required={'Bitte Code eingeben!'}/>
-        <FormButton>Einloggen</FormButton>
-      </Form>
+      <Card>
+        <div className="title">Login</div>
+        <Logo className={'login-logo'}/>
+        <Form onSubmit={({isValid, values}) => isValid && onSubmit(values)}
+              loading={loading}>
+          <FormTextField name="name"
+                         label="Name"
+                         required={'Bitte Name eingeben!'}/>
+          <FormTextField name="code"
+                         label="Code"
+                         required={'Bitte Code eingeben!'}/>
+          <Item>
+            <FormButton>Einloggen</FormButton>
+          </Item>
+        </Form>
+      </Card>
     </div>
   );
 }

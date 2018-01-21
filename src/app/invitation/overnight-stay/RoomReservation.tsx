@@ -2,11 +2,12 @@ import * as React from 'react';
 import {ContentComponentProps} from "../../dynamic-content/ContentContainer";
 import {RoomReservationData} from "./RoomReservationData";
 import {HotelRoom} from "./HotelRoom";
-import {Paragraph} from "../../layout/components/content/Paragraph";
-import {FormGroup} from "../../layout/components/form/FormGroup";
 import {FormRadioButton} from "../../layout/components/form/form-radiobutton/FormRadioButton";
 import {Form} from "../../layout/components/form/Form";
 import {FormButton} from "../../layout/components/form/form-button/FormButton";
+import {Card} from "../../layout/components/card/Card";
+import {Item} from "../../layout/components/item/Item";
+import {Headline} from "../../layout/components/headline/Headline";
 
 const formatter = new Intl.NumberFormat('de-DE', {
   style: 'currency',
@@ -28,41 +29,46 @@ export function RoomReservation(props: RoomReservationProps) {
 
   return (
     <div>
-      <Paragraph>
-        {description}
-      </Paragraph>
-      <Paragraph>
+      <Card>
+        <Item>
+          {description}
+        </Item>
+      </Card>
+      <Card>
+        <Headline text={content.hotelRooms.title} icon="local_hotel"/>
         {
           hotelRooms &&
-            <FormGroup name={content.hotelRooms.title}>
-              {
-                hotelRooms.map((room: HotelRoom) => (
-                  <FormRadioButton key={room.id}
-                                   label={`${room.description} ${formatter.format(room.price)}`}
-                                   name="hotelRooms"
-                                   onChange={({value}) => value && updateRoomReservation(room)}
-                                   value={!!reservedHotelRoom && reservedHotelRoom.id === room.id}/>
-                  )
-                )
-              }
-            </FormGroup>
+          hotelRooms.map((room: HotelRoom) => (
+              <FormRadioButton key={room.id}
+                               label={`${room.description} ${formatter.format(room.price)}`}
+                               name="hotelRooms"
+                               onChange={({value}) => value && updateRoomReservation(room)}
+                               value={!!reservedHotelRoom && reservedHotelRoom.id === room.id}/>
+            )
+          )
         }
-        {content.hotelRooms.priceHint}
+        <Item>
+          {content.hotelRooms.priceHint}
+        </Item>
         {
           reservedHotelRoom &&
           <Form loading={loading} onSubmit={() => deleteRoomReservation()}>
-            <FormButton>{deleteText}</FormButton>
+            <Item>
+              <FormButton>{deleteText}</FormButton>
+            </Item>
           </Form>
         }
-      </Paragraph>
-      <Paragraph>
-        <div>{content.hotelRooms.checkIn}</div>
-        <div>{content.hotelRooms.checkOut}</div>
-        <div>{content.hotelRooms.breakfast}</div>
-      </Paragraph>
-      <Paragraph>
-        {hint}
-      </Paragraph>
+        <Item>
+          <div>{content.hotelRooms.checkIn}</div>
+          <div>{content.hotelRooms.checkOut}</div>
+          <div>{content.hotelRooms.breakfast}</div>
+        </Item>
+      </Card>
+      <Card>
+        <Item>
+          {hint}
+        </Item>
+      </Card>
     </div>
   );
 }

@@ -1,0 +1,43 @@
+@import "../../../constants";
+@import "../../../mixins/common";
+
+.form-radio-button {
+  @include form-radio-checkbox();
+  padding-left: 2.5rem;
+
+  .form-icon {
+    background: rgba(0, 0, 0, 0.2);
+    background-clip: padding-box;
+    border-radius: 0.7rem;
+    height: 1.3rem;
+    top: 0.71rem;
+    width: 1.3rem;
+    &::before {
+      @include control-transition();
+    }
+  }
+
+  input {
+    &:checked + .form-icon {
+      background: $primary-color;
+      border-color: $primary-color;
+      &::before {
+        box-shadow: 0 0 0.1rem 0 rgba(0, 0, 0, 0.25), 0 0.1rem 0.05rem rgba(0, 0, 0, 0.25);
+        background: #fff;
+        border-radius: 50%;
+        content: "";
+        display: block;
+        left: .4rem;
+        position: absolute;
+        height: 0.5rem;
+        top: .4rem;
+        width: 0.5rem;
+      }
+    }
+    &:active + .form-icon {
+      &::before {
+        background: $bg-color;
+      }
+    }
+  }
+}

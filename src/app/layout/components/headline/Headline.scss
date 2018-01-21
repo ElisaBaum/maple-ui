@@ -1,0 +1,17 @@
+@import "../../constants";
+
+.headline {
+  padding: $padding-default $padding-default 0 $padding-default;
+  color: $primary-color;
+
+  & + .item {
+    padding-top: 0.1rem;
+  }
+
+  & i {
+    font-size: $font-size-default;
+    top: 0.1rem;
+    margin-right: 0.3rem;
+    position: relative;
+  }
+}

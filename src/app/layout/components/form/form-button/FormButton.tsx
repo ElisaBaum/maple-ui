@@ -11,7 +11,7 @@ interface FormButtonProps {
 export function FormButton({children}: FormButtonProps,
                            {loading}: FormContext) {
   return (
-    <Button htmlType={'submit'} loading={loading}>
+    <Button htmlType={'submit'} loading={loading} className={'btn-block'}>
       {children}
     </Button>
   );
