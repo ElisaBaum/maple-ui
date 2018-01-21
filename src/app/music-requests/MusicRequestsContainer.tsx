@@ -3,35 +3,186 @@ import {Component} from "react";
 import {ContentContainer} from "../dynamic-content/ContentContainer";
 import {MusicRequests} from "./MusicRequests";
 import {MusicRequestsData} from "./MusicRequestsData";
-import {Song} from "./Song";
-import {Album} from "./Album";
-import {Artist} from "./Artist";
+import {LastFmSong} from "./last-fm/LastFmSong";
+import {LastFmAlbum} from "./last-fm/LastFmAlbum";
+import {LastFmArtist} from "./last-fm/LastFmArtist";
+import {Inject, Module} from "react.di";
+import {MusicRequestsHttpService} from "./MusicRequestsHttpService";
+import {RequestedArtist} from "./RequestedArtist";
+import {RequestedAlbum} from "./RequestedAlbum";
+import {RequestedSong} from "./RequestedSong";
+import {LastFmMusicImage} from "./last-fm/LastFmMusicImage";
+import {toast} from "react-toastify";
 
-export class MusicRequestsContainer extends Component {
+interface MusicRequestsContainerState {
+  action?: Promise<any>;
+  requestedArtists: RequestedArtist[];
+  requestedAlbums: RequestedAlbum[];
+  requestedSongs: RequestedSong[];
+  loading: boolean;
+}
+
+@Module({
+  providers: [
+    MusicRequestsHttpService
+  ]
+})
+export class MusicRequestsContainer extends Component<{}, MusicRequestsContainerState> {
+
+  @Inject musicRequestsHttpService: MusicRequestsHttpService;
 
   constructor(props) {
     super(props);
+    this.state = {
+      requestedArtists: [],
+      requestedAlbums: [],
+      requestedSongs: [],
+      loading: false
+    };
   }
 
-  addSelectedArtist(artist: Artist) {
-    // TODO: implement me!
+  async componentWillMount() {
+    this.setState({
+      action: Promise.all([
+        this.loadRequestedArtists(),
+        this.loadRequestedAlbums(),
+        this.loadRequestedSongs()
+      ])
+    });
   }
 
-  addSelectedAlbum(album: Album) {
-    // TODO: implement me!
+  async loadRequestedArtists() {
+    const requestedArtists = await this.musicRequestsHttpService.getRequestedArtists();
+    this.setState({requestedArtists});
   }
 
-  addSelectedSong(song: Song) {
-    // TODO: implement me!
+  async loadRequestedAlbums() {
+    const requestedAlbums = await this.musicRequestsHttpService.getRequestedAlbums();
+    this.setState({requestedAlbums});
+  }
+
+  async loadRequestedSongs() {
+    const requestedSongs = await this.musicRequestsHttpService.getRequestedSongs();
+    this.setState({requestedSongs});
+  }
+
+  async addSelectedArtist(artist: LastFmArtist) {
+    this.processAction(async () => {
+      if (!this.state.requestedArtists.some(currentArtist => currentArtist.url === artist.url)) {
+        const requestedArtist = await this.musicRequestsHttpService.addRequestedArtist(
+          this.getRequestedArtist(artist)
+        );
+
+        this.setState(prevState => ({
+          requestedArtists: [...prevState.requestedArtists, requestedArtist]
+        }));
+      }
+    });
+  }
+
+
+  async addSelectedAlbum(album: LastFmAlbum) {
+    this.processAction(async () => {
+      if (!this.state.requestedAlbums.some(currentAlbum => currentAlbum.url === album.url)) {
+        const requestedAlbum = await this.musicRequestsHttpService.addRequestedAlbum({
+          name: album.name,
+          url: album.url,
+          imageUrl: this.getImageUrl(album.image),
+          artist: album.artistInfo && this.getRequestedArtist(album.artistInfo)
+        });
+
+        this.setState(prevState => ({
+          requestedAlbums: [...prevState.requestedAlbums, requestedAlbum]
+        }));
+      }
+    });
+  }
+
+  async addSelectedSong(song: LastFmSong) {
+    this.processAction(async () => {
+      if (!this.state.requestedSongs.some(currentSong => currentSong.url === song.url)) {
+        const requestedSong = await this.musicRequestsHttpService.addRequestedSong({
+          name: song.name,
+          url: song.url,
+          artist: song.artistInfo && this.getRequestedArtist(song.artistInfo)
+        });
+
+        this.setState(prevState => ({
+          requestedSongs: [...prevState.requestedSongs, requestedSong]
+        }));
+      }
+    });
+  }
+
+  async deleteRequestedArtist(artistId: number) {
+    this.processAction(async () => {
+      await this.musicRequestsHttpService.deleteRequestedArtist(artistId);
+      this.setState(prevState => ({
+        requestedArtists: prevState.requestedArtists.filter(artist => artist.id !== artistId)
+      }));
+    });
+  }
+
+  async deleteRequestedAlbum(albumId: number) {
+    this.processAction(async () => {
+      await this.musicRequestsHttpService.deleteRequestedAlbum(albumId);
+      this.setState(prevState => ({
+        requestedAlbums: prevState.requestedAlbums.filter(album => album.id !== albumId)
+      }));
+    });
+  }
+
+  async deleteRequestedSong(songId: number) {
+    this.processAction(async () => {
+      await this.musicRequestsHttpService.deleteRequestedSong(songId);
+      this.setState(prevState => ({
+        requestedSongs: prevState.requestedSongs.filter(song => song.id !== songId)
+      }));
+    });
+  }
+
+  async processAction(action: () => Promise<void>) {
+    this.setState({loading: true});
+    try {
+      await action();
+      toast.dismiss();
+    } catch (e) {
+      toast.error(<p>Es ist ein Fehler aufgetreten. Bitte versuche es erneut.</p>);
+    } finally {
+      this.setState({loading: false});
+    }
+  }
+
+  getRequestedArtist(artist: LastFmArtist) {
+    return artist && {
+      name: artist.name,
+      url: artist.url,
+      imageUrl: this.getImageUrl(artist.image)
+    };
+  }
+
+  getImageUrl(images: LastFmMusicImage[]) {
+    if (images) {
+      const image = images.find(currentImage => currentImage.size === 'large');
+      return (image && image["#text"]) || images[images.length - 1]["#text"];
+    }
   }
 
   render() {
+    const {action, requestedArtists, requestedAlbums, requestedSongs, loading} = this.state;
     return (
-      <ContentContainer contentKey={'music-requests'} render={(content: MusicRequestsData) => (
+      <ContentContainer contentKey={'music-requests'} action={action} render={(content: MusicRequestsData) => (
         <MusicRequests content={content}
+                       loading={loading}
+                       requestedArtists={requestedArtists}
+                       requestedAlbums={requestedAlbums}
+                       requestedSongs={requestedSongs}
                        onArtistSelect={(artist) => this.addSelectedArtist(artist)}
                        onAlbumSelect={(album) => this.addSelectedAlbum(album)}
-                       onSongSelect={(song) => this.addSelectedSong(song)}/>
+                       onSongSelect={(song) => this.addSelectedSong(song)}
+                       onArtistDelete={(artistId) => this.deleteRequestedArtist(artistId)}
+                       onAlbumDelete={(albumId) => this.deleteRequestedAlbum(albumId)}
+                       onSongDelete={(songId) => this.deleteRequestedSong(songId)}/>
       )}/>
     );
   }

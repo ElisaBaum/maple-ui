@@ -1,31 +1,34 @@
 import * as React from 'react';
 import {Component} from "react";
 import {AutoComplete} from "../layout/components/auto-complete/AutoComplete";
-import {LastFmHttpService} from "./LastFmHttpService";
+import {LastFmHttpService} from "./last-fm/LastFmHttpService";
 import {Inject, Module} from "react.di";
-import {MusicServiceError} from "./MusicServiceError";
+import {LastFmMusicServiceError} from "./last-fm/LastFmMusicServiceError";
 import {toast} from "react-toastify";
-import {Artist} from "./Artist";
-import {Album} from "./Album";
-import {Song} from "./Song";
+import {LastFmArtist} from "./last-fm/LastFmArtist";
+import {LastFmAlbum} from "./last-fm/LastFmAlbum";
+import {LastFmSong} from "./last-fm/LastFmSong";
 import {AutoCompleteResultSection} from "../layout/components/auto-complete-result-section/AutoCompleteResultSection";
 
 interface MusicAutoCompleteProps {
   apiKey: string;
-  onArtistSelect(artist: Artist);
-  onAlbumSelect(album: Album);
-  onSongSelect(song: Song);
+
+  onArtistSelect(artist: LastFmArtist);
+
+  onAlbumSelect(album: LastFmAlbum);
+
+  onSongSelect(song: LastFmSong);
 }
 
 interface MusicAutoCompleteState {
-  artists: Artist[];
-  albums: Album[];
-  songs: Song[];
+  artists: LastFmArtist[];
+  albums: LastFmAlbum[];
+  songs: LastFmSong[];
 }
 
 @Module({
   providers: [
-    LastFmHttpService,
+    LastFmHttpService
   ]
 })
 export class MusicAutoCompleteContainer extends Component<MusicAutoCompleteProps, MusicAutoCompleteState> {
@@ -51,7 +54,7 @@ export class MusicAutoCompleteContainer extends Component<MusicAutoCompleteProps
   cancelAlbumsSearch = () => null;
   cancelSongsSearch = () => null;
 
-  async searchForArtist(searchTerm: string) {
+  async onSearch(searchTerm: string) {
     const {apiKey} = this.props;
     try {
       const [artists, songs, albums] = await Promise.all([
@@ -62,21 +65,34 @@ export class MusicAutoCompleteContainer extends Component<MusicAutoCompleteProps
       this.setState({artists, albums, songs});
       toast.dismiss();
     } catch (e) {
-      const errorCode = e instanceof MusicServiceError ? (e as MusicServiceError).errorCode : undefined;
-      const errorMessage = `Es ist ein Fehler aufgetreten${errorCode ? ` (Code: ${errorCode})` : ''}. Bitte versuche es erneut.`;
-      toast.error(<p>{errorMessage}</p>);
+      if (!e.__CANCEL__) {
+        this.handleRequestError(e);
+      }
     }
   }
 
-  onSelect(index: number, sectionKey?: string) {
+  async onSelect(index: number, sectionKey?: string) {
     if (sectionKey) {
       const {onArtistSelect, onAlbumSelect, onSongSelect} = this.props;
-      const listenerMap = {
-        artists: onArtistSelect,
-        albums: onAlbumSelect,
-        songs: onSongSelect,
-      };
-      listenerMap[sectionKey](this.state[sectionKey][index]);
+      try {
+        if (sectionKey === 'albums') {
+          const selectedAlbum = this.state.albums[index];
+          const artistInfo = await this.getArtistInfo(selectedAlbum.artist);
+          selectedAlbum.artistInfo = {...artistInfo.artist};
+          onAlbumSelect(selectedAlbum);
+        } else if (sectionKey === 'songs') {
+          const selectedSong = this.state.songs[index];
+          const artistInfo = await this.getArtistInfo(selectedSong.artist);
+          selectedSong.artistInfo = {...artistInfo.artist};
+          onSongSelect(selectedSong);
+        } else {
+          onArtistSelect(this.state.artists[index]);
+        }
+      } catch (e) {
+        if (!e.__CANCEL__) {
+          this.handleRequestError(e);
+        }
+      }
     }
   }
 
@@ -88,11 +104,23 @@ export class MusicAutoCompleteContainer extends Component<MusicAutoCompleteProps
     });
   }
 
+  async getArtistInfo(artistName: string) {
+    const artistInfo = await this.lastFmService.getArtistInfo(artistName, this.props.apiKey);
+    toast.dismiss();
+    return artistInfo;
+  }
+
+  handleRequestError(e) {
+    const errorCode = e instanceof LastFmMusicServiceError ? (e as LastFmMusicServiceError).errorCode : undefined;
+    const errorMessage = `Es ist ein Fehler aufgetreten${errorCode ? ` (Code: ${errorCode})` : ''}. Bitte versuche es erneut.`;
+    toast.error(<p>{errorMessage}</p>);
+  }
+
   render() {
     const {artists, albums, songs} = this.state;
     return (
       <AutoComplete placeholder="Künstler, Album oder Lied"
-                    onSearch={(searchTerm) => this.searchForArtist(searchTerm)}
+                    onSearch={(searchTerm) => this.onSearch(searchTerm)}
                     onSelect={(index, sectionKey) => this.onSelect(index, sectionKey)}
                     cancelPreviousSearch={() => this.cancelSearches()}
                     onClear={() => this.onClear()}>
