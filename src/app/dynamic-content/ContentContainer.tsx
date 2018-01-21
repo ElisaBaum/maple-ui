@@ -57,7 +57,7 @@ export class ContentContainer<T extends ContentData> extends Component<ContentCo
 
     if (content) {
       return (
-        <Content headline={content.headline} headlineIcon={content.headlineIcon}>
+        <Content header={content.header}>
           {Component
             ? <Component content={content}/>
             : (render && render(content))
