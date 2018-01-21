@@ -42,24 +42,12 @@ export class FormTextField extends FormInput<FormTextFieldProps, FormInputState>
     const floatLabel = !!value;
     const showLabel = !hasErrors || (!value || !hasErrors);
     const errorMessageElements = this.renderErrorMessages();
-    // return (
-    //   <div className={classnames('form-text-field', 'form-group', hasIconCss, {'has-error': hasErrors})}>
-    //     <label className={'form-text-field'}>
-    //       {label}
-    //       <input className="form-input"
-    //              type={type || 'text'}
-    //              name={name}
-    //              value={value}
-    //              onChange={e => this.handleChange(e)}
-    //              placeholder={placeholder}/>
-    //     </label>
-    //     {iconElement}
-    //     {errorMessageElements}
-    //   </div>
-    // );
     return (
       <label className={'form-text-field'}>
-        {showLabel && <span className={classnames('form-label', {floated: floatLabel})}>{label}</span>}
+        {
+          showLabel &&
+          <span className={classnames('form-label', {floated: floatLabel})}>{label}</span>
+        }
         <span className={classnames('form-label', 'floated', 'form-error')}>{errorMessageElements}</span>
         <input type={type || 'text'}
                name={name}

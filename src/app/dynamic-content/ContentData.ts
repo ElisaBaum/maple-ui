@@ -1,6 +1,8 @@
 export interface ContentData {
 
-  headline: string;
-  headlineIcon: string;
+  header: {
+    title: string;
+    image: string;
+  };
 
 }

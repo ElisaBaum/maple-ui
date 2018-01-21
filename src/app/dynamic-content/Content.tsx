@@ -1,20 +1,21 @@
 import * as React from 'react';
-import * as headerImg from './IMG_9247.jpg';
 import './Content.scss';
 
 interface ContentProps {
-  headline: string;
-  headlineIcon: string;
+  header: {
+    title: string;
+    image: string;
+  };
   children: any;
 }
 
-export function Content({headline, headlineIcon, children}: ContentProps) {
+export function Content({header, children}: ContentProps) {
   return (
     <div className={'content'}>
       <div className={'header'}>
-        <img className={'header-img'} src={headerImg} />
+        <img className={'header-img'} src={header.image} />
         <div className={'header-text'}>
-          Bist du dabei?
+          {header.title}
         </div>
       </div>
       <div className={'content-content'}>
