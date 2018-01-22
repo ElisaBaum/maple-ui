@@ -9,6 +9,7 @@ import {LastFmArtist} from "./last-fm/LastFmArtist";
 import {LastFmAlbum} from "./last-fm/LastFmAlbum";
 import {LastFmSong} from "./last-fm/LastFmSong";
 import {AutoCompleteResultSection} from "../layout/components/auto-complete-result-section/AutoCompleteResultSection";
+import {Tile, TileAvatar, TileContent, TileIcon} from '../layout/components/tile/Tile';
 
 interface MusicAutoCompleteProps {
   apiKey: string;
@@ -128,21 +129,36 @@ export class MusicAutoCompleteContainer extends Component<MusicAutoCompleteProps
         {
           artists.length &&
           <AutoCompleteResultSection sectionName="Künstler" sectionKey="artists">
-            {artists.map(({name}, index) => (<div key={index} className="data">{name}</div>))}
+            {artists.map(({name, image: [_, __, imageUrl]}, index) => (
+              <Tile centered key={index}>
+                <TileAvatar imageUrl={imageUrl['#text']}/>
+                <TileContent title={name}/>
+              </Tile>
+            ))}
           </AutoCompleteResultSection>
         }
 
         {
           songs.length &&
           <AutoCompleteResultSection sectionName="Lieder" sectionKey="songs">
-            {songs.map(({name}, index) => (<div key={index} className="data">{name}</div>))}
+            {songs.map(({name, artist}, index) => (
+              <Tile key={index}>
+                <TileIcon icon={'library_music'}/>
+                <TileContent title={name} subtitle={artist}/>
+              </Tile>
+            ))}
           </AutoCompleteResultSection>
         }
 
         {
           albums.length &&
           <AutoCompleteResultSection sectionName="Alben" sectionKey="albums">
-            {albums.map(({name}, index) => (<div key={index} className="data">{name}</div>))}
+            {albums.map(({name, image: [_, __, imageUrl], artist}, index) => (
+              <Tile centered key={index}>
+                <TileAvatar imageUrl={imageUrl['#text']}/>
+                <TileContent title={name} subtitle={artist}/>
+              </Tile>
+            ))}
           </AutoCompleteResultSection>
         }
 

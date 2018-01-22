@@ -45,21 +45,21 @@ export function MusicRequests(props: MusicRequestsProps) {
         </Item>
       </Card>
       <Card>
-        <Headline text={'Suche'}/>
+        <Headline text={'Suche'} className={'pb-0'}/>
         <MusicAutoCompleteContainer apiKey={lastFmApiKey}
                                     onArtistSelect={onArtistSelect}
                                     onAlbumSelect={onAlbumSelect}
                                     onSongSelect={onSongSelect}/>
-
+      </Card>
+      <Card>
         {
           !!requestedArtists.length &&
           <div>
             <Headline text={'Künstler'}/>
             {
               requestedArtists.map(artist => (
-                <Item>
-                  <MusicRequest key={artist.id}
-                                id={artist.id}
+                <Item key={artist.id} className={'pr-0'}>
+                  <MusicRequest id={artist.id}
                                 title={artist.name}
                                 imageUrl={artist.imageUrl}
                                 deleteFn={onArtistDelete}/>
@@ -75,9 +75,8 @@ export function MusicRequests(props: MusicRequestsProps) {
             <Headline text={'Lieder'}/>
             {
               requestedSongs.map(song => (
-                <Item>
-                  <MusicRequest key={song.id}
-                                id={song.id}
+                <Item key={song.id} className={'pr-0'}>
+                  <MusicRequest id={song.id}
                                 title={song.name}
                                 subtitle={song.artist.name}
                                 deleteFn={onSongDelete}/>
@@ -93,9 +92,8 @@ export function MusicRequests(props: MusicRequestsProps) {
             <Headline text={'Alben'}/>
             {
               requestedAlbums.map(album => (
-                <Item>
-                  <MusicRequest key={album.id}
-                                id={album.id}
+                <Item key={album.id} className={'pr-0'}>
+                  <MusicRequest id={album.id}
                                 title={album.name}
                                 subtitle={album.artist.name}
                                 imageUrl={album.imageUrl}

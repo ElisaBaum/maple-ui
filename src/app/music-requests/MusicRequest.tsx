@@ -1,41 +1,29 @@
 import * as React from 'react';
-import '../layout/tiles.scss';
+import {Tile, TileAction, TileAvatar, TileContent, TileIcon} from '../layout/components/tile/Tile';
 
 interface MusicRequestProps {
   id: number;
   title: string;
   subtitle?: string;
   imageUrl?: string;
+
   deleteFn(id);
 }
 
 export function MusicRequest({id, title, subtitle, imageUrl, deleteFn}: MusicRequestProps) {
-  const iconStyle = {
-    height: '40px'
-  };
   return (
-    <div className="tile tile-centered">
-      <div className="tile-icon">
-          {
-            imageUrl ?
-              <img className="centered" src={imageUrl} style={iconStyle}/> :
-              <i className="centered material-icons">library_music</i>
-          }
-      </div>
-      <div className="tile-content">
-        <div className="tile-title">{title}</div>
-
-        {
-          subtitle &&
-          <div className="tile-subtitle text-gray">{subtitle}</div>
-        }
-
-      </div>
-      <div className="tile-action">
+    <Tile centered>
+      {
+        imageUrl ?
+          <TileAvatar imageUrl={imageUrl}/> :
+          <TileIcon icon={'library_music'}/>
+      }
+      <TileContent title={title} subtitle={subtitle}/>
+      <TileAction>
         <button type="button" className="btn btn-link" onClick={() => deleteFn(id)}>
-          <i className="material-icons">delete_forever</i>
+          <i className="material-icons">clear</i>
         </button>
-      </div>
-    </div>
+      </TileAction>
+    </Tile>
   );
 }
