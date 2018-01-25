@@ -26,7 +26,7 @@ export function TileIcon({icon}) {
 export function TileAvatar({imageUrl}) {
   return (
     <div className="tile-icon">
-      <img className="centered" src={imageUrl} style={{height: '40px'}}/>
+      <img className="title-avatar centered" src={imageUrl} style={{height: '40px'}}/>
     </div>
   );
 }
@@ -42,7 +42,7 @@ export function TileContent({title, subtitle, children}: TileContentProps) {
   return (
     <div className="tile-content">
       {title && <div className="tile-title">{title}</div>}
-      {subtitle && <div className="tile-subtitle text-gray">{subtitle}</div>}
+      {subtitle && <div className="tile-subtitle">{subtitle}</div>}
       {children}
     </div>
   );

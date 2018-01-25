@@ -45,7 +45,6 @@ export function MusicRequests(props: MusicRequestsProps) {
         </Item>
       </Card>
       <Card>
-        <Headline text={'Suche'} className={'pb-0'}/>
         <MusicAutoCompleteContainer apiKey={lastFmApiKey}
                                     onArtistSelect={onArtistSelect}
                                     onAlbumSelect={onAlbumSelect}
@@ -66,6 +65,9 @@ export function MusicRequests(props: MusicRequestsProps) {
                 </Item>
               ))
             }
+            <Item>
+
+            </Item>
           </div>
         }
 

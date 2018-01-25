@@ -43,7 +43,7 @@ export class FormTextField extends FormInput<FormTextFieldProps, FormInputState>
     const showLabel = !hasErrors || (!value || !hasErrors);
     const errorMessageElements = this.renderErrorMessages();
     return (
-      <TextField labels={() => (
+      <TextField item labels={() => (
         <span>
           {showLabel && <Label floated={floatLabel}>{label}</Label>}
           <Label floated error>{errorMessageElements}</Label>

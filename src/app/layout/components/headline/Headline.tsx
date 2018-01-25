@@ -10,12 +10,12 @@ interface HeadlineProps {
 
 export function Headline({text, icon, className}: HeadlineProps) {
   return (
-    <div className={classnames('headline', className)}>
+    <h3 className={classnames('headline', className)}>
       {
         icon &&
         <i className="material-icons">{icon}</i>
       }
       {text}
-    </div>
+    </h3>
   );
 }

@@ -13,18 +13,25 @@
     .menu-item > a {
       &.is-focused {
         color: $primary-color;
-        box-shadow: 0 0 0 0.2rem rgba(87, 100, 198, .15);
+        box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, .15);
+        background: rgba(255, 255, 255, 0.8);
       }
     }
+  }
 
+  .autocomplete-divider {
+    padding: 0.7rem;
+    font-weight: 400;
+    border-bottom: .05rem solid #ffffff38;
+    margin: 0;
   }
 }
 
 // Menus
 .menu {
   @include shadow-variant(.05rem);
-  background: $bg-color-light;
-  border-radius: $border-radius;
+  background: $main-bg;
+  color: white;
   list-style: none;
   margin: 0;
   min-width: $control-width-xs;

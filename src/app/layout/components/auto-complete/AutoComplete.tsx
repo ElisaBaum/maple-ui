@@ -5,7 +5,6 @@ import {
   AutoCompleteResultSection,
   IAutoCompleteResultSection
 } from "../auto-complete-result-section/AutoCompleteResultSection";
-import {Divider} from "../divider/Divider";
 import {TextField} from '../controls/text-field/TextField';
 import './AutoComplete.scss';
 import {Label} from '../controls/label/Label';
@@ -28,7 +27,7 @@ interface IAutoCompleteProps {
   label?: string;
   delay?: number;
   children: any[];
-
+  loading?: boolean;
   cancelPreviousSearch();
 
   onSearch(searchTerm: string);
@@ -265,12 +264,14 @@ export class AutoComplete extends Component<IAutoCompleteProps, IAutoCompleteSta
 
   render() {
     const {hasFocus, sections} = this.state;
-    const {placeholder, label} = this.props;
+    const {placeholder, label, loading} = this.props;
     const showMenu = !!sections.length && hasFocus;
 
     return (
       <div className="form-autocomplete">
         <TextField type="text"
+                   icon="search"
+                   loading={loading}
                    labels={() => (<Label floated>{label}</Label>)}
                    inputRef={input => this.searchInput = input}
                    onKeyDown={e => e.keyCode === 13 && e.preventDefault()}
@@ -282,7 +283,7 @@ export class AutoComplete extends Component<IAutoCompleteProps, IAutoCompleteSta
         <ul className={classNames('menu', showMenu ? 'd-block' : 'd-none')}>
           {sections.map(({name, key, children}, sectionIndex) => (
             <div key={sectionIndex}>
-              {name && (<Divider text={name}/>)}
+              {name && (<h3 className={'autocomplete-divider'}>{name}</h3>)}
               {React.Children.map(children, (child, childIndex) => (
                 <li className="menu-item" key={childIndex}>
                   <a href="#"

@@ -25,6 +25,7 @@ interface MusicAutoCompleteState {
   artists: LastFmArtist[];
   albums: LastFmAlbum[];
   songs: LastFmSong[];
+  loading?: boolean;
 }
 
 @Module({
@@ -57,6 +58,7 @@ export class MusicAutoCompleteContainer extends Component<MusicAutoCompleteProps
 
   async onSearch(searchTerm: string) {
     const {apiKey} = this.props;
+    this.setState({loading: true});
     try {
       const [artists, songs, albums] = await Promise.all([
         this.lastFmService.searchArtists(searchTerm, apiKey, cancel => this.cancelArtistsSearch = cancel),
@@ -69,6 +71,8 @@ export class MusicAutoCompleteContainer extends Component<MusicAutoCompleteProps
       if (!e.__CANCEL__) {
         this.handleRequestError(e);
       }
+    } finally {
+      this.setState({loading: false});
     }
   }
 
@@ -118,9 +122,10 @@ export class MusicAutoCompleteContainer extends Component<MusicAutoCompleteProps
   }
 
   render() {
-    const {artists, albums, songs} = this.state;
+    const {artists, albums, songs, loading} = this.state;
     return (
       <AutoComplete placeholder="Künstler, Album oder Lied"
+                    loading={loading}
                     onSearch={(searchTerm) => this.onSearch(searchTerm)}
                     onSelect={(index, sectionKey) => this.onSelect(index, sectionKey)}
                     cancelPreviousSearch={() => this.cancelSearches()}

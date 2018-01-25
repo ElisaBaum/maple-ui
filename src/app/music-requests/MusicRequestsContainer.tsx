@@ -115,29 +115,29 @@ export class MusicRequestsContainer extends Component<{}, MusicRequestsContainer
   }
 
   async deleteRequestedArtist(artistId: number) {
+    this.setState(prevState => ({
+      requestedArtists: prevState.requestedArtists.filter(artist => artist.id !== artistId)
+    }));
     this.processAction(async () => {
       await this.musicRequestsHttpService.deleteRequestedArtist(artistId);
-      this.setState(prevState => ({
-        requestedArtists: prevState.requestedArtists.filter(artist => artist.id !== artistId)
-      }));
     });
   }
 
   async deleteRequestedAlbum(albumId: number) {
+    this.setState(prevState => ({
+      requestedAlbums: prevState.requestedAlbums.filter(album => album.id !== albumId)
+    }));
     this.processAction(async () => {
       await this.musicRequestsHttpService.deleteRequestedAlbum(albumId);
-      this.setState(prevState => ({
-        requestedAlbums: prevState.requestedAlbums.filter(album => album.id !== albumId)
-      }));
     });
   }
 
   async deleteRequestedSong(songId: number) {
+    this.setState(prevState => ({
+      requestedSongs: prevState.requestedSongs.filter(song => song.id !== songId)
+    }));
     this.processAction(async () => {
       await this.musicRequestsHttpService.deleteRequestedSong(songId);
-      this.setState(prevState => ({
-        requestedSongs: prevState.requestedSongs.filter(song => song.id !== songId)
-      }));
     });
   }
 
