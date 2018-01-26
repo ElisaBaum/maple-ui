@@ -12,9 +12,12 @@ import {MusicRequest} from "./MusicRequest";
 import {Item} from '../layout/components/item/Item';
 import {Card} from '../layout/components/card/Card';
 import {Headline} from '../layout/components/headline/Headline';
+import {MusicRequestLoading} from './MusicRequestLoading/MusicRequestLoading';
 
 interface MusicRequestsProps extends ContentComponentProps<MusicRequestsData> {
-  loading: boolean;
+  loadingArtist?: boolean;
+  loadingAlbum?: boolean;
+  loadingSong?: boolean;
   requestedArtists: RequestedArtist[];
   requestedAlbums: RequestedAlbum[];
   requestedSongs: RequestedSong[];
@@ -34,7 +37,7 @@ interface MusicRequestsProps extends ContentComponentProps<MusicRequestsData> {
 
 export function MusicRequests(props: MusicRequestsProps) {
   const {onArtistSelect, onAlbumSelect, onSongSelect, onArtistDelete, onAlbumDelete, onSongDelete} = props;
-  const {requestedArtists, requestedSongs, requestedAlbums} = props;
+  const {requestedArtists, requestedSongs, requestedAlbums, loadingArtist, loadingAlbum, loadingSong} = props;
   const {description, hint, lastFmApiKey} = props.content;
 
   return (
@@ -65,9 +68,12 @@ export function MusicRequests(props: MusicRequestsProps) {
                 </Item>
               ))
             }
-            <Item>
-
-            </Item>
+            {
+              loadingArtist
+              && <Item>
+                <MusicRequestLoading/>
+              </Item>
+            }
           </div>
         }
 
@@ -84,6 +90,12 @@ export function MusicRequests(props: MusicRequestsProps) {
                                 deleteFn={onSongDelete}/>
                 </Item>
               ))
+            }
+            {
+              loadingSong
+              && <Item>
+                <MusicRequestLoading hasSubtitle={true}/>
+              </Item>
             }
           </div>
         }
@@ -102,6 +114,12 @@ export function MusicRequests(props: MusicRequestsProps) {
                                 deleteFn={onAlbumDelete}/>
                 </Item>
               ))
+            }
+            {
+              loadingAlbum
+              && <Item>
+                <MusicRequestLoading hasSubtitle={true}/>
+              </Item>
             }
           </div>
         }

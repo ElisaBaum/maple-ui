@@ -5,11 +5,20 @@ import './tile.scss';
 interface TileProps {
   children: any | any[];
   centered?: boolean;
+  className?: string;
 }
 
-export function Tile({centered, children}: TileProps) {
+export function Tile({centered, children, className}: TileProps) {
   return (
-    <div className={classnames('tile', {'tile-centered': centered})}>
+    <div className={classnames('tile', {'tile-centered': centered}, className)}>
+      {children}
+    </div>
+  );
+}
+
+export function TileIconWrapper({children}) {
+  return (
+    <div className="tile-icon">
       {children}
     </div>
   );
@@ -17,17 +26,17 @@ export function Tile({centered, children}: TileProps) {
 
 export function TileIcon({icon}) {
   return (
-    <div className="tile-icon">
+    <TileIconWrapper>
       <i className="centered material-icons">{icon}</i>
-    </div>
+    </TileIconWrapper>
   );
 }
 
 export function TileAvatar({imageUrl}) {
   return (
-    <div className="tile-icon">
+    <TileIconWrapper>
       <img className="title-avatar centered" src={imageUrl} style={{height: '40px'}}/>
-    </div>
+    </TileIconWrapper>
   );
 }
 

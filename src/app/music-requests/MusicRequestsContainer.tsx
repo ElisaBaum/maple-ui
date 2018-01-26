@@ -19,7 +19,9 @@ interface MusicRequestsContainerState {
   requestedArtists: RequestedArtist[];
   requestedAlbums: RequestedAlbum[];
   requestedSongs: RequestedSong[];
-  loading: boolean;
+  loadingArtist?: boolean;
+  loadingSong?: boolean;
+  loadingAlbum?: boolean;
 }
 
 @Module({
@@ -37,7 +39,6 @@ export class MusicRequestsContainer extends Component<{}, MusicRequestsContainer
       requestedArtists: [],
       requestedAlbums: [],
       requestedSongs: [],
-      loading: false
     };
   }
 
@@ -67,22 +68,23 @@ export class MusicRequestsContainer extends Component<{}, MusicRequestsContainer
   }
 
   async addSelectedArtist(artist: LastFmArtist) {
-    this.processAction(async () => {
+    this.setState({loadingArtist: true});
+    await this.processAction(async () => {
       if (!this.state.requestedArtists.some(currentArtist => currentArtist.url === artist.url)) {
         const requestedArtist = await this.musicRequestsHttpService.addRequestedArtist(
           this.getRequestedArtist(artist)
         );
-
         this.setState(prevState => ({
-          requestedArtists: [...prevState.requestedArtists, requestedArtist]
+          requestedArtists: [...prevState.requestedArtists, requestedArtist],
+          loadingArtist: false,
         }));
       }
     });
   }
 
-
   async addSelectedAlbum(album: LastFmAlbum) {
-    this.processAction(async () => {
+    this.setState({loadingAlbum: true});
+    await this.processAction(async () => {
       if (!this.state.requestedAlbums.some(currentAlbum => currentAlbum.url === album.url)) {
         const requestedAlbum = await this.musicRequestsHttpService.addRequestedAlbum({
           name: album.name,
@@ -92,14 +94,16 @@ export class MusicRequestsContainer extends Component<{}, MusicRequestsContainer
         });
 
         this.setState(prevState => ({
-          requestedAlbums: [...prevState.requestedAlbums, requestedAlbum]
+          requestedAlbums: [...prevState.requestedAlbums, requestedAlbum],
+          loadingAlbum: false,
         }));
       }
     });
   }
 
   async addSelectedSong(song: LastFmSong) {
-    this.processAction(async () => {
+    this.setState({loadingSong: true});
+    await this.processAction(async () => {
       if (!this.state.requestedSongs.some(currentSong => currentSong.url === song.url)) {
         const requestedSong = await this.musicRequestsHttpService.addRequestedSong({
           name: song.name,
@@ -108,7 +112,8 @@ export class MusicRequestsContainer extends Component<{}, MusicRequestsContainer
         });
 
         this.setState(prevState => ({
-          requestedSongs: [...prevState.requestedSongs, requestedSong]
+          requestedSongs: [...prevState.requestedSongs, requestedSong],
+          loadingSong: true,
         }));
       }
     });
@@ -169,11 +174,13 @@ export class MusicRequestsContainer extends Component<{}, MusicRequestsContainer
   }
 
   render() {
-    const {action, requestedArtists, requestedAlbums, requestedSongs, loading} = this.state;
+    const {action, requestedArtists, requestedAlbums, requestedSongs, loadingArtist, loadingAlbum, loadingSong} = this.state;
     return (
       <ContentContainer contentKey={'music-requests'} action={action} render={(content: MusicRequestsData) => (
         <MusicRequests content={content}
-                       loading={loading}
+                       loadingArtist={loadingArtist}
+                       loadingAlbum={loadingAlbum}
+                       loadingSong={loadingSong}
                        requestedArtists={requestedArtists}
                        requestedAlbums={requestedAlbums}
                        requestedSongs={requestedSongs}
