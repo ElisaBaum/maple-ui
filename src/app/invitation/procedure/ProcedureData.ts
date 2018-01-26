@@ -4,8 +4,10 @@ export interface ProcedureData extends ContentData {
 
   courseOfEvents: {
     headline: string;
-    wedding: string;
-    party: string;
+    events: Array<{
+      time: string;
+      event: string;
+    }>;
   };
 
 }

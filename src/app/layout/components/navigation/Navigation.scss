@@ -103,6 +103,9 @@
         &:nth-of-type(5) {
           @include animation-delay(.55s);
         }
+        &:nth-of-type(6) {
+          @include animation-delay(.6s);
+        }
       }
     }
     nav {

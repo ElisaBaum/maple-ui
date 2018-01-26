@@ -1,0 +1,19 @@
+@import "../../constants";
+
+.time-item {
+  color: $primary-color;
+
+  &:before {
+    content: '';
+    position: absolute;
+    width: 0.8rem;
+    height: 0.8rem;
+    top: 0.2rem;
+    left: -1.55rem;
+    background-color: white;
+    border-radius: 50%;
+    z-index: 1;
+    box-sizing: border-box;
+    border: 2px solid $primary-color;
+  }
+}
