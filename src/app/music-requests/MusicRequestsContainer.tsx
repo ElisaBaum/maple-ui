@@ -147,14 +147,11 @@ export class MusicRequestsContainer extends Component<{}, MusicRequestsContainer
   }
 
   async processAction(action: () => Promise<void>) {
-    this.setState({loading: true});
     try {
       await action();
       toast.dismiss();
     } catch (e) {
       toast.error(<p>Es ist ein Fehler aufgetreten. Bitte versuche es erneut.</p>);
-    } finally {
-      this.setState({loading: false});
     }
   }
 
