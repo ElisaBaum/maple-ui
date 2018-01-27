@@ -39,6 +39,10 @@ export function MusicRequests(props: MusicRequestsProps) {
   const {onArtistSelect, onAlbumSelect, onSongSelect, onArtistDelete, onAlbumDelete, onSongDelete} = props;
   const {requestedArtists, requestedSongs, requestedAlbums, loadingArtist, loadingAlbum, loadingSong} = props;
   const {description, hint, lastFmApiKey} = props.content;
+  const showArtists = (!!requestedArtists.length || loadingArtist);
+  const showSongs = (!!requestedSongs.length || loadingSong);
+  const showAlbums = (!!requestedAlbums.length || loadingAlbum);
+  const showSelects = showArtists || showSongs || showAlbums;
 
   return (
     <div>
@@ -53,77 +57,80 @@ export function MusicRequests(props: MusicRequestsProps) {
                                     onAlbumSelect={onAlbumSelect}
                                     onSongSelect={onSongSelect}/>
       </Card>
-      <Card>
-        {
-          !!requestedArtists.length &&
-          <div>
-            <Headline text={'Künstler'}/>
-            {
-              requestedArtists.map(artist => (
-                <Item key={artist.id} className={'pr-0'}>
-                  <MusicRequest id={artist.id}
-                                title={artist.name}
-                                imageUrl={artist.imageUrl}
-                                deleteFn={onArtistDelete}/>
+      {
+        showSelects &&
+        <Card>
+          {
+            (showArtists) &&
+            <div>
+              <Headline text={'Künstler'}/>
+              {
+                requestedArtists.map(artist => (
+                  <Item key={artist.id} className={'pr-0'}>
+                    <MusicRequest id={artist.id}
+                                  title={artist.name}
+                                  imageUrl={artist.imageUrl}
+                                  deleteFn={onArtistDelete}/>
+                  </Item>
+                ))
+              }
+              {
+                loadingArtist
+                && <Item>
+                  <MusicRequestLoading/>
                 </Item>
-              ))
-            }
-            {
-              loadingArtist
-              && <Item>
-                <MusicRequestLoading/>
-              </Item>
-            }
-          </div>
-        }
+              }
+            </div>
+          }
 
-        {
-          !!requestedSongs.length &&
-          <div>
-            <Headline text={'Lieder'}/>
-            {
-              requestedSongs.map(song => (
-                <Item key={song.id} className={'pr-0'}>
-                  <MusicRequest id={song.id}
-                                title={song.name}
-                                subtitle={song.artist.name}
-                                deleteFn={onSongDelete}/>
+          {
+            (showSongs) &&
+            <div>
+              <Headline text={'Lieder'}/>
+              {
+                requestedSongs.map(song => (
+                  <Item key={song.id} className={'pr-0'}>
+                    <MusicRequest id={song.id}
+                                  title={song.name}
+                                  subtitle={song.artist.name}
+                                  deleteFn={onSongDelete}/>
+                  </Item>
+                ))
+              }
+              {
+                loadingSong
+                && <Item>
+                  <MusicRequestLoading hasSubtitle={true}/>
                 </Item>
-              ))
-            }
-            {
-              loadingSong
-              && <Item>
-                <MusicRequestLoading hasSubtitle={true}/>
-              </Item>
-            }
-          </div>
-        }
+              }
+            </div>
+          }
 
-        {
-          !!requestedAlbums.length &&
-          <div>
-            <Headline text={'Alben'}/>
-            {
-              requestedAlbums.map(album => (
-                <Item key={album.id} className={'pr-0'}>
-                  <MusicRequest id={album.id}
-                                title={album.name}
-                                subtitle={album.artist.name}
-                                imageUrl={album.imageUrl}
-                                deleteFn={onAlbumDelete}/>
+          {
+            (showAlbums) &&
+            <div>
+              <Headline text={'Alben'}/>
+              {
+                requestedAlbums.map(album => (
+                  <Item key={album.id} className={'pr-0'}>
+                    <MusicRequest id={album.id}
+                                  title={album.name}
+                                  subtitle={album.artist.name}
+                                  imageUrl={album.imageUrl}
+                                  deleteFn={onAlbumDelete}/>
+                  </Item>
+                ))
+              }
+              {
+                loadingAlbum
+                && <Item>
+                  <MusicRequestLoading hasSubtitle={true}/>
                 </Item>
-              ))
-            }
-            {
-              loadingAlbum
-              && <Item>
-                <MusicRequestLoading hasSubtitle={true}/>
-              </Item>
-            }
-          </div>
-        }
-      </Card>
+              }
+            </div>
+          }
+        </Card>
+      }
       <Card>
         <Item>
           {hint}

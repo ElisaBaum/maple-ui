@@ -113,7 +113,7 @@ export class MusicRequestsContainer extends Component<{}, MusicRequestsContainer
 
         this.setState(prevState => ({
           requestedSongs: [...prevState.requestedSongs, requestedSong],
-          loadingSong: true,
+          loadingSong: false,
         }));
       }
     });
