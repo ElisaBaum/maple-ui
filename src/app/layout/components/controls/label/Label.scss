@@ -1,0 +1,18 @@
+@import "../../../constants";
+@import "../../../mixins/common";
+
+.label {
+  top: $padding-default + .2rem;
+  color: $text-secondary-color;
+
+  &.floated {
+    top: .13rem;
+    font-size: .6rem;
+    color: $primary-color;
+    @include control-transition();
+
+    &.error {
+      color: $error-color;
+    }
+  }
+}

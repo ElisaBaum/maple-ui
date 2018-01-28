@@ -1,11 +1,13 @@
 @import "../../../constants";
 @import "../../../mixins/common";
 
-.form-text-field {
+.text-field {
   @include form-field();
 
+  width: 100%;
   padding-top: $padding-default + .2rem;
   padding-bottom: $padding-default;
+  padding: $padding-default;
 
   input {
     @include control-transition();
@@ -21,21 +23,31 @@
     }
   }
 
-  .form-label {
+  .label {
     position: absolute;
     z-index: 0;
-    top: $padding-default + .2rem;
-    color: $text-secondary-color;
+  }
 
-    &.floated {
-      top: .13rem;
-      font-size: .6rem;
-      color: $primary-color;
-      @include control-transition();
+  &.has-icon-left,
+  &.has-icon-right {
+    position: relative;
 
-      &.form-error {
-        color: $error-color;
-      }
+    .icon {
+      display: block;
+      margin: 0 $control-padding-y;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: $control-icon-size;
+      left: 0;
+      color: $text-secondary-color;
     }
+  }
+
+  &.has-icon-left {
+    padding-left: 2.2rem;
+  }
+  &.has-icon-right {
+    padding-right: 2.2rem;
   }
 }

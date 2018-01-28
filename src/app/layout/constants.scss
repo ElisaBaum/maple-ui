@@ -14,12 +14,15 @@ $padding-default:         .7rem;
 // Core colors
 //$primary-color: #69bede !default;
 //$primary-color: #2be6bf !default;
-$primary-color: #ff6b76 !default;
+//$primary-color: #ff6b76 !default;
+$primary-color: #ff5f62 !default;
 $primary-color-dark: darken($primary-color, 3%) !default;
 $primary-color-light: lighten($primary-color, 3%) !default;
 $secondary-color: lighten($primary-color, 37.5%) !default;
 $secondary-color-dark: darken($secondary-color, 3%) !default;
 $secondary-color-light: lighten($secondary-color, 3%) !default;
+
+$main-bg: linear-gradient(135deg, #ff9966 0%, #ff5e62 100%);
 
 // Gray colors
 $dark-color: #454d5d !default;
