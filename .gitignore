@@ -19,4 +19,4 @@ build
 # testing
 .nyc_output
 coverage
-!test/dom.shim.js
+!test/mocha.env.js

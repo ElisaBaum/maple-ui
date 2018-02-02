@@ -1,0 +1,52 @@
+@import "../../mixins/common";
+@import "../../constants";
+
+// Tiles
+.tile {
+  align-content: space-between;
+  align-items: flex-start;
+  display: flex;
+
+  .tile-action {
+    flex: 0 0 auto;
+  }
+
+  .tile-icon {
+    flex: 0 0 2rem;
+    text-align: center;
+  }
+  .title-avatar {
+    border-radius: 100%;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.12)
+  }
+  .tile-content {
+    flex: 1 1 auto;
+    &:not(:first-child) {
+      padding-left: $unit-2 + .3rem;
+    }
+    &:not(:last-child) {
+      padding-right: $unit-2 + .3rem;
+    }
+  }
+  .tile-title,
+  .tile-subtitle {
+    line-height: $line-height;
+  }
+  .tile-subtitle {
+    opacity: 0.4;
+  }
+
+  &.tile-centered {
+    align-items: center;
+
+    .tile-content {
+      overflow: hidden;
+    }
+
+    .tile-title,
+    .tile-subtitle {
+      @include text-ellipsis();
+      margin-bottom: 0;
+    }
+  }
+}

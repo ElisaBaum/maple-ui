@@ -1,12 +1,13 @@
+@import "layout/constants";
+
 .app {
   min-height: 100%;
   font-family: 'Quicksand', sans-serif;
-  background: #f2f2f2;
   //background: linear-gradient(135deg, #6fb2d3 0%, #52BEBF 100%);
   //background: linear-gradient(135deg, #b66fd3 0%, #52BEBF 100%);
   //background: linear-gradient(135deg, #355C7D 0%, #6C5B7B 50%, #C06C84 100%);
   //background: linear-gradient(135deg, #e1eec3 0%, #f05053 100%);
-  //background: linear-gradient(135deg, #ff9966 0%, #ff5e62 100%);
+  background: $main-bg;
   //background: linear-gradient(135deg, #d9a7c7 0%, #fffcdc 100%);
   //background: linear-gradient(135deg, #D66D75 0%, #E29587 100%);
   //background: linear-gradient(135deg, #4568DC 0%, #B06AB3 100%);

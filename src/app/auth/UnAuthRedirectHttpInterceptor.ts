@@ -10,7 +10,9 @@ export class UnAuthRedirectHttpInterceptor implements HttpResponseErrorIntercept
   }
 
   responseError(err: any) {
-    if (err.response.status === 401 && this.history.location.pathname !== LOGIN_PATH) {
+    if (err.response &&
+      err.response.status === 401 &&
+      this.history.location.pathname !== LOGIN_PATH) {
       return this.history.replace(LOGIN_PATH);
     }
     return Promise.reject(err);

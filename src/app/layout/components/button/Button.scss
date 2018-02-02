@@ -92,12 +92,18 @@
   &.btn-link {
     background: transparent;
     border-color: transparent;
+    box-shadow: none;
     color: $link-color;
     &:focus,
     &:hover,
     &:active,
     &.active {
       color: $link-color-dark;
+    }
+    padding: 0;
+    .material-icons {
+      font-size: 2rem;
+      padding: 0.15rem 0.4rem;
     }
   }
 

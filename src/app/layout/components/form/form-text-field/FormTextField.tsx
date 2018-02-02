@@ -1,9 +1,9 @@
 import * as React from 'react';
-import * as classnames from 'classnames';
 import {FormInput, FormInputProps, FormInputState} from '../FormInput';
 import {RequiredOptions, RequiredValidator} from "../validators/RequiredValidator";
 import {MaxLengthOptions, MaxLengthValidator} from '../validators/MaxLengthValidator';
-import './FormTextField.scss';
+import {TextField} from '../../controls/text-field/TextField';
+import {Label} from '../../controls/label/Label';
 
 interface FormTextFieldProps extends FormInputProps {
   placeholder?: string;
@@ -43,17 +43,16 @@ export class FormTextField extends FormInput<FormTextFieldProps, FormInputState>
     const showLabel = !hasErrors || (!value || !hasErrors);
     const errorMessageElements = this.renderErrorMessages();
     return (
-      <label className={'form-text-field'}>
-        {
-          showLabel &&
-          <span className={classnames('form-label', {floated: floatLabel})}>{label}</span>
-        }
-        <span className={classnames('form-label', 'floated', 'form-error')}>{errorMessageElements}</span>
-        <input type={type || 'text'}
-               name={name}
-               value={value}
-               onChange={e => this.handleChange(e)}/>
-      </label>
+      <TextField item labels={() => (
+        <span>
+          {showLabel && <Label floated={floatLabel}>{label}</Label>}
+          <Label floated error>{errorMessageElements}</Label>
+        </span>
+      )}
+                 type={type || 'text'}
+                 name={name}
+                 value={value}
+                 onChange={e => this.handleChange(e)}/>
     );
   }
 }
