@@ -76,10 +76,10 @@ export class MusicRequestsContainer extends Component<{}, MusicRequestsContainer
         );
         this.setState(prevState => ({
           requestedArtists: [...prevState.requestedArtists, requestedArtist],
-          loadingArtist: false,
         }));
       }
     });
+    this.setState({loadingArtist: false});
   }
 
   async addSelectedAlbum(album: LastFmAlbum) {
@@ -95,10 +95,10 @@ export class MusicRequestsContainer extends Component<{}, MusicRequestsContainer
 
         this.setState(prevState => ({
           requestedAlbums: [...prevState.requestedAlbums, requestedAlbum],
-          loadingAlbum: false,
         }));
       }
     });
+    this.setState({loadingAlbum: false});
   }
 
   async addSelectedSong(song: LastFmSong) {
@@ -113,10 +113,10 @@ export class MusicRequestsContainer extends Component<{}, MusicRequestsContainer
 
         this.setState(prevState => ({
           requestedSongs: [...prevState.requestedSongs, requestedSong],
-          loadingSong: false,
         }));
       }
     });
+    this.setState({loadingSong: false});
   }
 
   async deleteRequestedArtist(artistId: number) {
