@@ -201,7 +201,10 @@
 
 // Form fields
 @mixin form-field() {
-  @include itemize();
+  &.item {
+    @include itemize();
+  }
+
   position: relative;
   display: block;
 
@@ -216,6 +219,7 @@
 }
 
 @mixin form-radio-checkbox() {
+  @include itemize();
   @include form-field();
   line-height: 1rem;
   min-height: 1.2rem;
@@ -239,5 +243,15 @@
     width: .8rem;
     height: .8rem;
     @include control-transition();
+  }
+}
+
+// Animations
+@keyframes loading {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }

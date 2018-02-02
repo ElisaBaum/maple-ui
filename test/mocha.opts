@@ -1,5 +1,8 @@
---compilers ts-node/register
---require source-map-support/register test/dom.shim.js
+--require test/mocha.env.js
+--require ts-node/register
+--require source-map-support/register
+--require test/mocha.shim.ts
+--require test/mocha.extension-hooks.ts
 --recursive
 --full-trace
 --bail

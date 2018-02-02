@@ -3,8 +3,9 @@
 .headline {
   padding: $padding-default;
   color: $primary-color;
-  font-size: 1.4rem;
-  line-height: 1.4rem;
+  line-height: 1.6rem;
+  font-weight: 400;
+  margin: 0;
 
   & + .item {
     padding-top: 0.1rem;

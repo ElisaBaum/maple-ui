@@ -1,0 +1,25 @@
+.custom-divider {
+  $divider-text-color: #e1e2e5;
+  $divider-color: #f0f1f4;
+  text-align: left;
+
+  .textless {
+    margin-top: 0;
+    margin-bottom: 0;
+    border-top-color: $divider-color;
+  }
+
+  .text-divider {
+    margin-top: 0;
+    margin-bottom: 0;
+    border-top-color: $divider-color;
+
+    &[data-content]::after {
+      color: $divider-color;
+      content: attr(data-content);
+    }
+  }
+}
+
+
+
