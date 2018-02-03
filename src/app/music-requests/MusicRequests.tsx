@@ -12,7 +12,7 @@ import {MusicRequest} from "./MusicRequest";
 import {Item} from '../layout/components/item/Item';
 import {Card} from '../layout/components/card/Card';
 import {Headline} from '../layout/components/headline/Headline';
-import {MusicRequestLoading} from './MusicRequestLoading/MusicRequestLoading';
+import {MusicRequestLoading} from './music-request-loading/MusicRequestLoading';
 
 interface MusicRequestsProps extends ContentComponentProps<MusicRequestsData> {
   loadingArtist?: boolean;
@@ -23,22 +23,19 @@ interface MusicRequestsProps extends ContentComponentProps<MusicRequestsData> {
   requestedSongs: RequestedSong[];
 
   onArtistSelect(artist: LastFmArtist);
-
   onAlbumSelect(album: LastFmAlbum);
-
   onSongSelect(song: LastFmSong);
-
   onArtistDelete(artistId: number);
-
   onAlbumDelete(albumId: number);
-
   onSongDelete(songId: number);
 }
 
 export function MusicRequests(props: MusicRequestsProps) {
   const {onArtistSelect, onAlbumSelect, onSongSelect, onArtistDelete, onAlbumDelete, onSongDelete} = props;
   const {requestedArtists, requestedSongs, requestedAlbums, loadingArtist, loadingAlbum, loadingSong} = props;
+  const {content: {maxRequests}} = props;
   const {description, hint, lastFmApiKey} = props.content;
+  const maxRequestsReached = (requestedArtists.length + requestedSongs.length + requestedAlbums.length) >= maxRequests.count;
   const showArtists = (!!requestedArtists.length || loadingArtist);
   const showSongs = (!!requestedSongs.length || loadingSong);
   const showAlbums = (!!requestedAlbums.length || loadingAlbum);
@@ -52,82 +49,43 @@ export function MusicRequests(props: MusicRequestsProps) {
         </Item>
       </Card>
       <Card>
-        <MusicAutoCompleteContainer apiKey={lastFmApiKey}
-                                    onArtistSelect={onArtistSelect}
-                                    onAlbumSelect={onAlbumSelect}
-                                    onSongSelect={onSongSelect}/>
+        {
+          maxRequestsReached
+            ? <Item>{maxRequests.hint}</Item>
+            : <MusicAutoCompleteContainer apiKey={lastFmApiKey}
+                                          onArtistSelect={onArtistSelect}
+                                          onAlbumSelect={onAlbumSelect}
+                                          onSongSelect={onSongSelect}/>
+        }
       </Card>
       {
         showSelects &&
         <Card>
           {
             (showArtists) &&
-            <div>
-              <Headline text={'Künstler'}/>
-              {
-                requestedArtists.map(artist => (
-                  <Item key={artist.id} className={'pr-0'}>
-                    <MusicRequest id={artist.id}
-                                  title={artist.name}
-                                  imageUrl={artist.imageUrl}
-                                  deleteFn={onArtistDelete}/>
-                  </Item>
-                ))
-              }
-              {
-                loadingArtist
-                && <Item>
-                  <MusicRequestLoading/>
-                </Item>
-              }
-            </div>
+            <ResultSection headline={'Künstler'}
+                           results={requestedArtists
+                             .map(({id, imageUrl, name}) => ({id, imageUrl, title: name}))}
+                           isLoading={loadingArtist}
+                           onDelete={onArtistDelete} />
           }
-
           {
             (showSongs) &&
-            <div>
-              <Headline text={'Lieder'}/>
-              {
-                requestedSongs.map(song => (
-                  <Item key={song.id} className={'pr-0'}>
-                    <MusicRequest id={song.id}
-                                  title={song.name}
-                                  subtitle={song.artist.name}
-                                  deleteFn={onSongDelete}/>
-                  </Item>
-                ))
-              }
-              {
-                loadingSong
-                && <Item>
-                  <MusicRequestLoading hasSubtitle={true}/>
-                </Item>
-              }
-            </div>
+            <ResultSection headline={'Lieder'}
+                           results={requestedSongs
+                             .map(({id, name, artist}) => ({id, title: name, subtitle: artist.name}))}
+                           isLoading={loadingSong}
+                           hasSubtitle={true}
+                           onDelete={onSongDelete} />
           }
-
           {
             (showAlbums) &&
-            <div>
-              <Headline text={'Alben'}/>
-              {
-                requestedAlbums.map(album => (
-                  <Item key={album.id} className={'pr-0'}>
-                    <MusicRequest id={album.id}
-                                  title={album.name}
-                                  subtitle={album.artist.name}
-                                  imageUrl={album.imageUrl}
-                                  deleteFn={onAlbumDelete}/>
-                  </Item>
-                ))
-              }
-              {
-                loadingAlbum
-                && <Item>
-                  <MusicRequestLoading hasSubtitle={true}/>
-                </Item>
-              }
-            </div>
+            <ResultSection headline={'Alben'}
+                           results={requestedAlbums
+                             .map(({id, name, artist, imageUrl}) => ({id, imageUrl, title: name, subtitle: artist.name}))}
+                           isLoading={loadingAlbum}
+                           hasSubtitle={true}
+                           onDelete={onAlbumDelete} />
           }
         </Card>
       }
@@ -136,6 +94,35 @@ export function MusicRequests(props: MusicRequestsProps) {
           {hint}
         </Item>
       </Card>
+    </div>
+  );
+}
+
+interface ResultSectionProps {
+  headline: string;
+  isLoading?: boolean;
+  hasSubtitle?: boolean;
+  onDelete: (id: number) => any;
+  results: Array<{ id, title, subtitle?, imageUrl? }>;
+}
+
+function ResultSection({headline, isLoading, onDelete, results, hasSubtitle}: ResultSectionProps) {
+  return (
+    <div>
+      <Headline text={headline}/>
+      {
+        results.map(item => (
+          <Item key={item.id} className={'pr-0'}>
+            <MusicRequest {...item} deleteFn={onDelete}/>
+          </Item>
+        ))
+      }
+      {
+        isLoading
+        && <Item>
+          <MusicRequestLoading hasSubtitle={hasSubtitle}/>
+        </Item>
+      }
     </div>
   );
 }
