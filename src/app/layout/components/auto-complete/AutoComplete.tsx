@@ -6,8 +6,8 @@ import {
   IAutoCompleteResultSection
 } from "../auto-complete-result-section/AutoCompleteResultSection";
 import {TextField} from '../controls/text-field/TextField';
-import './AutoComplete.scss';
 import {Label} from '../controls/label/Label';
+import './AutoComplete.scss';
 
 interface ISection {
   name?: string;
@@ -28,6 +28,7 @@ interface IAutoCompleteProps {
   delay?: number;
   children: any[];
   loading?: boolean;
+
   cancelPreviousSearch();
 
   onSearch(searchTerm: string);
@@ -126,9 +127,16 @@ export class AutoComplete extends Component<IAutoCompleteProps, IAutoCompleteSta
       // In case of mouse click event, reset focus index
       this.setState({focusedIndex: undefined});
     }
-    const {onSelect} = this.props;
+    const {onSelect, onClear} = this.props;
     onSelect(index, sectionName);
+    this.handleClear();
     this.searchInput.blur();
+  }
+
+  handleClear() {
+    const {onClear} = this.props;
+    onClear && onClear();
+    this.searchInput.value = '';
   }
 
   setupSections(children) {
@@ -263,23 +271,31 @@ export class AutoComplete extends Component<IAutoCompleteProps, IAutoCompleteSta
   }
 
   render() {
-    const {hasFocus, sections} = this.state;
+    const {sections} = this.state;
     const {placeholder, label, loading} = this.props;
-    const showMenu = !!sections.length && hasFocus;
+    const showMenu = !!sections.length;
+    const hasClearBtn = showMenu;
 
     return (
       <div className="form-autocomplete">
-        <TextField type="text"
-                   icon="search"
-                   loading={loading}
-                   labels={() => (<Label floated>{label}</Label>)}
-                   inputRef={input => this.searchInput = input}
-                   onKeyDown={e => e.keyCode === 13 && e.preventDefault()}
-                   onKeyUp={e => this.handleKeyUp(e)}
-                   onFocus={() => this.handleFocus(true)}
-                   onBlur={() => this.handleFocus(false)}
-                   onChange={e => this.handleInputChange(e)}
-                   placeholder={placeholder}/>
+        <div className={classNames('form-autocomplete-input', {'has-clear-btn': hasClearBtn})}>
+          <TextField type="text"
+                     icon="search"
+                     loading={loading}
+                     labels={() => (<Label floated>{label}</Label>)}
+                     inputRef={input => this.searchInput = input}
+                     onKeyDown={e => e.keyCode === 13 && e.preventDefault()}
+                     onKeyUp={e => this.handleKeyUp(e)}
+                     onFocus={() => this.handleFocus(true)}
+                     onBlur={() => this.handleFocus(false)}
+                     onChange={e => this.handleInputChange(e)}
+                     placeholder={placeholder}/>
+          <button type="button"
+                  className="btn btn-link-secondary clear-btn"
+                  onClick={() => this.handleClear()}>
+            <i className="material-icons">clear</i>
+          </button>
+        </div>
         <ul className={classNames('menu', showMenu ? 'd-block' : 'd-none')}>
           {sections.map(({name, key, children}, sectionIndex) => (
             <div key={sectionIndex}>

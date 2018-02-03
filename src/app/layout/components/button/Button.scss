@@ -106,6 +106,23 @@
       padding: 0.15rem 0.4rem;
     }
   }
+  &.btn-link-secondary {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    color: $grey-color;
+    &:focus,
+    &:hover,
+    &:active,
+    &.active {
+      color: darken($grey-color, 7%);
+    }
+    padding: 0;
+    .material-icons {
+      font-size: 2rem;
+      padding: 0.15rem 0.4rem;
+    }
+  }
 
   // Button Sizes
   &.btn-sm {

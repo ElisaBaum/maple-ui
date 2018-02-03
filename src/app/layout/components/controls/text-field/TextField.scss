@@ -39,15 +39,20 @@
       top: 50%;
       transform: translateY(-50%);
       width: $control-icon-size;
-      left: 0;
       color: $text-secondary-color;
     }
   }
 
   &.has-icon-left {
     padding-left: 2.2rem;
+    .icon {
+      left: 0;
+    }
   }
   &.has-icon-right {
     padding-right: 2.2rem;
+    .icon {
+      right: 0;
+    }
   }
 }

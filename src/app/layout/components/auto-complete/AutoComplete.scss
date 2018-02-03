@@ -1,8 +1,26 @@
 @import "../../constants";
 @import "../../mixins/common";
 
+$clear-btn-width: 2rem;
+
 .form-autocomplete {
   position: relative;
+
+  .form-autocomplete-input {
+    position: relative;
+    &.has-clear-btn {
+      padding-right: $clear-btn-width;
+      .clear-btn {
+        display: block;
+      }
+    }
+    .clear-btn {
+      position: absolute;
+      display: none;
+      right: 0;
+      top: 0;
+    }
+  }
 
   .menu {
     left: 0;
