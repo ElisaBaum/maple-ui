@@ -13,7 +13,9 @@ import {Tile, TileAvatar, TileContent, TileIcon} from '../layout/components/tile
 
 interface MusicAutoCompleteProps {
   onArtistSelect(artist: LastFmArtist);
+
   onAlbumSelect(album: LastFmAlbum);
+
   onSongSelect(song: LastFmSong);
 }
 
@@ -73,9 +75,7 @@ export class MusicAutoCompleteContainer extends Component<MusicAutoCompleteProps
       try {
         handlerMap[sectionKey](this.state[sectionKey][index]);
       } catch (e) {
-        if (!e.__CANCEL__) {
-          this.handleRequestError(e);
-        }
+        this.handleRequestError(e);
       }
     }
   }
