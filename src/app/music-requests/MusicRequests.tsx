@@ -34,13 +34,12 @@ export function MusicRequests(props: MusicRequestsProps) {
   const {onArtistSelect, onAlbumSelect, onSongSelect, onArtistDelete, onAlbumDelete, onSongDelete} = props;
   const {requestedArtists, requestedSongs, requestedAlbums, loadingArtist, loadingAlbum, loadingSong} = props;
   const {content: {maxRequests}} = props;
-  const {description, hint, lastFmApiKey} = props.content;
+  const {description, hint} = props.content;
   const maxRequestsReached = (requestedArtists.length + requestedSongs.length + requestedAlbums.length) >= maxRequests.count;
   const showArtists = (!!requestedArtists.length || loadingArtist);
   const showSongs = (!!requestedSongs.length || loadingSong);
   const showAlbums = (!!requestedAlbums.length || loadingAlbum);
   const showSelects = showArtists || showSongs || showAlbums;
-
   return (
     <div>
       <Card>
@@ -52,8 +51,7 @@ export function MusicRequests(props: MusicRequestsProps) {
         {
           maxRequestsReached
             ? <Item>{maxRequests.hint}</Item>
-            : <MusicAutoCompleteContainer apiKey={lastFmApiKey}
-                                          onArtistSelect={onArtistSelect}
+            : <MusicAutoCompleteContainer onArtistSelect={onArtistSelect}
                                           onAlbumSelect={onAlbumSelect}
                                           onSongSelect={onSongSelect}/>
         }

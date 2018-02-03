@@ -2,7 +2,7 @@ import * as React from 'react';
 import {Component} from "react";
 import {AutoComplete} from "../layout/components/auto-complete/AutoComplete";
 import {LastFmHttpService} from "./last-fm/LastFmHttpService";
-import {Inject, Module} from "react.di";
+import {Inject} from "react.di";
 import {LastFmMusicServiceError} from "./last-fm/LastFmMusicServiceError";
 import {toast} from "react-toastify";
 import {LastFmArtist} from "./last-fm/LastFmArtist";
@@ -12,12 +12,8 @@ import {AutoCompleteResultSection} from "../layout/components/auto-complete-resu
 import {Tile, TileAvatar, TileContent, TileIcon} from '../layout/components/tile/Tile';
 
 interface MusicAutoCompleteProps {
-  apiKey: string;
-
   onArtistSelect(artist: LastFmArtist);
-
   onAlbumSelect(album: LastFmAlbum);
-
   onSongSelect(song: LastFmSong);
 }
 
@@ -28,11 +24,6 @@ interface MusicAutoCompleteState {
   loading?: boolean;
 }
 
-@Module({
-  providers: [
-    LastFmHttpService
-  ]
-})
 export class MusicAutoCompleteContainer extends Component<MusicAutoCompleteProps, MusicAutoCompleteState> {
 
   @Inject lastFmService: LastFmHttpService;
@@ -57,13 +48,12 @@ export class MusicAutoCompleteContainer extends Component<MusicAutoCompleteProps
   cancelSongsSearch = () => null;
 
   async onSearch(searchTerm: string) {
-    const {apiKey} = this.props;
     this.setState({loading: true});
     try {
       const [artists, songs, albums] = await Promise.all([
-        this.lastFmService.searchArtists(searchTerm, apiKey, cancel => this.cancelArtistsSearch = cancel),
-        this.lastFmService.searchSongs(searchTerm, apiKey, cancel => this.cancelSongsSearch = cancel),
-        this.lastFmService.searchAlbums(searchTerm, apiKey, cancel => this.cancelAlbumsSearch = cancel)
+        this.lastFmService.searchArtists(searchTerm, cancel => this.cancelArtistsSearch = cancel),
+        this.lastFmService.searchSongs(searchTerm, cancel => this.cancelSongsSearch = cancel),
+        this.lastFmService.searchAlbums(searchTerm, cancel => this.cancelAlbumsSearch = cancel)
       ]);
       this.setState({artists, albums, songs});
       toast.dismiss();
@@ -79,20 +69,9 @@ export class MusicAutoCompleteContainer extends Component<MusicAutoCompleteProps
   async onSelect(index: number, sectionKey?: string) {
     if (sectionKey) {
       const {onArtistSelect, onAlbumSelect, onSongSelect} = this.props;
+      const handlerMap = {albums: onAlbumSelect, artists: onArtistSelect, songs: onSongSelect};
       try {
-        if (sectionKey === 'albums') {
-          const selectedAlbum = this.state.albums[index];
-          const artistInfo = await this.getArtistInfo(selectedAlbum.artist);
-          selectedAlbum.artistInfo = {...artistInfo.artist};
-          onAlbumSelect(selectedAlbum);
-        } else if (sectionKey === 'songs') {
-          const selectedSong = this.state.songs[index];
-          const artistInfo = await this.getArtistInfo(selectedSong.artist);
-          selectedSong.artistInfo = {...artistInfo.artist};
-          onSongSelect(selectedSong);
-        } else {
-          onArtistSelect(this.state.artists[index]);
-        }
+        handlerMap[sectionKey](this.state[sectionKey][index]);
       } catch (e) {
         if (!e.__CANCEL__) {
           this.handleRequestError(e);
@@ -107,12 +86,6 @@ export class MusicAutoCompleteContainer extends Component<MusicAutoCompleteProps
       albums: [],
       songs: []
     });
-  }
-
-  async getArtistInfo(artistName: string) {
-    const artistInfo = await this.lastFmService.getArtistInfo(artistName, this.props.apiKey);
-    toast.dismiss();
-    return artistInfo;
   }
 
   handleRequestError(e) {
