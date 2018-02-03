@@ -5,7 +5,7 @@ import {DynamicContentHttpService} from "./DynamicContentHttpService";
 import {ContentData} from "./ContentData";
 import {Content} from "./Content";
 import {CenteredSpinner} from "../layout/components/spinner/Spinner";
-import {CenteredContentError} from "./error/ContentError";
+import {ContentError} from "./error/ContentError";
 
 export interface ContentComponentProps<T extends ContentData> {
   content: T;
@@ -74,7 +74,7 @@ export class ContentContainer<T extends ContentData> extends Component<ContentCo
     }
 
     return (
-      <CenteredContentError reload={() => this.loadContent()}/>
+      <ContentError reload={() => this.loadContent()}/>
     );
   }
 }
