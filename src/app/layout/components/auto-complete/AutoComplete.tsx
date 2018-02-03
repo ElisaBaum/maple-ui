@@ -127,7 +127,7 @@ export class AutoComplete extends Component<IAutoCompleteProps, IAutoCompleteSta
       // In case of mouse click event, reset focus index
       this.setState({focusedIndex: undefined});
     }
-    const {onSelect, onClear} = this.props;
+    const {onSelect} = this.props;
     onSelect(index, sectionName);
     this.handleClear();
     this.searchInput.blur();
