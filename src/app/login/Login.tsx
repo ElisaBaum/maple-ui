@@ -25,6 +25,7 @@ export function Login({loading, onSubmit}: LoginProps) {
                          required={'Bitte Name eingeben!'}/>
           <FormTextField name="code"
                          label="Code"
+                         type="password"
                          required={'Bitte Code eingeben!'}/>
           <Item>
             <FormButton>Einloggen</FormButton>
