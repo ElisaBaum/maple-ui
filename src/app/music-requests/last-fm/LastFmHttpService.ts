@@ -8,6 +8,7 @@ import {LastFmMusicServiceError} from "./LastFmMusicServiceError";
 
 export const MIN_LISTENERS_COUNT = 10;
 export const MAX_SEARCH_RESULT_COUNT = 3;
+const API_KEY = process.env.LAST_FM_API_KEY;
 
 @Injectable
 export class LastFmHttpService {
@@ -26,12 +27,12 @@ export class LastFmHttpService {
   constructor(@Inject private http: Http) {
   }
 
-  async searchArtists(artistName: string, apiKey: string, onGetCancel) {
+  async searchArtists(artistName: string, onGetCancel) {
     const response = await this.doLastFmApiRequest<ArtistResults>({
       ...this.defaultRequestParams,
       method: 'artist.search',
       artist: artistName,
-      api_key: apiKey
+      api_key: API_KEY
     }, onGetCancel);
 
     const getNameFilterRegex = () => /\(|\)|feat\.|\sfeaturing\s|www\.(.+?)\./g;
@@ -45,13 +46,13 @@ export class LastFmHttpService {
       .slice(0, this.maxSearchResultCount);
   }
 
-  async searchSongs(songName: string, apiKey: string, onGetCancel, artistName?: string) {
+  async searchSongs(songName: string, onGetCancel, artistName?: string) {
     const response = await this.doLastFmApiRequest<SongResults>({
       ...this.defaultRequestParams,
       method: 'track.search',
       track: songName,
       artist: artistName,
-      api_key: apiKey
+      api_key: API_KEY
     }, onGetCancel);
 
     const getNameFilterRegex = () => /www\.(.+?)\./g;
@@ -66,13 +67,13 @@ export class LastFmHttpService {
       .slice(0, this.maxSearchResultCount);
   }
 
-  async searchAlbums(albumName: string, apiKey: string, onGetCancel, artistName?: string) {
+  async searchAlbums(albumName: string, onGetCancel, artistName?: string) {
     const response = await this.doLastFmApiRequest<AlbumResults>({
       ...this.defaultRequestParams,
       method: 'album.search',
       album: albumName,
       artist: artistName,
-      api_key: apiKey
+      api_key: API_KEY
     }, onGetCancel);
 
     return response.results.albummatches.album
@@ -80,12 +81,12 @@ export class LastFmHttpService {
       .slice(0, this.maxSearchResultCount);
   }
 
-  getArtistInfo(artistName: string, apiKey: string) {
+  getArtistInfo(artistName: string) {
     return this.doLastFmApiRequest<LastFmArtistInfo>({
       ...this.defaultRequestParams,
       method: 'artist.getinfo',
       artist: artistName,
-      api_key: apiKey
+      api_key: API_KEY
     });
   }
 

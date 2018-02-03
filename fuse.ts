@@ -26,6 +26,9 @@ import {
 const DIST_FOLDER = 'build';
 const MAIN_BUNDLE = `main-${getShortRandomString()}`;
 const ENTRY = '> index.tsx';
+const DEFAULT_ENV = {
+  LAST_FM_API_KEY: process.env.LAST_FM_API_KEY,
+};
 const DEFAULT_CONFIG: FuseBoxOptions = {
   homeDir: "src",
   target: 'browser',
@@ -62,6 +65,7 @@ const config: { [env: string]: FuseBoxOptions } = {
     sourceMaps: true,
     plugins: [
       EnvPlugin({
+        ...DEFAULT_ENV,
         API_URL: '/api',
         NODE_ENV: 'development',
       }),
@@ -71,6 +75,7 @@ const config: { [env: string]: FuseBoxOptions } = {
   qa: {
     plugins: [
       EnvPlugin({
+        ...DEFAULT_ENV,
         API_URL: '/api',
         NODE_ENV: 'production',
       }),
@@ -81,6 +86,7 @@ const config: { [env: string]: FuseBoxOptions } = {
   prod: {
     plugins: [
       EnvPlugin({
+        ...DEFAULT_ENV,
         API_URL: '/api',
         NODE_ENV: 'production',
       }),
