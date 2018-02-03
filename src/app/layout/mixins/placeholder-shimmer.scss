@@ -1,4 +1,6 @@
-@keyframes placeHolderShimmer{
+@import "../../../../node_modules/compass-sass-mixins/lib/animate";
+
+@include keyframes(placeHolderShimmer) {
   0%{
     background-position: -400px 0
   }
