@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as classnames from 'classnames';
 import './Button.scss';
 
-type ButtonType = 'primary' | 'link' | 'default';
+export type ButtonType = 'primary' | 'link' | 'inverse' | 'default';
 
 interface ButtonProps {
   htmlType: string;
@@ -21,6 +21,6 @@ export function Button({children, className, htmlType, loading, type}: ButtonPro
 }
 
 function getButtonClass(type?: ButtonType) {
-  const map = {primary: 'btn-primary', link: 'btn-link', default: ''};
+  const map = {primary: 'btn-primary', link: 'btn-link', inverse: 'btn-inverse', default: ''};
   return type ? map[type] : map.primary;
 }

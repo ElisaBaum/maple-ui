@@ -163,4 +163,25 @@
       content: "\2715";
     }
   }
+
+  // Button inverse colours
+  &.btn-inverse {
+    background: $light-color;
+    border-color: $light-color;
+    color: $primary-color;
+    &:focus,
+    &:active,
+    &.active {
+      background: $primary-color;
+      border-color: $primary-color;
+      color: $light-color;
+    }
+    &.loading {
+      &::after {
+        border-bottom-color: $light-color;
+        border-left-color: $light-color;
+      }
+    }
+  }
+
 }

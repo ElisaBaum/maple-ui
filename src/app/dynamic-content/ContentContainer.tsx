@@ -4,6 +4,8 @@ import {Inject} from "react.di";
 import {DynamicContentHttpService} from "./DynamicContentHttpService";
 import {ContentData} from "./ContentData";
 import {Content} from "./Content";
+import {ContentError} from "./error/ContentError";
+import {centered} from "../layout/decorators/center/center";
 
 export interface ContentComponentProps<T extends ContentData> {
   content: T;
@@ -18,8 +20,9 @@ interface ContentContainerProps<T extends ContentData> {
 interface ContentContainerState<T extends ContentData> {
   content?: T;
   isLoading: boolean;
-  errorMessage?: string;
 }
+
+const CenteredContentError = centered(ContentError);
 
 export class ContentContainer<T extends ContentData> extends Component<ContentContainerProps<T>, ContentContainerState<T>> {
 
@@ -39,8 +42,8 @@ export class ContentContainer<T extends ContentData> extends Component<ContentCo
       const futureContent = this.dynamicContentService.getDynamicContent(contentKey);
       const [content] = await Promise.all([futureContent, action]);
       this.setState({content});
-    } catch (e) {
-      this.setState({errorMessage: 'Fehler beim Laden'});
+    } catch {
+      // do nothing here, error is rendered below
     } finally {
       this.setState({isLoading: false});
     }
@@ -51,7 +54,7 @@ export class ContentContainer<T extends ContentData> extends Component<ContentCo
   }
 
   render() {
-    const {content, isLoading, errorMessage} = this.state;
+    const {content, isLoading} = this.state;
     const {component, render} = this.props;
     const WrappedComponent = component;
 
@@ -73,7 +76,7 @@ export class ContentContainer<T extends ContentData> extends Component<ContentCo
     }
 
     return (
-      <div>{errorMessage}</div>
+      <CenteredContentError reload={() => this.loadContent()}/>
     );
   }
 }
