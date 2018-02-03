@@ -26,6 +26,10 @@ interface MusicAutoCompleteState {
   loading?: boolean;
 }
 
+const ARTIST_SECTION_KEY = 'artists';
+const SONG_SECTION_KEY = 'songs';
+const ALBUM_SECTION_KEY = 'albums';
+
 export class MusicAutoCompleteContainer extends Component<MusicAutoCompleteProps, MusicAutoCompleteState> {
 
   @Inject lastFmService: LastFmHttpService;
@@ -71,7 +75,11 @@ export class MusicAutoCompleteContainer extends Component<MusicAutoCompleteProps
   async onSelect(index: number, sectionKey?: string) {
     if (sectionKey) {
       const {onArtistSelect, onAlbumSelect, onSongSelect} = this.props;
-      const handlerMap = {albums: onAlbumSelect, artists: onArtistSelect, songs: onSongSelect};
+      const handlerMap = {
+        [ALBUM_SECTION_KEY]: onAlbumSelect,
+        [ARTIST_SECTION_KEY]: onArtistSelect,
+        [SONG_SECTION_KEY]: onSongSelect
+      };
       handlerMap[sectionKey](this.state[sectionKey][index]);
     }
   }
@@ -102,7 +110,7 @@ export class MusicAutoCompleteContainer extends Component<MusicAutoCompleteProps
 
         {
           artists.length &&
-          <AutoCompleteResultSection sectionName="Künstler" sectionKey="artists">
+          <AutoCompleteResultSection sectionName="Künstler" sectionKey={ARTIST_SECTION_KEY}>
             {artists.map(({name, image: [_, __, imageUrl]}, index) => (
               <Tile centered key={index}>
                 <TileAvatar imageUrl={imageUrl['#text']}/>
@@ -114,7 +122,7 @@ export class MusicAutoCompleteContainer extends Component<MusicAutoCompleteProps
 
         {
           songs.length &&
-          <AutoCompleteResultSection sectionName="Lieder" sectionKey="songs">
+          <AutoCompleteResultSection sectionName="Lieder" sectionKey={SONG_SECTION_KEY}>
             {songs.map(({name, artist}, index) => (
               <Tile key={index}>
                 <TileIcon icon={'library_music'}/>
@@ -126,7 +134,7 @@ export class MusicAutoCompleteContainer extends Component<MusicAutoCompleteProps
 
         {
           albums.length &&
-          <AutoCompleteResultSection sectionName="Alben" sectionKey="albums">
+          <AutoCompleteResultSection sectionName="Alben" sectionKey={ALBUM_SECTION_KEY}>
             {albums.map(({name, image: [_, __, imageUrl], artist}, index) => (
               <Tile centered key={index}>
                 <TileAvatar imageUrl={imageUrl['#text']}/>

@@ -46,7 +46,7 @@ describe('layout.components.AutoComplete', () => {
 
   it('should set placeholder to input tag', () => {
     const wrapper = getWrapper();
-    const input = wrapper.find('input.form-input');
+    const input = wrapper.find('.text-field input');
 
     expect(input.prop('placeholder')).to.equal(PLACEHOLDER);
   });

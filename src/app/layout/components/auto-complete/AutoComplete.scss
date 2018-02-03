@@ -4,6 +4,22 @@
 .form-autocomplete {
   position: relative;
 
+  .form-autocomplete-input {
+    position: relative;
+    &.has-clear-btn {
+      padding-right: 3rem;
+      .clear-btn {
+        display: block;
+      }
+    }
+    .clear-btn {
+      position: absolute;
+      display: none;
+      right: 0;
+      top: 0;
+    }
+  }
+
   .menu {
     left: 0;
     position: absolute;
