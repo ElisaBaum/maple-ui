@@ -4,12 +4,15 @@ import {Form} from "../../layout/components/form/Form";
 import {Item} from "../../layout/components/item/Item";
 import {FormButton} from "../../layout/components/form/form-button/FormButton";
 import {Logo} from "../../layout/components/logo/Logo";
+import {centered} from "../../layout/decorators/center/center";
 
 interface ContentErrorProps {
   reload();
 }
 
-export function ContentError({reload}: ContentErrorProps) {
+export const CenteredContentError = centered(ContentError);
+
+function ContentError({reload}: ContentErrorProps) {
   return (
     <div className="content-error">
       <Logo className="logo"/>
