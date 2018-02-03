@@ -72,11 +72,7 @@ export class MusicAutoCompleteContainer extends Component<MusicAutoCompleteProps
     if (sectionKey) {
       const {onArtistSelect, onAlbumSelect, onSongSelect} = this.props;
       const handlerMap = {albums: onAlbumSelect, artists: onArtistSelect, songs: onSongSelect};
-      try {
-        handlerMap[sectionKey](this.state[sectionKey][index]);
-      } catch (e) {
-        this.handleRequestError(e);
-      }
+      handlerMap[sectionKey](this.state[sectionKey][index]);
     }
   }
 
