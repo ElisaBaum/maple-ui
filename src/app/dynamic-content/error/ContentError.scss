@@ -1,0 +1,14 @@
+@import "../../layout/constants";
+@import "../../../../node_modules/compass-sass-mixins/lib/animate";
+
+.content-error {
+
+  color: $light-color;
+  font-size: $font-size-lg;
+  text-align: center;
+
+  .logo {
+    width: 75%;
+    margin-bottom: 1rem;
+  }
+}
