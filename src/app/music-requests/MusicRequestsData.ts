@@ -6,7 +6,7 @@ export interface MusicRequestsData extends ContentData {
   hint: string;
   lastFmApiKey: string;
   maxRequests: {
-    count: 3;
+    count: number;
     hint: string;
   };
 }
