@@ -1,0 +1,5 @@
+@import "../../../../../node_modules/compass-sass-mixins/lib/animate";
+
+.fade-in {
+  @include transition(opacity 300ms ease-in-out)
+}
