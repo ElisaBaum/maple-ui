@@ -9,9 +9,9 @@
     background: rgba(0, 0, 0, 0.2);
     background-clip: padding-box;
     border-radius: 0.7rem;
-    height: 1.3rem;
-    top: 0.71rem;
-    width: 1.3rem;
+    height: 1rem;
+    top: 0.85rem;
+    width: 1rem;
     &::before {
       @include control-transition();
     }
@@ -27,11 +27,11 @@
         border-radius: 50%;
         content: "";
         display: block;
-        left: .4rem;
+        left: .3rem;
         position: absolute;
-        height: 0.5rem;
-        top: .4rem;
-        width: 0.5rem;
+        height: 0.4rem;
+        top: .3rem;
+        width: 0.4rem;
       }
     }
     &:active + .form-icon {
