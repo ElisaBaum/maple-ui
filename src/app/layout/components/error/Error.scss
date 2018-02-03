@@ -1,7 +1,6 @@
-@import "../../layout/constants";
-@import "../../../../node_modules/compass-sass-mixins/lib/animate";
+@import "../../constants";
 
-.content-error {
+.error {
 
   color: $light-color;
   font-size: $font-size-lg;

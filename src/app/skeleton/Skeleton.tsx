@@ -8,6 +8,7 @@ import {NavigationItem} from "../layout/components/navigation/NavigationItem";
 import {MusicRequestsContainer} from '../music-requests/MusicRequestsContainer';
 import {QAndAContainer} from "../invitation/q-and-a/QAndAContainer";
 import {ProcedureContainer} from "../invitation/procedure/ProcedureContainer";
+import {NotFound} from "../not-found/NotFound";
 import './Skeleton.scss';
 
 export const JOURNEY_PATH = '/journey';
@@ -34,6 +35,7 @@ export const Skeleton = () => (
       <Route path={MUSIC_REQUESTS_PATH} component={MusicRequestsContainer}/>
       <Route path={Q_AND_A_PATH} component={QAndAContainer}/>
       <Route path={PROCEDURE_PATH} component={ProcedureContainer}/>
+      <Route component={NotFound}/>
     </Switch>
   </div>
 

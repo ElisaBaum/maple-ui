@@ -1,0 +1,22 @@
+@import "../../constants";
+@import "../../../../../node_modules/compass-sass-mixins/lib/animate";
+
+.spinner {
+  width: 100px;
+  height: 100px;
+  margin: 100px auto;
+  background-color: $light-color;
+
+  border-radius: 100%;
+  @include animation(sk-scaleout 1.0s infinite ease-in-out);
+}
+
+@include keyframes(sk-scaleout) {
+  0% {
+    @include transform(scale(0));
+  }
+  100% {
+    @include transform(scale(1.0));
+    opacity: 0;
+  }
+}

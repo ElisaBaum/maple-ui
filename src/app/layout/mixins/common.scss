@@ -1,3 +1,5 @@
+@import "../../../../node_modules/compass-sass-mixins/lib/animate";
+
 // Mixins
 // Avatar mixin
 @mixin avatar-base($size: $unit-8) {
@@ -247,7 +249,7 @@
 }
 
 // Animations
-@keyframes loading {
+@include keyframes(loading) {
   0% {
     transform: rotate(0deg);
   }

@@ -4,8 +4,8 @@ import {Inject} from "react.di";
 import {DynamicContentHttpService} from "./DynamicContentHttpService";
 import {ContentData} from "./ContentData";
 import {Content} from "./Content";
-import {ContentError} from "./error/ContentError";
-import {centered} from "../layout/decorators/center/center";
+import {CenteredSpinner} from "../layout/components/spinner/Spinner";
+import {CenteredContentError} from "./error/ContentError";
 import {FadeIn} from '../layout/components/fade-in/FadeIn';
 
 export interface ContentComponentProps<T extends ContentData> {
@@ -23,9 +23,6 @@ interface ContentContainerState<T extends ContentData> {
   content?: T;
   isLoading: boolean;
 }
-
-const CenteredContentError = centered(ContentError);
-
 
 export class ContentContainer<T extends ContentData> extends Component<ContentContainerProps<T>, ContentContainerState<T>> {
 
@@ -76,7 +73,7 @@ export class ContentContainer<T extends ContentData> extends Component<ContentCo
 
     if (isLoading) {
       return (
-        <div>Lädt...</div>
+        <CenteredSpinner/>
       );
     }
 
