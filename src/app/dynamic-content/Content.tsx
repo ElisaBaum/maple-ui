@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as classnames from 'classnames';
 import './Content.scss';
 
 interface ContentProps {
@@ -7,11 +8,12 @@ interface ContentProps {
     image: string;
   };
   children: any;
+  isNavOpen?: boolean;
 }
 
-export function Content({header, children}: ContentProps) {
+export function Content({header, children, isNavOpen}: ContentProps) {
   return (
-    <div className={'content'}>
+    <div className={classnames('content', {'nav-open': isNavOpen})}>
       <div className={'header'}>
         <img className={'header-img'} src={header.image} />
         <div className={'header-text'}>

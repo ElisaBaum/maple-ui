@@ -2,6 +2,8 @@ import * as React from 'react';
 import {Component} from "react";
 import * as classNames from 'classnames';
 import './Navigation.scss';
+import {Inject} from "react.di";
+import {NavigationService} from "./NavigationService";
 
 interface NavigationProps {
   children: any[];
@@ -13,6 +15,8 @@ interface NavigationState {
 
 export class Navigation extends Component<NavigationProps, NavigationState> {
 
+  @Inject navigationService: NavigationService;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -23,7 +27,7 @@ export class Navigation extends Component<NavigationProps, NavigationState> {
   toggleActiveState() {
     this.setState(prevState => ({
       isActive: !prevState.isActive
-    }));
+    }), () => this.navigationService.setOpen(this.state.isActive));
   }
 
   render() {
