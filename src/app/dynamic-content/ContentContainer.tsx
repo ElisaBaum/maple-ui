@@ -6,10 +6,12 @@ import {ContentData} from "./ContentData";
 import {Content} from "./Content";
 import {CenteredSpinner} from "../layout/components/spinner/Spinner";
 import {ContentError} from "./error/ContentError";
+import {FadeIn} from '../layout/components/fade-in/FadeIn';
 
 export interface ContentComponentProps<T extends ContentData> {
   content: T;
 }
+
 interface ContentContainerProps<T extends ContentData> {
   contentKey: string;
   component?: React.ComponentType<ContentComponentProps<T>>;
@@ -58,12 +60,14 @@ export class ContentContainer<T extends ContentData> extends Component<ContentCo
 
     if (content) {
       return (
-        <Content header={content.header}>
-          {WrappedComponent
-            ? <WrappedComponent content={content}/>
-            : (render && render(content))
-          }
-        </Content>
+        <FadeIn>
+          <Content header={content.header}>
+            {WrappedComponent
+              ? <WrappedComponent content={content}/>
+              : (render && render(content))
+            }
+          </Content>
+        </FadeIn>
       );
     }
 
