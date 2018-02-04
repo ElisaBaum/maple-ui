@@ -28,6 +28,7 @@ const MAIN_BUNDLE = `main-${getShortRandomString()}`;
 const ENTRY = '> index.tsx';
 const DEFAULT_ENV = {
   LAST_FM_API_KEY: process.env.LAST_FM_API_KEY,
+  LAST_FM_API_URL: 'https://ws.audioscrobbler.com/2.0/'
 };
 const DEFAULT_CONFIG: FuseBoxOptions = {
   homeDir: "src",
