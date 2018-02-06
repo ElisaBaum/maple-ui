@@ -106,6 +106,23 @@
       padding: 0.15rem 0.4rem;
     }
   }
+  &.btn-link-secondary {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    color: $grey-color;
+    &:focus,
+    &:hover,
+    &:active,
+    &.active {
+      color: darken($grey-color, 7%);
+    }
+    padding: 0;
+    .material-icons {
+      font-size: 2rem;
+      padding: 0.15rem 0.4rem;
+    }
+  }
 
   // Button Sizes
   &.btn-sm {
@@ -163,4 +180,25 @@
       content: "\2715";
     }
   }
+
+  // Button inverse colours
+  &.btn-inverse {
+    background: $light-color;
+    border-color: $light-color;
+    color: $primary-color;
+    &:focus,
+    &:active,
+    &.active {
+      background: $primary-color;
+      border-color: $primary-color;
+      color: $light-color;
+    }
+    &.loading {
+      &::after {
+        border-bottom-color: $light-color;
+        border-left-color: $light-color;
+      }
+    }
+  }
+
 }

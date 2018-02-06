@@ -4,10 +4,14 @@ import {Inject} from "react.di";
 import {DynamicContentHttpService} from "./DynamicContentHttpService";
 import {ContentData} from "./ContentData";
 import {Content} from "./Content";
+import {CenteredSpinner} from "../layout/components/spinner/Spinner";
+import {ContentError} from "./error/ContentError";
+import {FadeIn} from '../layout/components/fade-in/FadeIn';
 
 export interface ContentComponentProps<T extends ContentData> {
   content: T;
 }
+
 interface ContentContainerProps<T extends ContentData> {
   contentKey: string;
   component?: React.ComponentType<ContentComponentProps<T>>;
@@ -18,7 +22,6 @@ interface ContentContainerProps<T extends ContentData> {
 interface ContentContainerState<T extends ContentData> {
   content?: T;
   isLoading: boolean;
-  errorMessage?: string;
 }
 
 export class ContentContainer<T extends ContentData> extends Component<ContentContainerProps<T>, ContentContainerState<T>> {
@@ -39,8 +42,8 @@ export class ContentContainer<T extends ContentData> extends Component<ContentCo
       const futureContent = this.dynamicContentService.getDynamicContent(contentKey);
       const [content] = await Promise.all([futureContent, action]);
       this.setState({content});
-    } catch (e) {
-      this.setState({errorMessage: 'Fehler beim Laden'});
+    } catch {
+      // do nothing here, error is rendered below
     } finally {
       this.setState({isLoading: false});
     }
@@ -51,29 +54,31 @@ export class ContentContainer<T extends ContentData> extends Component<ContentCo
   }
 
   render() {
-    const {content, isLoading, errorMessage} = this.state;
+    const {content, isLoading} = this.state;
     const {component, render} = this.props;
     const WrappedComponent = component;
 
     if (content) {
       return (
-        <Content header={content.header}>
-          {WrappedComponent
-            ? <WrappedComponent content={content}/>
-            : (render && render(content))
-          }
-        </Content>
+        <FadeIn>
+          <Content header={content.header}>
+            {WrappedComponent
+              ? <WrappedComponent content={content}/>
+              : (render && render(content))
+            }
+          </Content>
+        </FadeIn>
       );
     }
 
     if (isLoading) {
       return (
-        <div>Lädt...</div>
+        <CenteredSpinner/>
       );
     }
 
     return (
-      <div>{errorMessage}</div>
+      <ContentError reload={() => this.loadContent()}/>
     );
   }
 }

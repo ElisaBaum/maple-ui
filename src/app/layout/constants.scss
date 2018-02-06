@@ -11,6 +11,8 @@ $text-secondary-color:    transparentize($text-primary-color, .5);
 $font-size-default:       .8rem;
 $padding-default:         .7rem;
 
+$grey-color: transparentize($text-primary-color, .5);
+
 // Core colors
 //$primary-color: #69bede !default;
 //$primary-color: #2be6bf !default;

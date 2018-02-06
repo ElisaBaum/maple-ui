@@ -18,7 +18,7 @@ export interface FormContext {
 }
 
 interface FormProps {
-  children: any[];
+  children: any[] | any;
   values?: any;
   loading?: boolean;
   disabled?: boolean;

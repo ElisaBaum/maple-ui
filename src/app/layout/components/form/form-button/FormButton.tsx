@@ -1,16 +1,17 @@
 import * as React from 'react';
-import {Button} from '../../button/Button';
+import {Button, ButtonType} from '../../button/Button';
 import {FormContext} from '../Form';
 import {SFC} from 'react';
 import {bool} from 'prop-types';
 
 interface FormButtonProps {
   children: string;
+  type?: ButtonType;
 }
 
-export function FormButton({children}: FormButtonProps, {loading}: FormContext) {
+export function FormButton({children, type}: FormButtonProps, {loading}: FormContext) {
   return (
-    <Button htmlType={'submit'} loading={loading} className={`btn-block`}>
+    <Button htmlType={'submit'} loading={loading} className={'btn-block'} type={type}>
       {children}
     </Button>
   );

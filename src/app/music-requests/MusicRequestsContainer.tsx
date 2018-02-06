@@ -13,6 +13,8 @@ import {RequestedAlbum} from "./RequestedAlbum";
 import {RequestedSong} from "./RequestedSong";
 import {LastFmMusicImage} from "./last-fm/LastFmMusicImage";
 import {toast} from "react-toastify";
+import {LastFmModule} from './last-fm/LastFmModule';
+import {LastFmHttpService} from './last-fm/LastFmHttpService';
 
 interface MusicRequestsContainerState {
   action?: Promise<any>;
@@ -25,6 +27,7 @@ interface MusicRequestsContainerState {
 }
 
 @Module({
+  imports: [LastFmModule],
   providers: [
     MusicRequestsHttpService
   ]
@@ -32,6 +35,7 @@ interface MusicRequestsContainerState {
 export class MusicRequestsContainer extends Component<{}, MusicRequestsContainerState> {
 
   @Inject musicRequestsHttpService: MusicRequestsHttpService;
+  @Inject lastFmHttpService: LastFmHttpService;
 
   constructor(props) {
     super(props);
@@ -90,7 +94,7 @@ export class MusicRequestsContainer extends Component<{}, MusicRequestsContainer
           name: album.name,
           url: album.url,
           imageUrl: this.getImageUrl(album.image),
-          artist: album.artistInfo && this.getRequestedArtist(album.artistInfo)
+          artist: await this.getRequestedArtistByName(album.artist),
         });
 
         this.setState(prevState => ({
@@ -108,7 +112,7 @@ export class MusicRequestsContainer extends Component<{}, MusicRequestsContainer
         const requestedSong = await this.musicRequestsHttpService.addRequestedSong({
           name: song.name,
           url: song.url,
-          artist: song.artistInfo && this.getRequestedArtist(song.artistInfo)
+          artist: await this.getRequestedArtistByName(song.artist),
         });
 
         this.setState(prevState => ({
@@ -153,6 +157,13 @@ export class MusicRequestsContainer extends Component<{}, MusicRequestsContainer
     } catch (e) {
       toast.error(<p>Es ist ein Fehler aufgetreten. Bitte versuche es erneut.</p>);
     }
+  }
+
+  async getRequestedArtistByName(name: string) {
+    const artistInfo = await this.lastFmHttpService.getArtistInfo(name);
+    if (artistInfo && artistInfo.artist) {
+        return this.getRequestedArtist(artistInfo.artist);
+     }
   }
 
   getRequestedArtist(artist: LastFmArtist) {
