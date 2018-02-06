@@ -33,7 +33,7 @@ export class FadeIn extends Component<FadeInProps, FadeInState> {
     const {children} = this.props;
     const preparedChildren = React.cloneElement(children, {
       onLoad: () => this.setState({opacity: 1}),
-      style: {opacity},
+      style: {...children.props.style, opacity},
       className: classNames(children.props.className, 'fade-in'),
     });
     return ({...preparedChildren});
