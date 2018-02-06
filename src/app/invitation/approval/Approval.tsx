@@ -28,12 +28,10 @@ export function Approval(props: ApprovalProps) {
   return (
     <div>
       <Card>
-        <Item>
-          {welcome.description}
-        </Item>
-        <Item>
-          {welcome.hints}
-        </Item>
+        <Item>{welcome.description}</Item>
+      </Card>
+      <Card>
+        <Item>{welcome.hints}</Item>
       </Card>
       <Card>
         <Item>{description}</Item>
