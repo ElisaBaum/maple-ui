@@ -103,7 +103,6 @@ const config: { [env: string]: FuseBoxOptions } = {
       'react': 'react/umd/react.production.min',
       'react-router': 'react-router/umd/react-router.min',
       'glamor': 'glamor/umd/index.min',
-      'react-toastify': 'react-toastify/dist/ReactToastify.min',
       'recompose': 'recompose/build/Recompose.min',
     },
   }

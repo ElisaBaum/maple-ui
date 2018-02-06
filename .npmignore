@@ -1,0 +1,14 @@
+.idea
+.fusebox
+.nyc_output
+coverage
+node_modules
+src
+test
+.editorconfig
+.gitignore
+fuse.ts
+tsconfig.json
+tslint.json
+yarn.lock
+yarn-error.log
