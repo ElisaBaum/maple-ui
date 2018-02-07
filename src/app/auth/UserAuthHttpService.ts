@@ -1,6 +1,7 @@
 import {Inject, Injectable} from 'react.di';
 import {Http} from '../http/Http';
 import {CSRFTokenHttpInterceptorOptions} from './CSRFTokenHttpInterceptor';
+import {toBase64} from '../utils/crypto';
 
 @Injectable
 export class UserAuthHttpService {
@@ -14,20 +15,11 @@ export class UserAuthHttpService {
       {},
       {
         headers: {
-          Authorization: `Basic ${this.toBase64(`${name}:${code}`)}`
+          Authorization: `Basic ${toBase64(`${name}:${code}`)}`
         },
         withCredentials: true,
         interceptOptions: {skipAuth: true}
       }
-    );
-  }
-
-  private toBase64(value: string) {
-    return btoa(
-      encodeURIComponent(value).replace(
-        /%([0-9A-F]{2})/g,
-        (match, p1) => String.fromCharCode(('0x' + p1) as any)
-      )
     );
   }
 
