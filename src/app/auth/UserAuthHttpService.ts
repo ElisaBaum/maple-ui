@@ -14,11 +14,20 @@ export class UserAuthHttpService {
       {},
       {
         headers: {
-          Authorization: `Basic ${btoa(`${name}:${code}`)}`
+          Authorization: `Basic ${this.toBase64(`${name}:${code}`)}`
         },
         withCredentials: true,
         interceptOptions: {skipAuth: true}
       }
+    );
+  }
+
+  private toBase64(value: string) {
+    return btoa(
+      encodeURIComponent(value).replace(
+        /%([0-9A-F]{2})/g,
+        (match, p1) => String.fromCharCode(('0x' + p1) as any)
+      )
     );
   }
 
