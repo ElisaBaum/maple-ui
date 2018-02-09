@@ -3,7 +3,7 @@ import * as express from 'express';
 import * as prepareArgs from 'minimist';
 import * as proxyMiddleware from 'http-proxy-middleware';
 import * as path from 'path';
-import {existsSync, readdirSync, unlinkSync, statSync} from 'fs';
+import {existsSync, readdirSync, unlinkSync, statSync, copyFileSync} from 'fs';
 import {
   FuseBox,
   SVGPlugin,
@@ -38,7 +38,7 @@ const DEFAULT_CONFIG: FuseBoxOptions = {
     ImageBase64Plugin(),
     SVGPlugin(),
     WebIndexPlugin({
-      title: "Maple UI",
+      title: "Elisa & Robin",
       template: "src/index.html"
     }),
     CSSPlugin(),
@@ -135,6 +135,9 @@ const tasks = {
     })
     ;
   },
+  copy() {
+    copyFileSync('src/favicon.ico', `./${DIST_FOLDER}/favicon.ico`);
+  },
   serve(env, {proxy}) {
     this.clearDist();
     const fuse = fuseBox(env);
@@ -156,6 +159,8 @@ const tasks = {
     .watch().hmr()
     ;
 
+    this.copy();
+
     fuse.run();
   },
   build(env) {
@@ -166,6 +171,8 @@ const tasks = {
     .bundle(MAIN_BUNDLE)
     .instructions(ENTRY)
     ;
+
+    this.copy();
 
     fuse.run();
   }
