@@ -135,7 +135,7 @@ const tasks = {
     })
     ;
   },
-  copy() {
+  copyFavicon() {
     copyFileSync('src/favicon.ico', `./${DIST_FOLDER}/favicon.ico`);
   },
   serve(env, {proxy}) {
@@ -159,7 +159,7 @@ const tasks = {
     .watch().hmr()
     ;
 
-    this.copy();
+    this.copyFavicon();
 
     fuse.run();
   },
@@ -172,7 +172,7 @@ const tasks = {
     .instructions(ENTRY)
     ;
 
-    this.copy();
+    this.copyFavicon();
 
     fuse.run();
   }
