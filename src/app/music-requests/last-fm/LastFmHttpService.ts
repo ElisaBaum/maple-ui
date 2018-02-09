@@ -9,11 +9,10 @@ import {LastFmMusicServiceError} from "./LastFmMusicServiceError";
 export const MIN_LISTENERS_COUNT = 10;
 export const MAX_SEARCH_RESULT_COUNT = 3;
 const API_KEY = process.env.LAST_FM_API_KEY;
+const API_URL = process.env.LAST_FM_API_URL;
 
 @Injectable
 export class LastFmHttpService {
-
-  private apiBaseUrl = 'http://ws.audioscrobbler.com/2.0/';
 
   private maxApiResultCount = 40;
   private minListenersCount = MIN_LISTENERS_COUNT;
@@ -92,7 +91,7 @@ export class LastFmHttpService {
 
   private async doLastFmApiRequest<T>(params, onGetCancel?): Promise<T> {
     try {
-      const response = await this.http.get<T>(this.apiBaseUrl, {
+      const response = await this.http.get<T>(API_URL, {
         params,
         interceptOptions: {skipAuth: true},
         cancelToken: onGetCancel && new axios.CancelToken(onGetCancel)
