@@ -8,5 +8,10 @@ interface CardProps {
 }
 
 export function Card({children, className}: CardProps) {
-  return (<div className={classNames('card', className)} style={{position: 'relative'}}>{children}</div>);
+  return (
+    <div className={classNames('card', className)}
+         style={{position: 'relative'}}>
+      {children}
+    </div>
+  );
 }

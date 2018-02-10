@@ -8,14 +8,23 @@ interface FadeGalleryProps {
   speed?: number;
 }
 
-
 interface FadeGalleryState {
   nextIndex: number;
   currentIndex: number;
 }
 
+interface GalleryItemProps {
+  children?: any | any[];
+  className?: string;
+}
+
+export function GalleryItem({children, className, ...props}: GalleryItemProps) {
+  return (<div {...props} className={classNames('gallery-item', className)}>{...children}</div>);
+}
+
 export class FadeGallery extends Component<FadeGalleryProps, FadeGalleryState> {
 
+  childrenLength: number = 0;
   timeoutId: any;
 
   constructor(props) {
@@ -23,17 +32,25 @@ export class FadeGallery extends Component<FadeGalleryProps, FadeGalleryState> {
     this.state = {nextIndex: -1, currentIndex: 0};
   }
 
+  determineChildrenLength(children) {
+    const childArray = React.Children.toArray(children);
+    this.childrenLength = childArray.length;
+  }
+
+  componentWillReceiveProps({children}) {
+    this.determineChildrenLength(children);
+  }
+
   componentDidMount() {
     const {children, speed} = this.props;
-    const childArray = React.Children.toArray(children);
-    const childrenLength = childArray.length;
+    this.determineChildrenLength(children);
     let currentIndex = 0;
-    let initialSpeed = 1500;
+    let initialSpeed = 3500;
 
     const doIt = () => this.timeoutId = setTimeout(() => {
       initialSpeed = 0;
       let nextIndex = currentIndex + 1;
-      if (nextIndex === childrenLength) {
+      if (nextIndex === this.childrenLength) {
         nextIndex = 0;
       }
       this.setState({nextIndex, currentIndex});
