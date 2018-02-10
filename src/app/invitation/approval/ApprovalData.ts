@@ -2,12 +2,12 @@ import {ContentData} from "../../dynamic-content/ContentData";
 
 export interface ApprovalData extends ContentData {
 
-  description: string;
-
-  overnightStay: {
+  welcome: {
     description: string;
-    linkText: string;
+    hints: string;
   };
+
+  description: string;
 
   companions: {
     description: string;

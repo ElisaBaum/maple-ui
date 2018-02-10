@@ -3,7 +3,7 @@ import * as express from 'express';
 import * as prepareArgs from 'minimist';
 import * as proxyMiddleware from 'http-proxy-middleware';
 import * as path from 'path';
-import {existsSync, readdirSync, unlinkSync, statSync} from 'fs';
+import {existsSync, readdirSync, unlinkSync, statSync, copyFileSync} from 'fs';
 import {
   FuseBox,
   SVGPlugin,
@@ -26,6 +26,10 @@ import {
 const DIST_FOLDER = 'build';
 const MAIN_BUNDLE = `main-${getShortRandomString()}`;
 const ENTRY = '> index.tsx';
+const DEFAULT_ENV = {
+  LAST_FM_API_KEY: process.env.LAST_FM_API_KEY,
+  LAST_FM_API_URL: 'https://ws.audioscrobbler.com/2.0/'
+};
 const DEFAULT_CONFIG: FuseBoxOptions = {
   homeDir: "src",
   target: 'browser',
@@ -35,7 +39,7 @@ const DEFAULT_CONFIG: FuseBoxOptions = {
     ImageBase64Plugin(),
     SVGPlugin(),
     WebIndexPlugin({
-      title: "Maple UI",
+      title: "Elisa & Robin",
       template: "src/index.html"
     }),
     CSSPlugin(),
@@ -62,6 +66,7 @@ const config: { [env: string]: FuseBoxOptions } = {
     sourceMaps: true,
     plugins: [
       EnvPlugin({
+        ...DEFAULT_ENV,
         API_URL: '/api',
         NODE_ENV: 'development',
       }),
@@ -71,6 +76,7 @@ const config: { [env: string]: FuseBoxOptions } = {
   qa: {
     plugins: [
       EnvPlugin({
+        ...DEFAULT_ENV,
         API_URL: '/api',
         NODE_ENV: 'production',
       }),
@@ -81,6 +87,7 @@ const config: { [env: string]: FuseBoxOptions } = {
   prod: {
     plugins: [
       EnvPlugin({
+        ...DEFAULT_ENV,
         API_URL: '/api',
         NODE_ENV: 'production',
       }),
@@ -96,7 +103,6 @@ const config: { [env: string]: FuseBoxOptions } = {
       'react': 'react/umd/react.production.min',
       'react-router': 'react-router/umd/react-router.min',
       'glamor': 'glamor/umd/index.min',
-      'react-toastify': 'react-toastify/dist/ReactToastify.min',
       'recompose': 'recompose/build/Recompose.min',
     },
   }
@@ -129,6 +135,9 @@ const tasks = {
     })
     ;
   },
+  copyFavicon() {
+    copyFileSync('src/favicon.ico', `./${DIST_FOLDER}/favicon.ico`);
+  },
   serve(env, {proxy}) {
     this.clearDist();
     const fuse = fuseBox(env);
@@ -150,6 +159,8 @@ const tasks = {
     .watch().hmr()
     ;
 
+    this.copyFavicon();
+
     fuse.run();
   },
   build(env) {
@@ -160,6 +171,8 @@ const tasks = {
     .bundle(MAIN_BUNDLE)
     .instructions(ENTRY)
     ;
+
+    this.copyFavicon();
 
     fuse.run();
   }

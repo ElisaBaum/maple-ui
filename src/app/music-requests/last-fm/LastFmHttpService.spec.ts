@@ -21,7 +21,7 @@ describe('LastFmHttpService', () => {
       container.bind(Http).toConstantValue(createHttpGetMock(createArtistResults(artists)));
 
       const service = container.get(LastFmHttpService);
-      const response = await service.searchArtists('artist', 'apiKey', () => null);
+      const response = await service.searchArtists('artist', () => null);
 
       expect(response.length).to.eql(MAX_SEARCH_RESULT_COUNT);
 
@@ -37,7 +37,7 @@ describe('LastFmHttpService', () => {
       container.bind(Http).toConstantValue(createHttpGetMock(createArtistResults(artists)));
 
       const service = container.get(LastFmHttpService);
-      const response = await service.searchArtists('artist', 'apiKey', () => null);
+      const response = await service.searchArtists('artist', () => null);
 
       expect(response.length).to.eql(0);
     });
@@ -52,7 +52,7 @@ describe('LastFmHttpService', () => {
       container.bind(Http).toConstantValue(createHttpGetMock(createArtistResults(artists)));
 
       const service = container.get(LastFmHttpService);
-      const response = await service.searchArtists('artist', 'apiKey', () => null);
+      const response = await service.searchArtists('artist',  () => null);
 
       expect(response.length).to.eql(0);
     });
@@ -68,7 +68,7 @@ describe('LastFmHttpService', () => {
       container.bind(Http).toConstantValue(createHttpGetMock(createArtistResults(artists)));
 
       const service = container.get(LastFmHttpService);
-      const response = await service.searchArtists('artist', 'apiKey', () => null);
+      const response = await service.searchArtists('artist', () => null);
 
       expect(response.length).to.eql(0);
     });
@@ -105,7 +105,7 @@ describe('LastFmHttpService', () => {
       container.bind(Http).toConstantValue(createHttpGetMock(createAlbumResults(albums)));
 
       const service = container.get(LastFmHttpService);
-      const response = await service.searchAlbums('album', 'apiKey', () => null);
+      const response = await service.searchAlbums('album', () => null);
 
       expect(response.length).to.eql(MAX_SEARCH_RESULT_COUNT);
 
@@ -126,7 +126,7 @@ describe('LastFmHttpService', () => {
       container.bind(Http).toConstantValue(createHttpGetMock(createAlbumResults(albums)));
 
       const service = container.get(LastFmHttpService);
-      const response = await service.searchAlbums('album', 'apiKey', () => null);
+      const response = await service.searchAlbums('album', () => null);
 
       expect(response.length).to.eql(0);
     });
@@ -163,7 +163,7 @@ describe('LastFmHttpService', () => {
       container.bind(Http).toConstantValue(createHttpGetMock(createSongResults(songs)));
 
       const service = container.get(LastFmHttpService);
-      const response = await service.searchSongs('song', 'apiKey', () => null);
+      const response = await service.searchSongs('song', () => null);
 
       expect(response.length).to.eql(MAX_SEARCH_RESULT_COUNT);
 
@@ -179,7 +179,7 @@ describe('LastFmHttpService', () => {
       container.bind(Http).toConstantValue(createHttpGetMock(createSongResults(songs)));
 
       const service = container.get(LastFmHttpService);
-      const response = await service.searchSongs('song', 'apiKey', () => null);
+      const response = await service.searchSongs('song', () => null);
 
       expect(response.length).to.eql(0);
     });
@@ -193,7 +193,7 @@ describe('LastFmHttpService', () => {
       container.bind(Http).toConstantValue(createHttpGetMock(createSongResults(songs)));
 
       const service = container.get(LastFmHttpService);
-      const response = await service.searchSongs('song', 'apiKey', () => null);
+      const response = await service.searchSongs('song', () => null);
 
       expect(response.length).to.eql(0);
     });
@@ -204,7 +204,7 @@ describe('LastFmHttpService', () => {
       container.bind(Http).toConstantValue(createHttpGetMock(createSongResults(songs)));
 
       const service = container.get(LastFmHttpService);
-      const response = await service.searchSongs('song', 'apiKey', () => null);
+      const response = await service.searchSongs('song', () => null);
 
       expect(response.length).to.eql(0);
     });
@@ -242,7 +242,7 @@ describe('LastFmHttpService', () => {
       container.bind(Http).toConstantValue(createHttpGetMock(artistInfo));
 
       const service = container.get(LastFmHttpService);
-      const response = await service.getArtistInfo('artistName', 'apiKey');
+      const response = await service.getArtistInfo('artistName');
 
       expect(response).to.eql(artistInfo);
     });

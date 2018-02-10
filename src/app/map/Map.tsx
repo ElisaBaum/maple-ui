@@ -17,7 +17,7 @@ const getGoogleMapsUrl = apiToken => `https://maps.googleapis.com/maps/api/js?ke
 
 const TempMap = withScriptjs(withGoogleMap((props: TempMapProps) =>
   <GoogleMap
-    defaultZoom={15}
+    defaultZoom={13}
     defaultCenter={{ lat: props.latitude, lng: props.longitude }}
   >
     <Marker position={{ lat: props.latitude, lng: props.longitude }}/>

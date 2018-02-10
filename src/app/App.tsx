@@ -4,7 +4,7 @@ import {Inject, Module} from 'react.di';
 import {Switch, Route, Router, Redirect} from 'react-router';
 import {HISTORY_TOKEN} from './common/history';
 import {AuthService} from './auth/AuthService';
-import {center} from './layout/decorators/center/center';
+import {centered} from './layout/decorators/center/center';
 import {LoginContainer} from './login/LoginContainer';
 import {APPROVAL_PATH, Skeleton} from './skeleton/Skeleton';
 import {Toast} from './layout/components/toast/Toast';
@@ -18,6 +18,8 @@ import {NavigationModule} from "./layout/components/navigation/NavigationModule"
 
 export const LOGIN_PATH = '/login';
 export const ROOT_PATH = '/';
+
+const CenteredLoginContainer = centered(LoginContainer);
 
 @Module({
   imports: [
@@ -38,7 +40,7 @@ export class App extends Component {
       <div className={'app'}>
         <Router history={this.history}>
           <Switch>
-            <Route path={LOGIN_PATH} render={() => center(LoginContainer)}/>
+            <Route path={LOGIN_PATH} component={CenteredLoginContainer}/>
             <Route path={ROOT_PATH} exact render={() => {
               if (this.authService.isLoggedIn()) {
                 return <Redirect to={APPROVAL_PATH}/>;

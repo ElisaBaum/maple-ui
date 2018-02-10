@@ -1,0 +1,13 @@
+@import "../../constants";
+
+.error {
+
+  color: $light-color;
+  font-size: $font-size-lg;
+  text-align: center;
+
+  .logo {
+    width: 75%;
+    margin-bottom: 1rem;
+  }
+}
