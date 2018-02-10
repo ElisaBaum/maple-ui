@@ -9,6 +9,10 @@
   padding-bottom: $padding-default;
   padding: $padding-default;
 
+  input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px white inset;
+  }
+
   input {
     @include control-transition();
     position: relative;
