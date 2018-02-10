@@ -109,7 +109,7 @@ interface ResultSectionProps {
 function ResultSection({headline, isLoading, onDelete, results, hasSubtitle}: ResultSectionProps) {
   return (
     <div>
-      <Headline text={headline}/>
+      <Headline text={headline} icon={'stars'}/>
       {
         results.map(item => (
           <Item key={item.id} className={'pr-0'}>

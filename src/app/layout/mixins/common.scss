@@ -196,6 +196,7 @@
   background-repeat: no-repeat;
   background-position: bottom;
 
+  &.no-border,
   &:last-child {
     background-image: none;
   }

@@ -1,14 +1,18 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
+import {HTMLAttributes} from 'react';
 import './Item.scss';
 
-interface ItemProps {
+interface ItemProps extends HTMLAttributes<{}> {
   children: any | any[];
   className?: string;
+  border?: boolean;
 }
 
-export function Item({children, className}: ItemProps) {
+export function Item({children, className, border, ...props}: ItemProps) {
+  border = border === undefined;
   return (
-    <div className={classnames('item', className)}>{children}</div>
+    <div {...props}
+         className={classnames('item', className, {'no-border': !border})}>{children}</div>
   );
 }

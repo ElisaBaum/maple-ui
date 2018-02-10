@@ -9,6 +9,8 @@ import {FormButton} from '../../layout/components/form/form-button/FormButton';
 import {Item} from '../../layout/components/item/Item';
 import {FormSwitch} from '../../layout/components/form/form-switch/FormSwitch';
 import {Card} from '../../layout/components/card/Card';
+import {Headline} from '../../layout/components/headline/Headline';
+import {Icon} from '../../layout/components/icon/Icon';
 
 interface ApprovalProps extends ContentComponentProps<ApprovalData> {
   users: User[];
@@ -28,12 +30,49 @@ export function Approval(props: ApprovalProps) {
   return (
     <div>
       <Card>
+        <Headline text={'Willkommen'} icon={'favorite'}/>
         <Item>{welcome.description}</Item>
       </Card>
+      {/*<Card>*/}
+        {/*<Item border={false} style={{float: 'left', height: '100%', borderBottom: 0}}>*/}
+          {/*<Icon style={{fontSize: '2.4rem'}} name={'favorite'}/>*/}
+        {/*</Item>*/}
+        {/*<Item>{welcome.description}</Item>*/}
+      {/*</Card>*/}
       <Card>
+        <Item border={false} style={{float: 'right', height: '100%', borderBottom: 0}}>
+          <Icon style={{fontSize: '2.4rem'}} name={'info'}/>
+        </Item>
         <Item>{welcome.hints}</Item>
       </Card>
+      {/*<Card>*/}
+        {/*<Item border={false} style={{float: 'right', height: '100%', borderBottom: 0}}>*/}
+          {/*<Icon style={{fontSize: '2.4rem'}} name={'done'}/>*/}
+        {/*</Item>*/}
+        {/*<Item>*/}
+          {/*Teile uns mit ob du zu unserer Hochzeit kommst*/}
+        {/*</Item>*/}
+      {/*</Card>*/}
+      {/*<Card>*/}
+        {/*<Item border={false} style={{float: 'left', height: '100%', borderBottom: 0}}>*/}
+          {/*<Icon style={{fontSize: '2.4rem'}} name={'info'}/>*/}
+        {/*</Item>*/}
+        {/*<Item>*/}
+          {/*Außerdem findest du Informationen zum Ablauf, zur Anfahrt und zu anderen Themen wie Kleidung, Essen, Geschenken.*/}
+        {/*</Item>*/}
+      {/*</Card>*/}
+      {/*<Card>*/}
+        {/*<Item border={false} style={{float: 'right', height: '100%', borderBottom: 0}}>*/}
+          {/*<Icon style={{fontSize: '2.4rem'}} name={'done_all'}/>*/}
+        {/*</Item>*/}
+        {/*<Item>*/}
+          {/*hast die Möglichkeit uns deine Musikwünsche mitzuteilen und findest .*/}
+        {/*</Item>*/}
+      {/*</Card>*/}
       <Card>
+        <Item border={false} style={{float: 'left', height: '100%', borderBottom: 0}}>
+          <Icon style={{fontSize: '2.4rem'}} name={'done_all'}/>
+        </Item>
         <Item>{description}</Item>
         {
           users &&
