@@ -24,6 +24,7 @@
     }
     .header-text {
       position: absolute;
+      z-index: 30;
       bottom: 2rem;
       font-size: 3rem;
       font-weight: 600;
@@ -69,6 +70,7 @@
         @include flex($right-side-flex);
         content: ' ';
         display: block;
+        background-color: #fff;
       }
     }
 

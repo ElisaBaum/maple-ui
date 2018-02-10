@@ -2,8 +2,9 @@ import * as React from 'react';
 import * as classNames from 'classnames';
 import {Component, ReactElement} from 'react';
 import './FadeIn.scss';
+import {HTMLAttributes} from 'react';
 
-interface FadeInProps {
+interface FadeInProps extends HTMLAttributes<{}> {
   whenLoaded?: boolean;
   children: ReactElement<{ onLoad: (...args) => any }>;
 }
@@ -30,11 +31,12 @@ export class FadeIn extends Component<FadeInProps, FadeInState> {
 
   render() {
     const {opacity} = this.state;
-    const {children} = this.props;
+    const {children, className, whenLoaded, ...restProps} = this.props;
     const preparedChildren = React.cloneElement(children, {
+      ...restProps,
       onLoad: () => this.setState({opacity: 1}),
       style: {...children.props.style, opacity},
-      className: classNames(children.props.className, 'fade-in'),
+      className: classNames(className, children.props.className, 'fade-in'),
     });
     return ({...preparedChildren});
   }

@@ -2,7 +2,8 @@
 @import "../../../../../node_modules/compass-sass-mixins/lib/animate";
 
 .navigation {
-
+  position: relative;
+  z-index: 100;
   .button_container {
     padding: 0;
     border: none;
@@ -10,12 +11,12 @@
     outline: none;
 
     position: fixed;
+    z-index: 3;
     top: 1rem;
     right: 1rem;
     height: 27px;
     width: 35px;
     cursor: pointer;
-    z-index: 100;
     @include transition(opacity .25s ease);
 
     &:before {
@@ -71,6 +72,7 @@
 
   .overlay {
     position: fixed;
+    z-index: 100;
     background: $primary-color;
     top: 0;
     left: 0;
