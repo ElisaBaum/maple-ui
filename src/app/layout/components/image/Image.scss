@@ -1,0 +1,33 @@
+@mixin sizes() {
+  $sizes: cover contain revert;
+  @each $size in $sizes {
+    &.image-#{$size} {
+      background-size: $size;
+    }
+  }
+}
+@mixin positions($a: '') {
+  $positions: center left right top bottom;
+  $suffix: if($a=='', $a, '-#{$a}');
+
+  @each $pos in $positions {
+    &.image-#{$pos}#{$suffix} {
+      background-position#{$suffix}: $pos;
+    }
+  }
+}
+
+.image {
+  @include sizes();
+  @include positions();
+  @include positions('x');
+  @include positions('y');
+
+  min-width: 100%;
+  min-height: 100%;
+  opacity: 0;
+
+  img {
+    opacity: 0;
+  }
+}

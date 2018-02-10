@@ -160,3 +160,12 @@
     }
   }
 }
+
+@media only screen and (min-width: $size-md) {
+  .navigation {
+    .button_container {
+      left: 1rem;
+      right: auto;
+    }
+  }
+}
