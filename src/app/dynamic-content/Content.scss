@@ -1,5 +1,11 @@
 .content {
 
+  &.nav-open {
+    max-height: 100%;
+    overflow: hidden;
+    position: fixed;
+  }
+
   .header {
     position: relative;
     height: 75vh;

@@ -14,6 +14,7 @@ import {HttpModule} from './http/HttpModule';
 import {DynamicContentModule} from './dynamic-content/DynamicContentModule';
 import {UserModule} from './user/UserModule';
 import './App.scss';
+import {NavigationModule} from "./layout/components/navigation/NavigationModule";
 
 export const LOGIN_PATH = '/login';
 export const ROOT_PATH = '/';
@@ -26,6 +27,7 @@ const CenteredLoginContainer = centered(LoginContainer);
     CommonModule,
     HttpModule,
     DynamicContentModule,
+    NavigationModule,
     UserModule,
   ]
 })
