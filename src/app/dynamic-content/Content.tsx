@@ -15,7 +15,7 @@ interface ContentProps {
   isNavOpen?: boolean;
 }
 
-export function Content({header, children, className, style}, isNavOpen: ContentProps) {
+export function Content({header, children, className, style, isNavOpen}: ContentProps) {
   return (
     <div className={classNames('content', {'nav-open': isNavOpen}, className)} style={style}>
       <div className={'header'}>
