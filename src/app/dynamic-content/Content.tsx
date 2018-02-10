@@ -1,13 +1,15 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
-import './Content.scss';
 import {FadeIn} from '../layout/components/fade-in/FadeIn';
+import {FadeGallery, GalleryItem} from '../layout/components/fade-gallery/FadeGallery';
 import {Image} from '../layout/components/image/Image';
+import './Content.scss';
 
 interface ContentProps {
   header: {
     title: string;
     image: string;
+    images?: string[];
   };
   children: any;
   className?: string;
@@ -20,9 +22,15 @@ export function Content({header, children, className, style, isNavOpen}: Content
     <div className={classNames('content', {'nav-open': isNavOpen}, className)} style={style}>
       <div className={'header'}>
         <div className={'header-content'}>
-          <FadeIn whenLoaded>
-            <Image src={header.image} size={'cover'} positionX={'center'} positionY={'top'}/>
-          </FadeIn>
+          <FadeGallery>
+            {(header.images || [header.image]).map(image => (
+              <GalleryItem>
+                <FadeIn whenLoaded>
+                  <Image src={image} size={'cover'} positionX={'center'} positionY={'top'}/>
+                </FadeIn>
+              </GalleryItem>
+            ))}
+          </FadeGallery>
           <div className={'header-text'}>
             {header.title}
           </div>
