@@ -47,7 +47,7 @@ export class FadeGallery extends Component<FadeGalleryProps, FadeGalleryState> {
     let currentIndex = 0;
     let initialSpeed = 3500;
 
-    const doIt = () => this.timeoutId = setTimeout(() => {
+    const processRevolving = () => this.timeoutId = setTimeout(() => {
       initialSpeed = 0;
       let nextIndex = currentIndex + 1;
       if (nextIndex === this.childrenLength) {
@@ -55,9 +55,9 @@ export class FadeGallery extends Component<FadeGalleryProps, FadeGalleryState> {
       }
       this.setState({nextIndex, currentIndex});
       currentIndex = nextIndex;
-      doIt();
+      processRevolving();
     }, initialSpeed || speed || 5500);
-    doIt();
+    processRevolving();
   }
 
   componentWillUnmount() {
