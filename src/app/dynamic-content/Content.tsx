@@ -12,11 +12,12 @@ interface ContentProps {
   children: any;
   className?: string;
   style?: any;
+  isNavOpen?: boolean;
 }
 
-export function Content({header, children, className, style}: ContentProps) {
+export function Content({header, children, className, style}, isNavOpen: ContentProps) {
   return (
-    <div className={classNames('content', className)} style={style}>
+    <div className={classNames('content', {'nav-open': isNavOpen}, className)} style={style}>
       <div className={'header'}>
         <div className={'header-content'}>
           <FadeIn whenLoaded>

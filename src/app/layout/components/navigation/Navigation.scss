@@ -78,8 +78,9 @@
     height: 0;
     opacity: 0;
     visibility: hidden;
-    overflow: hidden;
+    overflow: scroll;
     @include transition(opacity .4s, visibility .4s, height .4s);
+    will-change: transform;
 
     &.open {
       opacity: .95;
@@ -89,22 +90,22 @@
 
       li {
         @include animation(fadeInRight .5s ease forwards);
-        @include animation-delay(.35s);
+        @include animation-delay(.3s);
 
         &:nth-of-type(2) {
-          @include animation-delay(.4s);
+          @include animation-delay(.35s);
         }
         &:nth-of-type(3) {
-          @include animation-delay(.45s);
+          @include animation-delay(.4s);
         }
         &:nth-of-type(4) {
-          @include animation-delay(.5s);
+          @include animation-delay(.45s);
         }
         &:nth-of-type(5) {
-          @include animation-delay(.55s);
+          @include animation-delay(.5s);
         }
         &:nth-of-type(6) {
-          @include animation-delay(.6s);
+          @include animation-delay(.55s);
         }
       }
     }
