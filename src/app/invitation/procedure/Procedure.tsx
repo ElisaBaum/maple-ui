@@ -13,7 +13,7 @@ export function Procedure({content}: ContentComponentProps<ProcedureData>) {
   return (
     <div className="procedure">
       <Card>
-        <Headline text={courseOfEvents.headline}/>
+        <Headline text={courseOfEvents.headline} icon={courseOfEvents.icon}/>
         <Item>
           <Timeline>
             {
