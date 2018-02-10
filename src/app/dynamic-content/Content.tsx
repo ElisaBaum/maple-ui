@@ -23,8 +23,8 @@ export function Content({header, children, className, style, isNavOpen}: Content
       <div className={'header'}>
         <div className={'header-content'}>
           <FadeGallery>
-            {(header.images || [header.image]).map(image => (
-              <GalleryItem>
+            {(header.images || [header.image]).map((image, index) => (
+              <GalleryItem key={index}>
                 <FadeIn whenLoaded>
                   <Image src={image} size={'cover'} positionX={'center'} positionY={'top'}/>
                 </FadeIn>

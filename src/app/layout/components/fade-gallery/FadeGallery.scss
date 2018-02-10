@@ -11,6 +11,7 @@
     height: 100%;
     z-index: 20;
     &.next {
+      @include translateZ(0);
       @include transition(opacity 2.25s);
       opacity: 1;
       z-index: 22;
