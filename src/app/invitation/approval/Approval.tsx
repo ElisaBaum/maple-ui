@@ -20,6 +20,7 @@ import {
 
 interface ApprovalProps extends ContentComponentProps<ApprovalData> {
   users: User[];
+  currentUser?: User;
   maxPersonCount: number;
   newCompanionName?: string;
 
@@ -36,9 +37,11 @@ export function Approval(props: ApprovalProps) {
     music_requests: MUSIC_REQUESTS_PATH,
     q_and_a: Q_AND_A_PATH,
   };
-  const {users, maxPersonCount, newCompanionName, addCompanion, updateCompanion} = props;
+  const {users, currentUser, maxPersonCount, newCompanionName, addCompanion, updateCompanion} = props;
   const {content: {welcome, companions, approval, sitemap}} = props;
   const isAddCompanionPossible = users && maxPersonCount && users.length < maxPersonCount;
+  const hasCompanions = users.length > 1;
+  const companion = approval.companion.replace('{{companion}}', getCompanionsStr(currentUser, users));
   return (
     <div>
       <Card>
@@ -62,8 +65,7 @@ export function Approval(props: ApprovalProps) {
         <Item>
           <Tile centered>
             <TileContent>
-              {/*TODO */}
-              {approval.text} {approval.companion}
+              {approval.text} {hasCompanions ? companion : ''}
             </TileContent>
             <TileIconWrapper>
               <Icon size={'lg'} name={'done_all'}/>
@@ -78,6 +80,24 @@ export function Approval(props: ApprovalProps) {
                          onChange={({value}) => updateCompanion({...user, accepted: value})}
                          value={user.accepted}/>)
           )
+        }
+        {
+          isAddCompanionPossible &&
+          <div>
+            <Item>
+              <div>{companions.description}</div>
+            </Item>
+            <Form onSubmit={({isValid, values}) => isValid && addCompanion(values)}>
+              <FormTextField name="name"
+                             value={newCompanionName || ''}
+                             label="Name"
+                             maxLength={[255, `Maximale Zeichenlänge überschritten (${MAX_LENGTH_PLACEHOLDER} Zeichen erlaubt)`]}
+                             required={'Bitte einen Namen eingeben!'}/>
+              <Item>
+                <FormButton>Hinzufügen</FormButton>
+              </Item>
+            </Form>
+          </div>
         }
       </Card>
       <Card className={'pt-0 pb-0'}>
@@ -98,25 +118,13 @@ export function Approval(props: ApprovalProps) {
           </LinkItem>
         ))}
       </Card>
-      {
-        isAddCompanionPossible &&
-        <Card>
-          <Item>
-            <div>{companions.description}</div>
-          </Item>
-          <Form onSubmit={({isValid, values}) => isValid && addCompanion(values)}>
-            <FormTextField name="name"
-                           value={newCompanionName || ''}
-                           label="Name"
-                           maxLength={[255, `Maximale Zeichenlänge überschritten (${MAX_LENGTH_PLACEHOLDER} Zeichen erlaubt)`]}
-                           required={'Bitte einen Namen eingeben!'}/>
-            <Item>
-              <FormButton>Hinzufügen</FormButton>
-            </Item>
-          </Form>
-        </Card>
-      }
-
     </div>
   );
+}
+
+function getCompanionsStr(currentUser: User | undefined, users: User[]) {
+  return users
+    .filter(({name}) => currentUser && currentUser.name !== name)
+    .map(({name}) => name)
+    .join(', ');
 }
