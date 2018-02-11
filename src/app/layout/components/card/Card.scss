@@ -26,5 +26,9 @@
       border-top: 0;
     }
   }
+
+  @media only screen and (min-width: $size-lg) {
+    padding: 1rem 2rem;
+  }
 }
 
