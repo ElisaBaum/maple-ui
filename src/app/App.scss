@@ -3,20 +3,9 @@
 .app {
   min-height: 100%;
   font-family: 'Quicksand', sans-serif;
-  //background: linear-gradient(135deg, #6fb2d3 0%, #52BEBF 100%);
-  //background: linear-gradient(135deg, #b66fd3 0%, #52BEBF 100%);
-  //background: linear-gradient(135deg, #355C7D 0%, #6C5B7B 50%, #C06C84 100%);
-  //background: linear-gradient(135deg, #e1eec3 0%, #f05053 100%);
   background: $main-bg;
-  //background: linear-gradient(135deg, #d9a7c7 0%, #fffcdc 100%);
-  //background: linear-gradient(135deg, #D66D75 0%, #E29587 100%);
-  //background: linear-gradient(135deg, #4568DC 0%, #B06AB3 100%);
-  //background: linear-gradient(135deg, #43C6AC 0%, #191654 100%);
-  //background: linear-gradient(135deg, #485563 0%, #29323c 100%);
-  //background: linear-gradient(135deg, #bdc3c7 0%, #2c3e50 100%);
-  //background: linear-gradient(135deg, #304352 0%, #d7d2cc 100%);
-  //background: linear-gradient(135deg, #556270 0%, #FF6B6B 100%);
-  //background: linear-gradient(135deg, #134E5E 0%, #71B280 100%);
-  //background: linear-gradient(135deg, #20002c 0%, #cbb4d4 100%);
-  //background: linear-gradient(135deg, #16222A 0%, #3A6073 100%);
+
+  a[href^="mailto:"] {
+    color: $text-primary-color;
+  }
 }
