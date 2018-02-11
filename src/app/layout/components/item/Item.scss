@@ -7,11 +7,6 @@
   &.link-item {
     display: block;
     text-decoration: none;
-    // TODO ?
-    //&:visited:hover,
-    //&:hover {
-    //  color: $primary-color;
-    //}
     &:active {
       background-color: rgba(0,0,0,.03);
     }

@@ -11,7 +11,6 @@ import {FormSwitch} from '../../layout/components/form/form-switch/FormSwitch';
 import {Card} from '../../layout/components/card/Card';
 import {Headline} from '../../layout/components/headline/Headline';
 import {Icon} from '../../layout/components/icon/Icon';
-import {Hide} from '../../layout/components/hide/Hide';
 import {Tile, TileContent, TileIconWrapper} from '../../layout/components/tile/Tile';
 import {
   JOURNEY_PATH, MUSIC_REQUESTS_PATH, OVERNIGHT_STAY_PATH, PROCEDURE_PATH,
@@ -38,23 +37,17 @@ export function Approval(props: ApprovalProps) {
     q_and_a: Q_AND_A_PATH,
   };
   const {users, currentUser, maxPersonCount, newCompanionName, addCompanion, updateCompanion} = props;
-  const {content: {welcome, companions, approval, sitemap}} = props;
+  const {content: {greeting, welcome, companions, approval, sitemap}} = props;
   const isAddCompanionPossible = users && maxPersonCount && users.length < maxPersonCount;
   const hasCompanions = users.length > 1;
   const companion = approval.companion.replace('{{companion}}', getCompanionsStr(currentUser, users));
+  const greetingWithUser = greeting.replace('{{username}}', currentUser ? currentUser.name : '');
   return (
     <div>
       <Card>
-        <Hide whenLessThan={'md'}>
-          <Headline text={'Willkommen'} icon={'favorite'}/>
-        </Hide>
+        <Headline text={greetingWithUser} icon={'favorite'}/>
         <Item>
           <Tile centered>
-            <Hide whenAtLeast={'md'}>
-              <TileIconWrapper>
-                <Icon size={'lg'} name={'favorite'}/>
-              </TileIconWrapper>
-            </Hide>
             <TileContent>
               {welcome}
             </TileContent>

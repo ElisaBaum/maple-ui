@@ -2,6 +2,7 @@ import {ContentData} from "../../dynamic-content/ContentData";
 
 export interface ApprovalData extends ContentData {
 
+  greeting: string;
   welcome: string;
 
   approval: {
