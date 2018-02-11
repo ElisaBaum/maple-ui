@@ -23,11 +23,15 @@ import {
 // CONFIGURATION
 // -------------------------------------------------
 
+const throwError = msg => {
+  throw new Error(msg);
+};
+
 const DIST_FOLDER = 'build';
 const MAIN_BUNDLE = `main-${getShortRandomString()}`;
 const ENTRY = '> index.tsx';
 const DEFAULT_ENV = {
-  LAST_FM_API_KEY: process.env.LAST_FM_API_KEY,
+  LAST_FM_API_KEY: process.env.LAST_FM_API_KEY || throwError('ENV LAST_FM_API_KEY missing'),
   LAST_FM_API_URL: 'https://ws.audioscrobbler.com/2.0/'
 };
 const DEFAULT_CONFIG: FuseBoxOptions = {
@@ -125,14 +129,14 @@ const tasks = {
   clearDist: function clearDist(currentPath = path.join(__dirname, DIST_FOLDER)) {
     if (!existsSync(currentPath)) return;
     readdirSync(currentPath)
-    .forEach(name => {
-      const fullPath = path.join(currentPath, name);
-      if (!statSync(fullPath).isDirectory()) {
-        unlinkSync(path.join(fullPath));
-      } else {
-        clearDist(fullPath);
-      }
-    })
+      .forEach(name => {
+        const fullPath = path.join(currentPath, name);
+        if (!statSync(fullPath).isDirectory()) {
+          unlinkSync(path.join(fullPath));
+        } else {
+          clearDist(fullPath);
+        }
+      })
     ;
   },
   copyFavicon() {
@@ -154,9 +158,9 @@ const tasks = {
     });
 
     fuse
-    .bundle(MAIN_BUNDLE)
-    .instructions(ENTRY)
-    .watch().hmr()
+      .bundle(MAIN_BUNDLE)
+      .instructions(ENTRY)
+      .watch().hmr()
     ;
 
     this.copyFavicon();
@@ -168,8 +172,8 @@ const tasks = {
     const fuse = fuseBox(env);
 
     fuse
-    .bundle(MAIN_BUNDLE)
-    .instructions(ENTRY)
+      .bundle(MAIN_BUNDLE)
+      .instructions(ENTRY)
     ;
 
     this.copyFavicon();
