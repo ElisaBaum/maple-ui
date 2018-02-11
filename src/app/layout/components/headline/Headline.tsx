@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
-import './Headline.scss';
 import {Icon} from '../icon/Icon';
+import './Headline.scss';
 
 interface HeadlineProps {
   text: string;

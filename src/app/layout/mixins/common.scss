@@ -200,6 +200,8 @@
   &:last-child {
     background-image: none;
   }
+
+  @include clearfix();
 }
 
 // Form fields

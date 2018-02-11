@@ -6,11 +6,17 @@ import {Form} from "../../layout/components/form/Form";
 import {FormTextField} from "../../layout/components/form/form-text-field/FormTextField";
 import {MAX_LENGTH_PLACEHOLDER} from '../../layout/components/form/validators/MaxLengthValidator';
 import {FormButton} from '../../layout/components/form/form-button/FormButton';
-import {Item} from '../../layout/components/item/Item';
+import {Item, LinkItem} from '../../layout/components/item/Item';
 import {FormSwitch} from '../../layout/components/form/form-switch/FormSwitch';
 import {Card} from '../../layout/components/card/Card';
 import {Headline} from '../../layout/components/headline/Headline';
 import {Icon} from '../../layout/components/icon/Icon';
+import {Hide} from '../../layout/components/hide/Hide';
+import {Tile, TileContent, TileIconWrapper} from '../../layout/components/tile/Tile';
+import {
+  JOURNEY_PATH, MUSIC_REQUESTS_PATH, OVERNIGHT_STAY_PATH, PROCEDURE_PATH,
+  Q_AND_A_PATH
+} from '../../skeleton/Skeleton';
 
 interface ApprovalProps extends ContentComponentProps<ApprovalData> {
   users: User[];
@@ -23,57 +29,47 @@ interface ApprovalProps extends ContentComponentProps<ApprovalData> {
 }
 
 export function Approval(props: ApprovalProps) {
+  const keyPathMap = {
+    procedure: PROCEDURE_PATH,
+    overnight_stay: OVERNIGHT_STAY_PATH,
+    journey: JOURNEY_PATH,
+    music_requests: MUSIC_REQUESTS_PATH,
+    q_and_a: Q_AND_A_PATH,
+  };
   const {users, maxPersonCount, newCompanionName, addCompanion, updateCompanion} = props;
-  const {content: {welcome, description, companions}} = props;
+  const {content: {welcome, companions, approval, sitemap}} = props;
   const isAddCompanionPossible = users && maxPersonCount && users.length < maxPersonCount;
-
   return (
     <div>
       <Card>
-        <Headline text={'Willkommen'} icon={'favorite'}/>
-        <Item>{welcome.description}</Item>
-      </Card>
-      {/*<Card>*/}
-        {/*<Item border={false} style={{float: 'left', height: '100%', borderBottom: 0}}>*/}
-          {/*<Icon style={{fontSize: '2.4rem'}} name={'favorite'}/>*/}
-        {/*</Item>*/}
-        {/*<Item>{welcome.description}</Item>*/}
-      {/*</Card>*/}
-      <Card>
-        <Item border={false} style={{float: 'right', height: '100%', borderBottom: 0}}>
-          <Icon style={{fontSize: '2.4rem'}} name={'info'}/>
+        <Hide whenLessThan={'md'}>
+          <Headline text={'Willkommen'} icon={'favorite'}/>
+        </Hide>
+        <Item>
+          <Tile centered>
+            <Hide whenAtLeast={'md'}>
+              <TileIconWrapper>
+                <Icon size={'lg'} name={'favorite'}/>
+              </TileIconWrapper>
+            </Hide>
+            <TileContent>
+              {welcome}
+            </TileContent>
+          </Tile>
         </Item>
-        <Item>{welcome.hints}</Item>
       </Card>
-      {/*<Card>*/}
-        {/*<Item border={false} style={{float: 'right', height: '100%', borderBottom: 0}}>*/}
-          {/*<Icon style={{fontSize: '2.4rem'}} name={'done'}/>*/}
-        {/*</Item>*/}
-        {/*<Item>*/}
-          {/*Teile uns mit ob du zu unserer Hochzeit kommst*/}
-        {/*</Item>*/}
-      {/*</Card>*/}
-      {/*<Card>*/}
-        {/*<Item border={false} style={{float: 'left', height: '100%', borderBottom: 0}}>*/}
-          {/*<Icon style={{fontSize: '2.4rem'}} name={'info'}/>*/}
-        {/*</Item>*/}
-        {/*<Item>*/}
-          {/*Außerdem findest du Informationen zum Ablauf, zur Anfahrt und zu anderen Themen wie Kleidung, Essen, Geschenken.*/}
-        {/*</Item>*/}
-      {/*</Card>*/}
-      {/*<Card>*/}
-        {/*<Item border={false} style={{float: 'right', height: '100%', borderBottom: 0}}>*/}
-          {/*<Icon style={{fontSize: '2.4rem'}} name={'done_all'}/>*/}
-        {/*</Item>*/}
-        {/*<Item>*/}
-          {/*hast die Möglichkeit uns deine Musikwünsche mitzuteilen und findest .*/}
-        {/*</Item>*/}
-      {/*</Card>*/}
       <Card>
-        <Item border={false} style={{float: 'left', height: '100%', borderBottom: 0}}>
-          <Icon style={{fontSize: '2.4rem'}} name={'done_all'}/>
+        <Item>
+          <Tile centered>
+            <TileContent>
+              {/*TODO */}
+              {approval.text} {approval.companion}
+            </TileContent>
+            <TileIconWrapper>
+              <Icon size={'lg'} name={'done_all'}/>
+            </TileIconWrapper>
+          </Tile>
         </Item>
-        <Item>{description}</Item>
         {
           users &&
           users.map((user, index) =>
@@ -83,6 +79,24 @@ export function Approval(props: ApprovalProps) {
                          value={user.accepted}/>)
           )
         }
+      </Card>
+      <Card className={'pt-0 pb-0'}>
+        {sitemap.map(({key, icon, content}, index) => (
+          <LinkItem key={key} target={keyPathMap[key]}>
+            <Tile centered>
+              {
+                [
+                  <TileIconWrapper key={'icon'}>
+                    <Icon size={'lg'} name={icon}/>
+                  </TileIconWrapper>,
+                  <TileContent key={'content'}>
+                    {content}
+                  </TileContent>
+                ][index % 2 ? 'reverse' : 'sort']()
+              }
+            </Tile>
+          </LinkItem>
+        ))}
       </Card>
       {
         isAddCompanionPossible &&
