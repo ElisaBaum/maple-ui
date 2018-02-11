@@ -4,7 +4,7 @@ export interface QAndAData extends ContentData {
 
   questions: Array<{
     question: string;
-    answer: string;
+    answer: string[];
     icon: string;
   }>;
 

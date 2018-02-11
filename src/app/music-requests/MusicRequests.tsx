@@ -14,6 +14,8 @@ import {Card} from '../layout/components/card/Card';
 import {Headline} from '../layout/components/headline/Headline';
 import {MusicRequestLoading} from './music-request-loading/MusicRequestLoading';
 import "./MusicRequests.scss";
+import {Tile, TileContent, TileIconWrapper} from '../layout/components/tile/Tile';
+import {Icon} from '../layout/components/icon/Icon';
 
 interface MusicRequestsProps extends ContentComponentProps<MusicRequestsData> {
   loadingArtist?: boolean;
@@ -91,7 +93,14 @@ export function MusicRequests(props: MusicRequestsProps) {
       }
       <Card>
         <Item>
-          {hint}
+          <Tile>
+            <TileIconWrapper>
+              <Icon size={'lg'} name={'info'}/>
+            </TileIconWrapper>
+            <TileContent>
+              {hint}
+            </TileContent>
+          </Tile>
         </Item>
       </Card>
     </div>

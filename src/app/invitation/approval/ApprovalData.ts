@@ -10,6 +10,12 @@ export interface ApprovalData extends ContentData {
     companion: string;
   };
 
+  bugs: {
+    icon: string;
+    content: string;
+    email: string;
+  };
+
   companions: {
     description: string;
   };

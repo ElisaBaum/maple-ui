@@ -9,6 +9,8 @@ import {Card} from "../../layout/components/card/Card";
 import {Item} from "../../layout/components/item/Item";
 import {Headline} from "../../layout/components/headline/Headline";
 import "./RoomReservation.scss";
+import {Tile, TileContent, TileIconWrapper} from '../../layout/components/tile/Tile';
+import {Icon} from '../../layout/components/icon/Icon';
 
 const formatter = new Intl.NumberFormat('de-DE', {
   style: 'currency',
@@ -20,7 +22,9 @@ interface RoomReservationProps extends ContentComponentProps<RoomReservationData
   hotelRooms: HotelRoom[];
   reservedHotelRoom?: HotelRoom;
   loading: boolean;
+
   updateRoomReservation(room: HotelRoom);
+
   deleteRoomReservation();
 }
 
@@ -33,11 +37,11 @@ export function RoomReservation(props: RoomReservationProps) {
       <Card>
         <Headline text={contentTitle.title} icon={contentTitle.icon} className="content-title"/>
         <Item>
-          {description}
+          {description.map(text => (<p>{text}</p>))}
         </Item>
       </Card>
       <Card>
-        <Headline text={content.hotelRooms.title}/>
+        <Headline text={content.hotelRooms.title} icon={content.hotelRooms.icon}/>
         {
           hotelRooms &&
           hotelRooms.map((room: HotelRoom) => (
@@ -61,14 +65,28 @@ export function RoomReservation(props: RoomReservationProps) {
           </Form>
         }
         <Item>
-          <div>{content.hotelRooms.checkIn}</div>
-          <div>{content.hotelRooms.checkOut}</div>
-          <div>{content.hotelRooms.breakfast}</div>
+          <Tile>
+            <TileIconWrapper>
+              <Icon size={'lg'} name={'alarm'}/>
+            </TileIconWrapper>
+            <TileContent>
+              <div>{content.hotelRooms.checkIn}</div>
+              <div>{content.hotelRooms.checkOut}</div>
+              <div>{content.hotelRooms.breakfast}</div>
+            </TileContent>
+          </Tile>
         </Item>
       </Card>
       <Card>
         <Item>
-          {hint}
+          <Tile>
+            <TileIconWrapper>
+              <Icon size={'lg'} name={'info'}/>
+            </TileIconWrapper>
+            <TileContent>
+              {hint.map(text => (<p>{text}</p>))}
+            </TileContent>
+          </Tile>
         </Item>
       </Card>
     </div>

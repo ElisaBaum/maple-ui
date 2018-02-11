@@ -7,11 +7,12 @@ export interface RoomReservationData extends ContentData {
     icon: string;
   };
 
-  description: string;
-  hint: string;
+  description: string[];
+  hint: string[];
   deleteText: string;
 
   hotelRooms: {
+    icon: string;
     title: string;
     checkIn: string;
     checkOut: string;
