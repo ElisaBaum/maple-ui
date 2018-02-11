@@ -3,5 +3,16 @@
 
 .item {
   @include itemize();
+
+  &.link-item {
+    display: block;
+    text-decoration: none;
+    &:active {
+      background-color: rgba(0,0,0,.03);
+    }
+    &:visited {
+      color: $text-primary-color;
+    }
+  }
 }
 

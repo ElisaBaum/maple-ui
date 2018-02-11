@@ -43,6 +43,7 @@
   }
 }
 
+
 @media only screen and (min-width: $size-md) {
   $left-side-flex: 2;
   $right-side-flex: 1.5;
@@ -82,6 +83,30 @@
         display: block;
         content: ' ';
         height: 100%;
+      }
+      > * {
+        @include flex($right-side-flex);
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: $size-lg) {
+  $left-side-flex: 2;
+  $right-side-flex: 1.25;
+
+  .content {
+    .header {
+      .header-content {
+        @include flex($left-side-flex);
+      }
+      &:after {
+        @include flex($right-side-flex);
+      }
+    }
+    .content-content {
+      &:before {
+        @include flex($left-side-flex);
       }
       > * {
         @include flex($right-side-flex);

@@ -8,6 +8,7 @@ import {toast} from "react-toastify";
 import {Inject} from 'react.di';
 import {UserAuthHttpService} from '../auth/UserAuthHttpService';
 import {LOGIN_PATH, ROOT_PATH} from '../App';
+import {UserService} from '../user/UserService';
 
 interface LoginContainerState {
   loading: boolean;
@@ -17,6 +18,7 @@ export class LoginContainer extends Component<{}, LoginContainerState> {
 
   @Inject(HISTORY_TOKEN) history: History;
   @Inject authService: AuthService;
+  @Inject userService: UserService;
   @Inject userHttpService: UserHttpService;
   @Inject userAuthHttpService: UserAuthHttpService;
 
@@ -28,8 +30,9 @@ export class LoginContainer extends Component<{}, LoginContainerState> {
   async handleLogin({name, code}) {
     this.setState({loading: true});
     try {
-      const {data: {csrfToken}} = await this.userAuthHttpService.login(name, code);
+      const {data: {csrfToken, user}} = await this.userAuthHttpService.login(name, code);
       await this.authService.setCSRFToken(csrfToken);
+      await this.userService.setUser(user);
       toast.dismiss();
       const prevPath = this.history.getPrevPath();
       const nextPath = (prevPath && prevPath !== LOGIN_PATH) ? prevPath : ROOT_PATH;

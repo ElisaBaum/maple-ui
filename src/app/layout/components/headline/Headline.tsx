@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
+import {Icon} from '../icon/Icon';
 import './Headline.scss';
 
 interface HeadlineProps {
@@ -13,7 +14,7 @@ export function Headline({text, icon, className}: HeadlineProps) {
     <h3 className={classnames('headline', className)}>
       {
         icon &&
-        <i className="material-icons">{icon}</i>
+        <Icon name={icon}/>
       }
       {text}
     </h3>

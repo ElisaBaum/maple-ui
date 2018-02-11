@@ -4,6 +4,7 @@ export interface ProcedureData extends ContentData {
 
   courseOfEvents: {
     headline: string;
+    icon: string;
     events: Array<{
       time: string;
       event: string;

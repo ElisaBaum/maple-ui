@@ -12,7 +12,7 @@ export function QAndA({content}: ContentComponentProps<QAndAData>) {
       {
         questions.map((question, index) => (
           <Card key={index}>
-            <Headline text={question.question} icon="question_answer"/>
+            <Headline text={question.question} icon={question.icon}/>
             <Item>
               {question.answer}
             </Item>

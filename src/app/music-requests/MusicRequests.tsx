@@ -13,6 +13,7 @@ import {Item} from '../layout/components/item/Item';
 import {Card} from '../layout/components/card/Card';
 import {Headline} from '../layout/components/headline/Headline';
 import {MusicRequestLoading} from './music-request-loading/MusicRequestLoading';
+import "./MusicRequests.scss";
 
 interface MusicRequestsProps extends ContentComponentProps<MusicRequestsData> {
   loadingArtist?: boolean;
@@ -34,15 +35,16 @@ export function MusicRequests(props: MusicRequestsProps) {
   const {onArtistSelect, onAlbumSelect, onSongSelect, onArtistDelete, onAlbumDelete, onSongDelete} = props;
   const {requestedArtists, requestedSongs, requestedAlbums, loadingArtist, loadingAlbum, loadingSong} = props;
   const {content: {maxRequests}} = props;
-  const {description, hint} = props.content;
+  const {contentTitle, description, hint} = props.content;
   const maxRequestsReached = (requestedArtists.length + requestedSongs.length + requestedAlbums.length) >= maxRequests.count;
   const showArtists = (!!requestedArtists.length || loadingArtist);
   const showSongs = (!!requestedSongs.length || loadingSong);
   const showAlbums = (!!requestedAlbums.length || loadingAlbum);
   const showSelects = showArtists || showSongs || showAlbums;
   return (
-    <div>
+    <div className="music-requests">
       <Card>
+        <Headline text={contentTitle.title} icon={contentTitle.icon} className="content-title"/>
         <Item>
           {description}
         </Item>
@@ -107,7 +109,7 @@ interface ResultSectionProps {
 function ResultSection({headline, isLoading, onDelete, results, hasSubtitle}: ResultSectionProps) {
   return (
     <div>
-      <Headline text={headline}/>
+      <Headline text={headline} icon={'stars'}/>
       {
         results.map(item => (
           <Item key={item.id} className={'pr-0'}>

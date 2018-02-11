@@ -1,0 +1,16 @@
+@import "../layout/constants";
+
+.music-requests {
+  .content-title {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: $size-md) {
+
+  .music-requests {
+    .content-title {
+      display: block;
+    }
+  }
+}

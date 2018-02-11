@@ -1,0 +1,16 @@
+@import "../../layout/constants";
+
+.room-reservation {
+  .content-title {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: $size-md) {
+
+  .room-reservation {
+    .content-title {
+      display: block;
+    }
+  }
+}

@@ -8,6 +8,7 @@ import {FormButton} from "../../layout/components/form/form-button/FormButton";
 import {Card} from "../../layout/components/card/Card";
 import {Item} from "../../layout/components/item/Item";
 import {Headline} from "../../layout/components/headline/Headline";
+import "./RoomReservation.scss";
 
 const formatter = new Intl.NumberFormat('de-DE', {
   style: 'currency',
@@ -25,17 +26,18 @@ interface RoomReservationProps extends ContentComponentProps<RoomReservationData
 
 export function RoomReservation(props: RoomReservationProps) {
   const {hotelRooms, reservedHotelRoom, updateRoomReservation, deleteRoomReservation, content, loading} = props;
-  const {description, hint, deleteText} = content;
+  const {contentTitle, description, hint, deleteText} = content;
 
   return (
-    <div>
+    <div className="room-reservation">
       <Card>
+        <Headline text={contentTitle.title} icon={contentTitle.icon} className="content-title"/>
         <Item>
           {description}
         </Item>
       </Card>
       <Card>
-        <Headline text={content.hotelRooms.title} icon="local_hotel"/>
+        <Headline text={content.hotelRooms.title}/>
         {
           hotelRooms &&
           hotelRooms.map((room: HotelRoom) => (

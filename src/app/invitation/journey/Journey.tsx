@@ -19,16 +19,17 @@ export function Journey({content}: ContentComponentProps<JourneyData>) {
           <div><span>{locationAddress.street} </span><span>{locationAddress.houseNumber}</span></div>
           <div><span>{locationAddress.postCode} </span><span>{locationAddress.city}</span></div>
         </Item>
-
+      </Card>
+      <Card>
         <Headline text={locationAddress.gpsCoordinates.headline} icon={locationAddress.gpsCoordinates.headlineIcon}/>
         <Item>
           <span>{locationAddress.gpsCoordinates.latitude}, </span>
           <span>{locationAddress.gpsCoordinates.longitude}</span>
         </Item>
 
-      <Map apiToken={apiToken}
-           longitude={locationAddress.gpsCoordinates.longitude}
-           latitude={locationAddress.gpsCoordinates.latitude}/>
+        <Map apiToken={apiToken}
+             longitude={locationAddress.gpsCoordinates.longitude}
+             latitude={locationAddress.gpsCoordinates.latitude}/>
 
       </Card>
 

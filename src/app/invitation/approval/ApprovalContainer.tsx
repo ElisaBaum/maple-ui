@@ -7,6 +7,7 @@ import {Approval} from "./Approval";
 import {ContentContainer} from "../../dynamic-content/ContentContainer";
 import {ApprovalData} from "./ApprovalData";
 import {toast} from "react-toastify";
+import {UserService} from '../../user/UserService';
 
 interface ApprovalContainerState {
   users: User[];
@@ -17,7 +18,8 @@ interface ApprovalContainerState {
 
 export class ApprovalContainer extends Component<{}, ApprovalContainerState> {
 
-  @Inject userService: UserHttpService;
+  @Inject userHttpService: UserHttpService;
+  @Inject userService: UserService;
 
   constructor(props) {
     super(props);
@@ -34,7 +36,7 @@ export class ApprovalContainer extends Component<{}, ApprovalContainerState> {
   }
 
   async loadParty() {
-    const party = await this.userService.getParty();
+    const party = await this.userHttpService.getParty();
 
     this.setState({
       maxPersonCount: party.maxPersonCount,
@@ -48,7 +50,7 @@ export class ApprovalContainer extends Component<{}, ApprovalContainerState> {
     });
 
     try {
-      const addedUser = await this.userService.addCompanion(partialUser);
+      const addedUser = await this.userHttpService.addCompanion(partialUser);
 
       this.setState(prevState => ({
         users: [...prevState.users, addedUser],
@@ -64,7 +66,7 @@ export class ApprovalContainer extends Component<{}, ApprovalContainerState> {
 
   async updateCompanionPartially(user: User) {
     try {
-      this.userService.updateCompanionPartially(user);
+      this.userHttpService.updateCompanionPartially(user);
       toast.dismiss();
     } catch (e) {
       // TODO show error message dependent on type of error?
@@ -77,6 +79,7 @@ export class ApprovalContainer extends Component<{}, ApprovalContainerState> {
     return (
       <ContentContainer contentKey={'approval'} action={action} render={(content: ApprovalData) => (
         <Approval users={users}
+                  currentUser={this.userService.getUser()}
                   maxPersonCount={maxPersonCount}
                   newCompanionName={newCompanionName}
                   updateCompanion={user => this.updateCompanionPartially(user)}
