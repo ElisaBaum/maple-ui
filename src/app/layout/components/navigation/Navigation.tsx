@@ -25,9 +25,14 @@ export class Navigation extends Component<NavigationProps, NavigationState> {
   }
 
   toggleActiveState() {
-    this.setState(prevState => ({
-      isActive: !prevState.isActive
-    }), () => this.navigationService.setOpen(this.state.isActive));
+    this.setActive(!this.state.isActive);
+  }
+
+  setActive(isActive: boolean) {
+    this.setState(
+      {isActive},
+      () => this.navigationService.setOpen(this.state.isActive)
+    );
   }
 
   render() {
@@ -38,7 +43,7 @@ export class Navigation extends Component<NavigationProps, NavigationState> {
 
     return (
       <div className="navigation">
-        <button className={buttonClass}  onClick={() => this.toggleActiveState()}>
+        <button className={buttonClass} onClick={() => this.toggleActiveState()}>
           <span className="top"/>
           <span className="middle"/>
           <span className="bottom"/>
@@ -49,7 +54,7 @@ export class Navigation extends Component<NavigationProps, NavigationState> {
             <ul>
               {
                 children.map((child, index) => (
-                  <li key={index} onClick={() => this.setState({isActive: false})}>
+                  <li key={index} onClick={() => this.setActive(false)}>
                     {child}
                   </li>
                 ))

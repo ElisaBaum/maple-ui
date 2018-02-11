@@ -8,6 +8,13 @@
   font-weight: 400;
   margin: 0;
 
+  &.headline-sub {
+    font-size: 1.2rem;
+    & i {
+      top: 0.25rem;
+    }
+  }
+
   & + .item {
     padding-top: 0.1rem;
   }

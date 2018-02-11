@@ -32,3 +32,13 @@ export function LinkItem({children, className, border, target}: LinkItemProps) {
     </Link>
   );
 }
+
+export function MailToItem({children, className, border, target}: LinkItemProps) {
+  border = border === undefined;
+  return (
+    <a href={`mailto:${target}`}
+       className={itemClassNames({className: classNames(className, 'link-item'), border})}>
+      {children}
+    </a>
+  );
+}

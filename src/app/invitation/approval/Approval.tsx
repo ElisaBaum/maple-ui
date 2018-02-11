@@ -6,7 +6,7 @@ import {Form} from "../../layout/components/form/Form";
 import {FormTextField} from "../../layout/components/form/form-text-field/FormTextField";
 import {MAX_LENGTH_PLACEHOLDER} from '../../layout/components/form/validators/MaxLengthValidator';
 import {FormButton} from '../../layout/components/form/form-button/FormButton';
-import {Item, LinkItem} from '../../layout/components/item/Item';
+import {Item, LinkItem, MailToItem} from '../../layout/components/item/Item';
 import {FormSwitch} from '../../layout/components/form/form-switch/FormSwitch';
 import {Card} from '../../layout/components/card/Card';
 import {Headline} from '../../layout/components/headline/Headline';
@@ -37,7 +37,7 @@ export function Approval(props: ApprovalProps) {
     q_and_a: Q_AND_A_PATH,
   };
   const {users, currentUser, maxPersonCount, newCompanionName, addCompanion, updateCompanion} = props;
-  const {content: {greeting, welcome, companions, approval, sitemap}} = props;
+  const {content: {greeting, welcome, companions, approval, sitemap, bugs}} = props;
   const isAddCompanionPossible = users && maxPersonCount && users.length < maxPersonCount;
   const hasCompanions = users.length > 1;
   const companion = approval.companion.replace('{{companion}}', getCompanionsStr(currentUser, users));
@@ -97,19 +97,25 @@ export function Approval(props: ApprovalProps) {
         {sitemap.map(({key, icon, content}, index) => (
           <LinkItem key={key} target={keyPathMap[key]}>
             <Tile centered>
-              {
-                [
-                  <TileIconWrapper key={'icon'}>
-                    <Icon size={'lg'} name={icon}/>
-                  </TileIconWrapper>,
-                  <TileContent key={'content'}>
-                    {content}
-                  </TileContent>
-                ][index % 2 ? 'reverse' : 'sort']()
-              }
+              <TileIconWrapper key={'icon'}>
+                <Icon size={'lg'} name={icon}/>
+              </TileIconWrapper>
+              <TileContent key={'content'}>
+                {content}
+              </TileContent>
             </Tile>
           </LinkItem>
         ))}
+        <MailToItem target={bugs.email}>
+          <Tile centered>
+                <TileIconWrapper>
+                  <Icon size={'lg'} name={bugs.icon}/>
+                </TileIconWrapper>
+                <TileContent>
+                  {bugs.content}
+                </TileContent>
+          </Tile>
+        </MailToItem>
       </Card>
     </div>
   );
