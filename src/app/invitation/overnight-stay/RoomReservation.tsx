@@ -37,11 +37,11 @@ export function RoomReservation(props: RoomReservationProps) {
       <Card>
         <Headline text={contentTitle.title} icon={contentTitle.icon} className="content-title"/>
         <Item>
-          {description.map(text => (<p>{text}</p>))}
+          {description.map((text, i) => (<p key={i}>{text}</p>))}
         </Item>
       </Card>
       <Card>
-        <Headline text={content.hotelRooms.title} icon={content.hotelRooms.icon}/>
+        <Headline sub text={content.hotelRooms.title} icon={content.hotelRooms.icon}/>
         {
           hotelRooms &&
           hotelRooms.map((room: HotelRoom) => (
@@ -84,7 +84,7 @@ export function RoomReservation(props: RoomReservationProps) {
               <Icon size={'lg'} name={'info'}/>
             </TileIconWrapper>
             <TileContent>
-              {hint.map(text => (<p>{text}</p>))}
+              {hint.map((text, i) => (<p key={i}>{text}</p>))}
             </TileContent>
           </Tile>
         </Item>

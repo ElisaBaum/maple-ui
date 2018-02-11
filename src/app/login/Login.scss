@@ -1,3 +1,5 @@
+@import "../layout/constants";
+
 .login {
 
   .title {
@@ -17,5 +19,11 @@
     bottom: 0;
     left: 0;
     z-index: -1;
+  }
+
+  @media only screen and (min-width: $size-md) {
+    .card {
+      padding: .8rem;
+    }
   }
 }

@@ -13,9 +13,9 @@ export function MusicRequestLoading({hasSubtitle}: MusicRequestLoadingProps) {
       <TileIconWrapper>
         <div className={'placeholder-shimmer icon'}></div>
       </TileIconWrapper>
-      <div className={'content'}>
-        <div className={'placeholder-shimmer title'}></div>
-        {hasSubtitle && <div className={'placeholder-shimmer subtitle'}></div>}
+      <div className={'music-request-loading-content'}>
+        <div className={'placeholder-shimmer music-request-loading-content-title'}></div>
+        {hasSubtitle && <div className={'placeholder-shimmer music-request-loading-content-subtitle'}></div>}
       </div>
     </Tile>
   );
