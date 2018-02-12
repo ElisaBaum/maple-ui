@@ -50,7 +50,7 @@ export class FadeGallery extends Component<FadeGalleryProps, FadeGalleryState> {
     const processRevolving = () => this.timeoutId = setTimeout(() => {
       initialSpeed = 0;
       let nextIndex = currentIndex + 1;
-      if (nextIndex === this.childrenLength) {
+      if (nextIndex >= this.childrenLength) {
         nextIndex = 0;
       }
       this.setState({nextIndex, currentIndex});
