@@ -26,7 +26,7 @@ export class Content extends Component<ContentProps, ContentState> {
   vertical = /_(h|)v(h|)\.(jpg|jpeg|png)/i;
   horizontal = /_(v|)h(v|)\.(jpg|jpeg|png)/i;
   portraitMediaQuery: MediaQueryList;
-  handleOrientationChange: () => any;
+  handleOrientationChange: (mediaQuery) => any;
 
   constructor(props) {
     super(props);
