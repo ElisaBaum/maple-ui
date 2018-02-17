@@ -8,15 +8,10 @@ import {FormButton} from "../../layout/components/form/form-button/FormButton";
 import {Card} from "../../layout/components/card/Card";
 import {Item} from "../../layout/components/item/Item";
 import {Headline} from "../../layout/components/headline/Headline";
-import "./RoomReservation.scss";
 import {Tile, TileContent, TileIconWrapper} from '../../layout/components/tile/Tile';
 import {Icon} from '../../layout/components/icon/Icon';
-
-const formatter = new Intl.NumberFormat('de-DE', {
-  style: 'currency',
-  currency: 'EUR',
-  minimumFractionDigits: 2
-});
+import {format} from '../../utils/currency';
+import "./RoomReservation.scss";
 
 interface RoomReservationProps extends ContentComponentProps<RoomReservationData> {
   hotelRooms: HotelRoom[];
@@ -46,7 +41,7 @@ export function RoomReservation(props: RoomReservationProps) {
           hotelRooms &&
           hotelRooms.map((room: HotelRoom) => (
               <FormRadioButton key={room.id}
-                               label={`${room.description} ${formatter.format(room.price)}`}
+                               label={`${room.description} ${format(room.price)}`}
                                name="hotelRooms"
                                onChange={({value}) => value && updateRoomReservation(room)}
                                value={!!reservedHotelRoom && reservedHotelRoom.id === room.id}/>
