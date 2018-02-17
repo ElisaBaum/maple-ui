@@ -25,6 +25,7 @@
     "history": "^4.7.2",
     "inversify": "^4.3.0",
     "inversify-inject-decorators": "^3.0.1",
+    "match-media": "^0.2.0",
     "numeral": "^2.0.6",
     "prop-types": "^15.6.0",
     "react": "^16.0.0",

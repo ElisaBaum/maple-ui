@@ -43,6 +43,14 @@
   }
 }
 
+@media only screen and (orientation: landscape) {
+  .content {
+    .header {
+      height: 100vh;
+    }
+  }
+}
+
 
 @media only screen and (min-width: $size-md) {
   $left-side-flex: 2;
