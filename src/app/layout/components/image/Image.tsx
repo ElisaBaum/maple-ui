@@ -33,7 +33,7 @@ export function Image({src, size, position, positionX, positionY, className, onL
          ref={ref => imgRef = ref}
          onLoad={() => {
            if (divRef) {
-             if (imgRef) {
+             if (imgRef && divRef.contains(imgRef)) {
                divRef.removeChild(imgRef);
              }
              divRef.style.opacity = '1';
