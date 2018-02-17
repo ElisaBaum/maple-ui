@@ -4,6 +4,7 @@ import {FadeIn} from '../layout/components/fade-in/FadeIn';
 import {FadeGallery, GalleryItem} from '../layout/components/fade-gallery/FadeGallery';
 import {Image} from '../layout/components/image/Image';
 import {Component} from "react";
+import 'match-media';
 import './Content.scss';
 
 interface ContentProps {
