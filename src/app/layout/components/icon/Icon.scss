@@ -4,7 +4,8 @@
   font-size: 1.4rem;
   color: $primary-color;
   background: -o-linear-gradient(transparent, transparent);
-  background: -webkit-linear-gradient(135deg, #ff9966 0%, $primary-color 100%);
+  background: linear-gradient(135deg, #ff9966 0%, #ff5e62 100%);
+  background: -webkit-linear-gradient(135deg, $primary-color 0%, #ff9966 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   &.lg {
