@@ -18,6 +18,7 @@ import {LastFmHttpService} from './last-fm/LastFmHttpService';
 
 interface MusicRequestsContainerState {
   action?: Promise<any>;
+  requestLimit: number;
   requestedArtists: RequestedArtist[];
   requestedAlbums: RequestedAlbum[];
   requestedSongs: RequestedSong[];
@@ -43,6 +44,7 @@ export class MusicRequestsContainer extends Component<{}, MusicRequestsContainer
       requestedArtists: [],
       requestedAlbums: [],
       requestedSongs: [],
+      requestLimit: 0,
     };
   }
 
@@ -51,9 +53,15 @@ export class MusicRequestsContainer extends Component<{}, MusicRequestsContainer
       action: Promise.all([
         this.loadRequestedArtists(),
         this.loadRequestedAlbums(),
-        this.loadRequestedSongs()
+        this.loadRequestedSongs(),
+        this.loadRequestLimit(),
       ])
     });
+  }
+
+  async loadRequestLimit() {
+    const requestLimit = await this.musicRequestsHttpService.getRequestLimit();
+    this.setState({requestLimit});
   }
 
   async loadRequestedArtists() {
@@ -182,10 +190,11 @@ export class MusicRequestsContainer extends Component<{}, MusicRequestsContainer
   }
 
   render() {
-    const {action, requestedArtists, requestedAlbums, requestedSongs, loadingArtist, loadingAlbum, loadingSong} = this.state;
+    const {action, requestedArtists, requestedAlbums, requestedSongs, requestLimit, loadingArtist, loadingAlbum, loadingSong} = this.state;
     return (
       <ContentContainer contentKey={'music-requests'} action={action} render={(content: MusicRequestsData) => (
         <MusicRequests content={content}
+                       requestLimit={requestLimit}
                        loadingArtist={loadingArtist}
                        loadingAlbum={loadingAlbum}
                        loadingSong={loadingSong}

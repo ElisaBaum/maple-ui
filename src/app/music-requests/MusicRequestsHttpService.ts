@@ -11,6 +11,11 @@ export class MusicRequestsHttpService {
   constructor(@Inject private http: Http) {
   }
 
+  async getRequestLimit() {
+    const {data: {limit}} = await this.http.get<{limit: number}>('/music-requests/limit');
+    return limit;
+  }
+
   async getRequestedArtists() {
     const requestedArtists = await this.http.get<RequestedArtist[]>('/users/me/music-request-artists');
     return requestedArtists.data;
