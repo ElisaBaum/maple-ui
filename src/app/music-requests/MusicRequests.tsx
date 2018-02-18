@@ -24,6 +24,7 @@ interface MusicRequestsProps extends ContentComponentProps<MusicRequestsData> {
   requestedArtists: RequestedArtist[];
   requestedAlbums: RequestedAlbum[];
   requestedSongs: RequestedSong[];
+  requestLimit: number;
 
   onArtistSelect(artist: LastFmArtist);
   onAlbumSelect(album: LastFmAlbum);
@@ -35,10 +36,10 @@ interface MusicRequestsProps extends ContentComponentProps<MusicRequestsData> {
 
 export function MusicRequests(props: MusicRequestsProps) {
   const {onArtistSelect, onAlbumSelect, onSongSelect, onArtistDelete, onAlbumDelete, onSongDelete} = props;
-  const {requestedArtists, requestedSongs, requestedAlbums, loadingArtist, loadingAlbum, loadingSong} = props;
+  const {requestedArtists, requestedSongs, requestedAlbums, loadingArtist, loadingAlbum, loadingSong, requestLimit} = props;
   const {content: {maxRequests}} = props;
   const {contentTitle, description, hint} = props.content;
-  const maxRequestsReached = (requestedArtists.length + requestedSongs.length + requestedAlbums.length) >= maxRequests.count;
+  const maxRequestsReached = (requestedArtists.length + requestedSongs.length + requestedAlbums.length) >= requestLimit;
   const showArtists = (!!requestedArtists.length || loadingArtist);
   const showSongs = (!!requestedSongs.length || loadingSong);
   const showAlbums = (!!requestedAlbums.length || loadingAlbum);
