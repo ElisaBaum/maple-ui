@@ -3,7 +3,7 @@ import {HttpInterceptor, HTTP_INTERCEPTOR_TOKEN} from './HttpInterceptor';
 import {Inject, Injectable} from 'react.di';
 
 export interface RequestOptions<IT> extends AxiosRequestConfig {
-  interceptOptions: IT;
+  interceptOptions?: IT;
 }
 
 export interface AxiosResponse {

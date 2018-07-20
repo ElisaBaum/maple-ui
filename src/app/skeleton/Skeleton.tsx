@@ -10,8 +10,10 @@ import {QAndAContainer} from "../invitation/q-and-a/QAndAContainer";
 import {ProcedureContainer} from "../invitation/procedure/ProcedureContainer";
 import {NotFound} from "../not-found/NotFound";
 import './Skeleton.scss';
+import {GalleryModule} from '../gallery/GalleryModule';
 
 export const JOURNEY_PATH = '/journey';
+export const GALLERY_PATH = '/gallery';
 export const APPROVAL_PATH = '/approval';
 export const OVERNIGHT_STAY_PATH = '/overnight-stay';
 export const MUSIC_REQUESTS_PATH = '/music-requests';
@@ -27,10 +29,12 @@ export const Skeleton = () => (
       <NavigationItem target={JOURNEY_PATH} text='Anfahrt'/>
       <NavigationItem target={MUSIC_REQUESTS_PATH} text='Musikwünsche'/>
       <NavigationItem target={Q_AND_A_PATH} text='Fragen & Antworten'/>
+      <NavigationItem target={GALLERY_PATH} text='Gallery'/>
     </Navigation>
     <Switch>
       <Route path={JOURNEY_PATH} component={JourneyContainer}/>
       <Route path={APPROVAL_PATH} component={ApprovalContainer}/>
+      <Route path={GALLERY_PATH} component={GalleryModule}/>
       <Route path={OVERNIGHT_STAY_PATH} component={RoomReservationContainer}/>
       <Route path={MUSIC_REQUESTS_PATH} component={MusicRequestsContainer}/>
       <Route path={Q_AND_A_PATH} component={QAndAContainer}/>
