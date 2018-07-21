@@ -3,6 +3,7 @@ import * as classNames from 'classnames';
 import {HTMLAttributes} from 'react';
 import {Link} from 'react-router-dom';
 import './Item.scss';
+import {Icon} from '../icon/Icon';
 
 interface ItemProps extends HTMLAttributes<{}> {
   children: any | any[];
@@ -31,6 +32,20 @@ export function LinkItem({children, className, border, target}: LinkItemProps) {
       {children}
     </Link>
   );
+}
+
+interface ButtonItemProps extends ItemProps {
+  icon?: string;
+
+  onClick();
+}
+
+export function ButtonItem({children, className, border, icon, onClick}: ButtonItemProps) {
+  border = border === undefined;
+  return (<a onClick={onClick}
+             className={itemClassNames({className: classNames(className, 'link-item'), border})}>
+    {icon && <Icon name={icon}/>} {children}
+  </a>);
 }
 
 export function MailToItem({children, className, border, target}: LinkItemProps) {

@@ -7,15 +7,23 @@ export type ButtonType = 'primary' | 'link' | 'inverse' | 'default';
 interface ButtonProps {
   htmlType: string;
   children: string;
+  block?: boolean;
   loading?: boolean;
   type?: ButtonType;
   className?: string;
+  onClick?(e);
 }
 
-export function Button({children, className, htmlType, loading, type}: ButtonProps) {
+export function Button({children, className, htmlType, loading, block, type, ...rest}: ButtonProps) {
   return (
-    <button className={classnames(
-      'btn', getButtonClass(type), {loading}, className
+    <button {...rest} className={classnames(
+      'btn',
+      getButtonClass(type),
+      {
+        loading,
+        'btn-block': block,
+      },
+      className
     )} type={htmlType}>{children}</button>
   );
 }

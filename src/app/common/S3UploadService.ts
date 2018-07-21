@@ -3,13 +3,12 @@ import {Injectable} from 'react.di';
 @Injectable
 export class S3UploadService {
 
-  uploadFile(file: File, policy) {
+  uploadFile(file: File, policy, onProgress: (event: ProgressEvent, file: File) => any) {
     return new Promise((resolve, reject) => {
       const formData = this.createFormData(file, policy);
       const xhr = new XMLHttpRequest();
 
-      // TODO@robin progress necessary?
-      // xhr.upload.addEventListener('progress', uploadProgress, false);
+      xhr.upload.addEventListener('progress', event => onProgress(event, file), false);
       xhr.addEventListener('load', (e) => {
         if (e && e.target && /^(5|4)/.test(e.target['status'])) {
           reject(new Error(e.target['statusText']));

@@ -4,11 +4,21 @@ import {GallerySections} from './GallerySections';
 import {Inject} from 'react.di';
 import {GallerySectionsHttpService} from './GallerySectionsHttpService';
 import {toast} from 'react-toastify';
-import {GallerySectionEdit} from './GallerySectionEdit';
 import {Card} from '../../layout/components/card/Card';
 import {UserService} from '../../user/UserService';
+import {RouteComponentProps} from 'react-router';
+import {User} from '../../user/User';
 
-export class GallerySectionsContainer extends Component<{}, { sections: any[], newSection: any, user? }> {
+interface GallerySectionsContainerProps extends RouteComponentProps<any> {
+
+}
+
+interface GallerySectionsContainerState {
+  sections: any[];
+  user?: User;
+}
+
+export class GallerySectionsContainer extends Component<GallerySectionsContainerProps, GallerySectionsContainerState> {
 
   @Inject gallerySectionsHttpService: GallerySectionsHttpService;
   @Inject userService: UserService;
@@ -17,7 +27,6 @@ export class GallerySectionsContainer extends Component<{}, { sections: any[], n
     super(props);
     this.state = {
       sections: [],
-      newSection: {name: 'string'},
     };
   }
 
@@ -35,11 +44,10 @@ export class GallerySectionsContainer extends Component<{}, { sections: any[], n
     });
   }
 
-  async createGallerySection(section) {
+  async createGallerySectionAndRouteToIt() {
     await this.processAction(async () => {
-      await this.gallerySectionsHttpService.createGallerySection(section);
-      await this.loadSections();
-      this.setState({newSection: {name: ''}});
+      const {data} = await this.gallerySectionsHttpService.createGallerySection({name: this.generateNewGalleryName()});
+      this.props.history.push(`/gallery/sections/${data.id}`);
     });
   }
 
@@ -58,20 +66,23 @@ export class GallerySectionsContainer extends Component<{}, { sections: any[], n
     }
   }
 
+  generateNewGalleryName() {
+    const {user, sections} = this.state;
+    if (user) {
+      return `${user.name}'s Gallerie #${sections.length}`;
+    }
+    return `Deine Gallerie #${sections.length}`;
+  }
+
   render() {
-    const {user, sections, newSection} = this.state;
+    const {user, sections} = this.state;
     return (
-      <div>
-        <Card>
-          <GallerySectionEdit section={newSection}
-                              onCreateSection={section => this.createGallerySection(section)}/>
-        </Card>
-        <Card>
-          <GallerySections sections={sections}
-                           user={user}
-                           onDeleteSection={section => this.deleteGallerySection(section)}/>
-        </Card>
-      </div>
+      <Card>
+        <GallerySections sections={sections}
+                         user={user}
+                         onCreateSection={() => this.createGallerySectionAndRouteToIt()}
+                         onDeleteSection={section => this.deleteGallerySection(section)}/>
+      </Card>
     );
   }
 }

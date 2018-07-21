@@ -1,4 +1,15 @@
-label.file-select-button input[type="file"] {
-  position: fixed;
-  top: -1000px;
+@import "../../mixins/common";
+@import "../../constants";
+
+label.file-select-button {
+
+  &.file-select-button-item {
+    display: block;
+    @include itemize();
+  }
+
+  input[type="file"] {
+    position: fixed;
+    top: -1000px;
+  }
 }

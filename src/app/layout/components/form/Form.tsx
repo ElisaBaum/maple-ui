@@ -2,6 +2,7 @@ import * as React from 'react';
 import {ChildContextProvider, Component} from 'react';
 import {func, bool} from 'prop-types';
 import {FormInput, FormInputProps, FormInputState} from './FormInput';
+import './Form.scss';
 
 export interface SubmitEvent<T = any> {
   isValid: boolean;
@@ -86,7 +87,8 @@ export class Form extends Component<FormProps> implements ChildContextProvider<F
     const {children, loading, disabled} = this.props;
     const isDisabled = (loading && disabled === undefined) || disabled;
     return (
-      <form onSubmit={e => this.handleSubmit(e)}>
+      <form className={'form'}
+            onSubmit={e => this.handleSubmit(e)}>
         <fieldset disabled={isDisabled}>
           {...children as any}
         </fieldset>

@@ -11,7 +11,11 @@ export const GallerySectionTile = ({section, onDelete, user}) => (
     && (<TileAction>
       <button type="button"
               className="btn btn-link"
-              onClick={() => onDelete(section)}>
+              onClick={e => {
+                e.stopPropagation();
+                e.preventDefault();
+                onDelete(section);
+              }}>
         <i className="material-icons">clear</i>
       </button>
     </TileAction>)}

@@ -17,4 +17,8 @@ export class GalleryItemsHttpService {
     return this.http.post<any>('/users/me/gallery-items', createGalleryItemDTO);
   }
 
+  deleteGalleryItem(item) {
+    return this.http.delete<any>(`/users/me/gallery-items/${item.id}`);
+  }
+
 }

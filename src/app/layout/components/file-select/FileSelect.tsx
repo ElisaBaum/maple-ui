@@ -1,10 +1,13 @@
 import * as React from 'react';
+import * as classNames from 'classnames';
 import {ChangeEvent, Component} from 'react';
 import './FileSelect.scss';
 
 interface IFileSelectButtonProps {
   children: string;
   accept?: string[];
+  button?: boolean;
+  itemButton?: boolean;
   onFilesChanged(files: File[]);
 }
 
@@ -18,9 +21,12 @@ export class FileSelectButton extends Component<IFileSelectButtonProps, {}> {
   }
 
   render() {
-    const {children, accept} = this.props;
+    const {children, accept, button, itemButton} = this.props;
     return (
-      <label className="file-select-button btn btn-primary">
+      <label className={classNames({
+        'btn btn-primary btn-block': button,
+        'file-select-button-item': itemButton,
+      }, "file-select-button")}>
         <input type="file"
                accept={(accept || []).join(',')}
                multiple

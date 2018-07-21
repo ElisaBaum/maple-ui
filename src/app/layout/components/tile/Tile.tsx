@@ -6,11 +6,16 @@ interface TileProps {
   children: any | any[];
   centered?: boolean;
   className?: string;
+  item?: boolean;
 }
 
-export function Tile({centered, children, className}: TileProps) {
+export function Tile({centered, children, className, item}: TileProps) {
   return (
-    <div className={classnames('tile', {'tile-centered': centered}, className)}>
+    <div className={classnames('tile',
+      {
+        'tile-centered': centered,
+        'tile-item': item,
+      }, className)}>
       {children}
     </div>
   );
@@ -32,10 +37,12 @@ export function TileIcon({icon}) {
   );
 }
 
-export function TileAvatar({imageUrl}) {
+export function TileAvatar({imageUrl, rounded}: {imageUrl, rounded?}) {
   return (
     <TileIconWrapper>
-      <img className="title-avatar centered" src={imageUrl} style={{height: '40px'}}/>
+      <img className={classnames({
+        'tile-avatar-rounded': rounded === undefined ? true : rounded,
+      }, 'title-avatar centered')} src={imageUrl}/>
     </TileIconWrapper>
   );
 }
@@ -61,6 +68,13 @@ export function TileAction({children}) {
   return (
     <div className="tile-action">
       {children}
+    </div>
+  );
+}
+
+export function TileProgress({progress}) {
+  return (
+    <div className="tile-progress" style={{width: `${progress * 100}%`}}>
     </div>
   );
 }

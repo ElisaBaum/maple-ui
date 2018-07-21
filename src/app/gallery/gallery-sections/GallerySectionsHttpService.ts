@@ -20,7 +20,7 @@ export class GallerySectionsHttpService {
   }
 
   createGallerySection(section) {
-    return this.http.post<any[]>('/users/me/gallery-sections', section);
+    return this.http.post<any>('/users/me/gallery-sections', section);
   }
 
   deleteGallerySection(section) {
