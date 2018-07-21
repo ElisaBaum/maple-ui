@@ -1,3 +1,5 @@
+@import "../../../../../node_modules/compass-sass-mixins/lib/animate";
+
 @mixin sizes() {
   $sizes: cover contain revert;
   @each $size in $sizes {
@@ -22,6 +24,7 @@
   @include positions();
   @include positions('x');
   @include positions('y');
+  @include transition(opacity 300ms ease-in-out);
 
   min-width: 100%;
   min-height: 100%;

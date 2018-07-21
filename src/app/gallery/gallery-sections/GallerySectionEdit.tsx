@@ -4,15 +4,22 @@ import {FormTextField} from '../../layout/components/form/form-text-field/FormTe
 import {GalleryItemTile} from '../gallery-items/GalleryItemTile';
 import {FileSelectButton} from '../../layout/components/file-select/FileSelect';
 import {Item} from '../../layout/components/item/Item';
+import {GalleryItemsContainer} from '../gallery-items/GalleryItemsContainer';
 
-export const GallerySectionEdit = ({section, items, onUpload, onDeleteItem, onSectionChange}) => (
+export const GallerySectionEdit = ({
+                                     section,
+                                     newItems,
+                                     onUpload,
+                                     onDeleteItem,
+                                     onSectionChange,
+                                   }) => (
   <div>
     <Form values={section}
           onSubmit={({isValid, values}) => isValid && onSectionChange(values)}>
       <FormTextField submitOnChange
                      name="name"
-                     label="Section-Name"
-                     required={'Bitte Section-Namen eingeben!'}/>
+                     label="Galleriename"
+                     required={'Bitte Namen eingeben!'}/>
     </Form>
     <Item>
       <FileSelectButton button
@@ -21,8 +28,10 @@ export const GallerySectionEdit = ({section, items, onUpload, onDeleteItem, onSe
         Lade neue Bilder/Videos hoch
       </FileSelectButton>
     </Item>
-    {items.map((item, i) => (
-      <GalleryItemTile key={i} item={item} onDelete={onDeleteItem}/>
-    ))}
+    <GalleryItemsContainer items={newItems}
+                           sectionId={section.id}
+                           itemsRender={({items}) => items.map((item, i) => (
+                             <GalleryItemTile key={i} item={item} onDelete={onDeleteItem}/>
+                           ))}/>
   </div>
 );

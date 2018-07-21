@@ -12,8 +12,10 @@ export class GallerySectionsHttpService {
     return this.http.get<any[]>('/gallery-sections');
   }
 
-  getGalleryItemsBySection(sectionId) {
-    return this.http.get<any[]>(`/users/me/gallery-sections/${sectionId}/gallery-items`);
+  getGalleryItemsBySection(sectionId, limit, offset) {
+    return this.http.get<any[]>(`/users/me/gallery-sections/${sectionId}/gallery-items`, {
+      params: {limit, offset}
+    });
   }
 
   getGallerySection(sectionId) {

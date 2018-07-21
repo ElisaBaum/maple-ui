@@ -6,6 +6,7 @@ import {GallerySectionsHttpService} from './gallery-sections/GallerySectionsHttp
 import {GallerySectionsContainer} from './gallery-sections/GallerySectionsContainer';
 import {Headline} from '../layout/components/headline/Headline';
 import {GalleryItemsHttpService} from './gallery-items/GalleryItemsHttpService';
+import {GallerySectionContainer} from './gallery-sections/gallery-section/GallerySectionContainer';
 import {GallerySectionEditContainer} from './gallery-sections/GallerySectionEditContainer';
 
 @Module({
@@ -21,7 +22,8 @@ export class GalleryModule extends Component {
       <div style={{backgroundColor: 'white'}}>
         <Headline text={'Gallery'}/>
         <Switch>
-          <Route path={'/gallery/sections/:id'} component={GallerySectionEditContainer}/>
+          <Route path={'/gallery/sections/:id/edit'} component={GallerySectionEditContainer}/>
+          <Route path={'/gallery/sections/:id'} component={GallerySectionContainer}/>
           <Route path={'/gallery/sections'} component={GallerySectionsContainer}/>
           <Route component={GallerySectionsContainer}/>
         </Switch>

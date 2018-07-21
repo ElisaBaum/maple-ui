@@ -39,10 +39,7 @@ export class GallerySectionEditContainer extends Component<GallerySectionEditCon
 
   async componentDidMount() {
     this.setState({user: this.userService.getUser()});
-    await Promise.all([
-      this.loadSection(),
-      this.loadItems(),
-    ]);
+    await this.loadSection();
   }
 
   async loadSection() {
@@ -50,15 +47,6 @@ export class GallerySectionEditContainer extends Component<GallerySectionEditCon
       const {data} = await this.gallerySectionsHttpService.getGallerySection(this.props.match.params.id);
       this.setState({
         section: data,
-      });
-    });
-  }
-
-  async loadItems() {
-    await this.processAction(async () => {
-      const {data} = await this.gallerySectionsHttpService.getGalleryItemsBySection(this.props.match.params.id);
-      this.setState({
-        items: data,
       });
     });
   }
@@ -159,7 +147,7 @@ export class GallerySectionEditContainer extends Component<GallerySectionEditCon
                             onSectionChange={(sectionToUpdate) => this.updateSection(sectionToUpdate)}
                             onUpload={fileList => this.processUpload(fileList)}
                             section={section}
-                            items={items}/>
+                            newItems={items}/>
       );
     }
     return (<div></div>);

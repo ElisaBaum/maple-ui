@@ -1,0 +1,23 @@
+@mixin galler-section-item() {
+  float: left;
+  padding-right: 2px;
+  padding-bottom: 2px;
+}
+
+.gallery-section {
+  .gallery-section-items {
+    margin-right: -2px;
+  }
+  .gallery-section-video-wrapper {
+    @include galler-section-item();
+    width: 100%;
+    video {
+      display: block;
+    }
+  }
+  .gallery-section-image-wrapper {
+    @include galler-section-item();
+    height: 175px;
+    width: 33.33%;
+  }
+}

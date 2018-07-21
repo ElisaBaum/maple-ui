@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
-import {HTMLAttributes} from 'react';
+import {CSSProperties, HTMLAttributes} from 'react';
 import './Image.scss';
 
 type Position = 'center' | 'left' | 'top' | 'right' | 'bottom';
@@ -11,10 +11,11 @@ interface ImageProps extends HTMLAttributes<{}> {
   position?: Position;
   positionX?: Position;
   positionY?: Position;
+  styles?: CSSProperties;
   size?: 'cover' | 'contain' | 'revert';
 }
 
-export function Image({src, size, position, positionX, positionY, className, onLoad, ...props}: ImageProps) {
+export function Image({src, size, position, positionX, positionY, className, onLoad, styles, ...props}: ImageProps) {
   let divRef: HTMLDivElement | null;
   let imgRef: HTMLImageElement | null;
 
@@ -26,9 +27,9 @@ export function Image({src, size, position, positionX, positionY, className, onL
                  position && `image-${position}`,
                  positionX && `image-${positionX}-x`,
                  positionY && `image-${positionY}-y`,
-                 className
+                 className,
                )}
-               style={{backgroundImage: `url(${src})`}}>
+               style={{...styles, backgroundImage: `url(${src})`}}>
     <img src={src}
          ref={ref => imgRef = ref}
          onLoad={() => {
