@@ -9,6 +9,7 @@ import {GallerySectionEdit} from './GallerySectionEdit';
 import {GalleryItemsHttpService} from '../gallery-items/GalleryItemsHttpService';
 import {GalleryItem} from '../gallery-items/GalleryItem';
 import {RouteComponentProps} from 'react-router';
+import {NewGalleryItem} from '../gallery-items/NewGalleryItem';
 
 interface GallerySectionEditContainerState {
   section?: any;
@@ -25,6 +26,9 @@ export class GallerySectionEditContainer extends Component<GallerySectionEditCon
   @Inject galleryItemsHttpService: GalleryItemsHttpService;
   @Inject s3UploadService: S3UploadService;
   @Inject userService: UserService;
+
+  updateSectionTimeoutId;
+  cancelUpdateSectionRequest;
 
   constructor(props) {
     super(props);
@@ -59,47 +63,62 @@ export class GallerySectionEditContainer extends Component<GallerySectionEditCon
     });
   }
 
+  async updateSection(sectionToUpdate) {
+    const {section} = this.state;
+    const DELAY = 800;
+    if (this.updateSectionTimeoutId) clearTimeout(this.updateSectionTimeoutId);
+    if (this.cancelUpdateSectionRequest) this.cancelUpdateSectionRequest();
+    this.updateSectionTimeoutId = setTimeout(async () => {
+      await this.gallerySectionsHttpService.updateGallerySectionPartially(
+        {...section, ...sectionToUpdate},
+        cancel => this.cancelUpdateSectionRequest = cancel,
+      );
+    }, DELAY);
+  }
+
   async deleteItem(itemToDelete) {
     const {items} = this.state;
     this.setState({
-      items: items.filter(item => item !== itemToDelete)
+      items: items.filter(item => item !== itemToDelete),
     });
     await this.galleryItemsHttpService.deleteGalleryItem(itemToDelete);
   }
 
   async processUpload(fileList: FileList) {
     const {items} = this.state;
-    this.setState({
-      items: [
-        ...Array
-          .from(fileList)
-          .map(file => ({
-            file,
-            progress: 0,
-            originalName: file.name,
-            isNew: true,
-          })),
-        ...items,
-      ],
-    });
+    const newItems = this.getNewItemsByFileList(fileList);
 
-    await this.uploadFiles(fileList, (event: ProgressEvent, _file) => this.setState({
-      items: this.state.items.map(({file, progress, ...rest}) => {
-        if (file === _file) {
-          progress = event.loaded / event.total;
-        }
-        return ({progress, file, ...rest});
+    this.setState({items: [...newItems, ...items]});
+
+    await this.uploadItems(
+      newItems,
+      (event: ProgressEvent, _file) => this.setState({
+        items: this.state.items.map(({file, progress, ...rest}) => {
+          if (file === _file) {
+            progress = event.loaded / event.total;
+          }
+          return ({progress, file, ...rest});
+        }),
       }),
-    }));
+      (completedItem) => this.setState({
+        items: this.state.items.map(({completed, ...item}) => {
+          if (item.file === completedItem.file) {
+            completed = true;
+          }
+          return ({completed, ...item});
+        }),
+      })
+    );
   }
 
-  async uploadFiles(fileList: FileList, onProgress) {
+  async uploadItems(newItems: NewGalleryItem[], onFileProgress, onItemComplete) {
     const {section} = this.state;
     await this.processAction(async () => {
-      await Array.from(fileList).reduce(async (promise, file) => {
+      await newItems.reduce(async (promise, item) => {
+        const file = item.file;
         await promise;
         const {data} = await this.galleryItemsHttpService.getGalleryItemS3Policy(file.name, file.type);
-        await this.s3UploadService.uploadFile(file, data, onProgress);
+        await this.s3UploadService.uploadFile(file, data, onFileProgress);
         await this.galleryItemsHttpService.createGalleryItem({
           key: data.key,
           originalName: file.name,
@@ -109,8 +128,19 @@ export class GallerySectionEditContainer extends Component<GallerySectionEditCon
           access: 'All',
           lastModifiedAt: file.lastModifiedDate,
         });
+        onItemComplete(item);
       }, Promise.resolve());
     });
+  }
+
+  getNewItemsByFileList(fileList: FileList): NewGalleryItem[] {
+    return Array.from(fileList).map(file => ({
+        file,
+        progress: 0,
+        originalName: file.name,
+        isNew: true,
+      }),
+    );
   }
 
   async processAction(action) {
@@ -121,12 +151,12 @@ export class GallerySectionEditContainer extends Component<GallerySectionEditCon
     }
   }
 
-
   render() {
     const {section, items} = this.state;
     if (section) {
       return (
         <GallerySectionEdit onDeleteItem={item => this.deleteItem(item)}
+                            onSectionChange={(sectionToUpdate) => this.updateSection(sectionToUpdate)}
                             onUpload={fileList => this.processUpload(fileList)}
                             section={section}
                             items={items}/>

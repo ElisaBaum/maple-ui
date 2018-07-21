@@ -1,5 +1,6 @@
 
 export interface GalleryItem {
+  id?: number;
   originalName: string;
   originalUrl?: string;
   resizedUrl?: string;

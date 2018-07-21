@@ -16,6 +16,7 @@ export type PropTypesFormContext = {
 export interface FormContext {
   loading?: boolean;
   addField(input: FormInput<FormInputProps, FormInputState>);
+  submit();
 }
 
 interface FormProps {
@@ -28,7 +29,7 @@ interface FormProps {
 
 export class Form extends Component<FormProps> implements ChildContextProvider<FormContext> {
 
-  static childContextTypes: PropTypesFormContext = {addField: func, loading: bool};
+  static childContextTypes: PropTypesFormContext = {addField: func, loading: bool, submit: func};
 
   inputs: Array<FormInput<FormInputProps, FormInputState>> = [];
 
@@ -39,7 +40,11 @@ export class Form extends Component<FormProps> implements ChildContextProvider<F
 
   getChildContext() {
     const {loading} = this.props;
-    return {addField: field => this.inputs.push(field), loading};
+    return {
+      addField: field => this.inputs.push(field),
+      submit: () => this.handleSubmit(),
+      loading
+    };
   }
 
   componentDidMount() {
@@ -49,8 +54,7 @@ export class Form extends Component<FormProps> implements ChildContextProvider<F
     }
   }
 
-  handleSubmit(e) {
-    e.preventDefault();
+  handleSubmit() {
     const {onSubmit} = this.props;
     const isValid = this.validate();
     this.inputs.forEach(field => field.validateOnChange = true);
@@ -88,7 +92,10 @@ export class Form extends Component<FormProps> implements ChildContextProvider<F
     const isDisabled = (loading && disabled === undefined) || disabled;
     return (
       <form className={'form'}
-            onSubmit={e => this.handleSubmit(e)}>
+            onSubmit={e => {
+              e.preventDefault();
+              this.handleSubmit();
+            }}>
         <fieldset disabled={isDisabled}>
           {...children as any}
         </fieldset>

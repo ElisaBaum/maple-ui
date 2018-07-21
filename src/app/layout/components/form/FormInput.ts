@@ -13,6 +13,8 @@ export interface FormInputProps {
   name: string;
   value?: any;
   validators?: Validator[];
+  submitOnChange?: boolean;
+
   onChange?(e: FormInputChangeEvent);
 }
 
@@ -22,7 +24,7 @@ export interface FormInputState {
 }
 
 export abstract class FormInput<P extends FormInputProps, S extends FormInputState> extends Component<P, S> {
-  static contextTypes: PropTypesFormContext = {addField: func, loading: bool};
+  static contextTypes: PropTypesFormContext = {addField: func, loading: bool, submit: func};
 
   validateOnChange: boolean;
   validators: Validator[] = [];
@@ -60,13 +62,16 @@ export abstract class FormInput<P extends FormInputProps, S extends FormInputSta
   }
 
   handleChange(event) {
-    const {onChange} = this.props;
+    const {onChange, submitOnChange} = this.props;
     let isValid;
     if (this.validateOnChange) {
       isValid = this.validate();
     }
     if (onChange) {
       onChange({isValid, event, value: this.getValue()});
+    }
+    if (submitOnChange && this.context && this.context.submit) {
+      this.context.submit();
     }
   }
 

@@ -1,5 +1,6 @@
 import {Inject, Injectable} from 'react.di';
 import {Http} from '../../http/Http';
+import axios from 'axios';
 
 @Injectable
 export class GallerySectionsHttpService {
@@ -21,6 +22,12 @@ export class GallerySectionsHttpService {
 
   createGallerySection(section) {
     return this.http.post<any>('/users/me/gallery-sections', section);
+  }
+
+  updateGallerySectionPartially(section, onGetCancel) {
+    return this.http.patch<any>(`/users/me/gallery-sections/${section.id}`, section, {
+      cancelToken: onGetCancel && new axios.CancelToken(onGetCancel)
+    });
   }
 
   deleteGallerySection(section) {

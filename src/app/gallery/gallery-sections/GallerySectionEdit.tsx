@@ -5,11 +5,12 @@ import {GalleryItemTile} from '../gallery-items/GalleryItemTile';
 import {FileSelectButton} from '../../layout/components/file-select/FileSelect';
 import {Item} from '../../layout/components/item/Item';
 
-export const GallerySectionEdit = ({section, items, onUpload, onDeleteItem}) => (
+export const GallerySectionEdit = ({section, items, onUpload, onDeleteItem, onSectionChange}) => (
   <div>
     <Form values={section}
-          onSubmit={({isValid, values}) => isValid}>
-      <FormTextField name="name"
+          onSubmit={({isValid, values}) => isValid && onSectionChange(values)}>
+      <FormTextField submitOnChange
+                     name="name"
                      label="Section-Name"
                      required={'Bitte Section-Namen eingeben!'}/>
     </Form>
