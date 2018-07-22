@@ -8,7 +8,7 @@ interface IFileSelectButtonProps {
   accept?: string[];
   button?: boolean;
   itemButton?: boolean;
-  onFilesChanged(files: File[]);
+  onFilesChanged(fileList: FileList);
 }
 
 export class FileSelectButton extends Component<IFileSelectButtonProps, {}> {

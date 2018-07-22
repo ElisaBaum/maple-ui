@@ -1,6 +1,8 @@
 @import "../../mixins/common";
 @import "../../constants";
 
+$tile-icon-large: 52px;
+
 // Tiles
 .tile {
   align-content: space-between;
@@ -19,11 +21,21 @@
   .tile-icon {
     flex: 0 0 2rem;
     text-align: center;
+    &.large {
+      .material-icons {
+        width: $tile-icon-large;
+        font-size: 36px;
+      }
+    }
   }
   .title-avatar {
     height: 40px;
     width: 40px;
     box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.12);
+    &.large {
+      height: $tile-icon-large;
+      width: $tile-icon-large;
+    }
     &.tile-avatar-rounded {
       border-radius: 100%;
     }
@@ -60,6 +72,7 @@
   }
 
   .tile-progress {
+    @include transition(width 300ms ease-in-out);
     position: absolute;
     background-color: rgba(176, 208, 152, 0.7);
     bottom: 0;

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
 import './tile.scss';
+import {Image} from '../image/Image';
 
 interface TileProps {
   children: any | any[];
@@ -21,28 +22,30 @@ export function Tile({centered, children, className, item}: TileProps) {
   );
 }
 
-export function TileIconWrapper({children}) {
+export function TileIconWrapper({children, size}: {children, size?}) {
   return (
-    <div className="tile-icon">
+    <div className={classnames('tile-icon', size)}>
       {children}
     </div>
   );
 }
 
-export function TileIcon({icon}) {
+export function TileIcon({icon, size}: {icon, size?}) {
   return (
-    <TileIconWrapper>
+    <TileIconWrapper size={size}>
       <i className="centered material-icons">{icon}</i>
     </TileIconWrapper>
   );
 }
 
-export function TileAvatar({imageUrl, rounded}: {imageUrl, rounded?}) {
+export function TileAvatar({imageUrl, rounded, size}: { imageUrl, rounded?, size? }) {
   return (
     <TileIconWrapper>
-      <img className={classnames({
-        'tile-avatar-rounded': rounded === undefined ? true : rounded,
-      }, 'title-avatar centered')} src={imageUrl}/>
+      <Image src={imageUrl}
+             size={'cover'}
+             className={classnames({
+               'tile-avatar-rounded': rounded === undefined ? true : rounded,
+             }, 'title-avatar centered', size)}/>
     </TileIconWrapper>
   );
 }

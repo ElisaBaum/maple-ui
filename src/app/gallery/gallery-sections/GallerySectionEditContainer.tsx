@@ -64,19 +64,12 @@ export class GallerySectionEditContainer extends Component<GallerySectionEditCon
     }, DELAY);
   }
 
-  async deleteItem(itemToDelete) {
-    const {items} = this.state;
-    this.setState({
-      items: items.filter(item => item !== itemToDelete),
-    });
-    await this.galleryItemsHttpService.deleteGalleryItem(itemToDelete);
-  }
-
   async processUpload(fileList: FileList) {
-    const {items} = this.state;
+    const {items: oldItems} = this.state;
     const newItems = this.getNewItemsByFileList(fileList);
+    const items = [...newItems, ...oldItems];
 
-    this.setState({items: [...newItems, ...items]});
+    this.setState({items});
 
     await this.uploadItems(
       newItems,
@@ -95,7 +88,7 @@ export class GallerySectionEditContainer extends Component<GallerySectionEditCon
           }
           return ({completed, ...item});
         }),
-      })
+      }),
     );
   }
 
@@ -143,8 +136,7 @@ export class GallerySectionEditContainer extends Component<GallerySectionEditCon
     const {section, items} = this.state;
     if (section) {
       return (
-        <GallerySectionEdit onDeleteItem={item => this.deleteItem(item)}
-                            onSectionChange={(sectionToUpdate) => this.updateSection(sectionToUpdate)}
+        <GallerySectionEdit onSectionChange={(sectionToUpdate) => this.updateSection(sectionToUpdate)}
                             onUpload={fileList => this.processUpload(fileList)}
                             section={section}
                             newItems={items}/>

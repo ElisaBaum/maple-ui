@@ -13,6 +13,8 @@ export const GalleryItemTile = ({item, onDelete}: GalleryItemTileProps) => (
     <GalleryItemTileAvatar item={item}/>
     <TileContent title={item.originalName}
                  subtitle={item.title || item.lastModifiedAt}/>
+    {item.id
+    &&
     <TileAction>
       <button type="button"
               className="btn btn-link"
@@ -24,15 +26,19 @@ export const GalleryItemTile = ({item, onDelete}: GalleryItemTileProps) => (
         <i className="material-icons">clear</i>
       </button>
     </TileAction>
+    }
     {item.isNew && <TileProgress progress={item.progress}/>}
   </Tile>
 );
 
-const GalleryItemTileAvatar = ({item}: { item: GalleryItem }) => {
+const GalleryItemTileAvatar = ({item}) => {
   if (!item.isNew) {
-    return (<TileAvatar imageUrl={item.resizedUrl} rounded={false}/>);
+    if (/video/.test(item.type)) {
+      return (<TileIcon icon={'ondemand_video'} size={'large'}/>);
+    }
+    return (<TileAvatar size={'large'} imageUrl={item.resizedUrl} rounded={false}/>);
   } else if (!item.completed) {
-    return (<TileIcon icon={'cloud_upload'}/>);
+    return (<TileIcon icon={'cloud_upload'} size={'large'}/>);
   }
-  return (<TileIcon icon={'check_circle_outline'}/>);
+  return (<TileIcon icon={'check_circle_outline'} size={'large'}/>);
 };

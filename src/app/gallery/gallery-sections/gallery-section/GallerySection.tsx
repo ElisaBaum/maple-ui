@@ -12,7 +12,7 @@ export const GallerySection = ({section}) => (
     <div className={'gallery-section-items'}>
       <GalleryItemsContainer sectionId={section.id}
       itemsRender={({items}) => items.map((item, i) => {
-        if (isVideo(item.type)) {
+        if (/video/.test(item.type)) {
           return (
             <div key={i} className={'gallery-section-video-wrapper'}>
               <video width={'100%'} controls>
@@ -31,7 +31,3 @@ export const GallerySection = ({section}) => (
     </div>
   </div>
 );
-
-function isVideo(type) {
-  return /video/.test(type);
-}
