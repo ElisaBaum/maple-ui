@@ -5,11 +5,13 @@ import {toast} from 'react-toastify';
 import {Inject} from 'react.di';
 import {GallerySectionsHttpService} from '../gallery-sections/GallerySectionsHttpService';
 import {GalleryItemsHttpService} from './GalleryItemsHttpService';
+import {GalleryItemsService} from './GalleryItemsService';
+import {Subscription} from 'rxjs';
 
 const LIMIT = 6;
 
 interface GalleryItemsContainerProps {
-  sectionId: string;
+  sectionId: number;
   itemsRender: (props: ItemRenderProps) => React.ReactNode[];
 }
 
@@ -21,12 +23,17 @@ interface GalleryItemsContainerState {
 interface ItemRenderProps {
   items: any[];
   onDeleteItem(item: any);
+  onLoadMore(offset: number);
 }
 
 export class GalleryItemsContainer extends Component<GalleryItemsContainerProps, GalleryItemsContainerState> {
 
   @Inject gallerySectionsHttpService: GallerySectionsHttpService;
   @Inject galleryItemsHttpService: GalleryItemsHttpService;
+  @Inject galleryItemsService: GalleryItemsService;
+
+  private itemsSubscription: Subscription;
+  private hasMoreItemsSubscription: Subscription;
 
   constructor(props) {
     super(props);
@@ -36,21 +43,25 @@ export class GalleryItemsContainer extends Component<GalleryItemsContainerProps,
     };
   }
 
-  async componentDidMount() {
+  componentWillMount(): void {
+    const {sectionId} = this.props;
+    this.galleryItemsService.initialize(sectionId);
   }
 
-  async loadItems(offset = 0) {
-    await this.processAction(async () => {
-      const {data, headers} = await this.gallerySectionsHttpService.getGalleryItemsBySection(
-        this.props.sectionId,
-        LIMIT,
-        offset,
-      );
-      this.setState({
-        items: [...this.state.items, ...data],
-        hasMoreItems: offset < parseFloat(headers['x-total-count']),
-      });
-    });
+  async componentDidMount() {
+    this.itemsSubscription =
+      this.galleryItemsService.items.subscribe(items => this.setState({items}));
+    this.hasMoreItemsSubscription =
+      this.galleryItemsService.hasMoreItems.subscribe(hasMoreItems => this.setState({hasMoreItems}));
+  }
+
+  componentWillUnmount(): void {
+    this.itemsSubscription.unsubscribe();
+    this.hasMoreItemsSubscription.unsubscribe();
+  }
+
+  async loadItems() {
+    await this.processAction(() => this.galleryItemsService.loadItems());
   }
 
   async deleteItem(itemToDelete) {
@@ -73,11 +84,15 @@ export class GalleryItemsContainer extends Component<GalleryItemsContainerProps,
     const {itemsRender} = this.props;
     const {hasMoreItems, items} = this.state;
     return (
-      <InfiniteScroll loadMore={offset => this.loadItems(offset)}
+      <InfiniteScroll loadMore={() => this.loadItems()}
                       limit={LIMIT}
                       hasMore={hasMoreItems}
-                      loader={<div className="loader" key={0}>Loading ...</div>}>
-        {itemsRender({items, onDeleteItem: item => this.deleteItem(item)})}
+                      loader={<div className="loader" style={{float: 'left'}} key={0}>Loading ...</div>}>
+        {itemsRender({
+          items,
+          onLoadMore: () => this.loadItems(),
+          onDeleteItem: item => this.deleteItem(item)
+        })}
       </InfiniteScroll>
     );
   }

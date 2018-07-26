@@ -47,7 +47,7 @@ export class GallerySectionsContainer extends Component<GallerySectionsContainer
   async createGallerySectionAndRouteToIt() {
     await this.processAction(async () => {
       const {data} = await this.gallerySectionsHttpService.createGallerySection({name: this.generateNewGalleryName()});
-      this.props.history.push(`/gallery/sections/${data.id}`);
+      this.props.history.push(`/gallery/sections/${data.id}/edit`);
     });
   }
 

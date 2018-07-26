@@ -1,0 +1,31 @@
+.carousel-gallery {
+  height: 100%;
+  .carousel-gallery-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    z-index: 2;
+  }
+  .actual-carousel {
+    height: 100% !important;
+    .slider-list {
+      height: 100% !important;
+    }
+    .slider-frame {
+      height: 100% !important;
+    }
+    .slider-slide {
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+      height: 100% !important;
+      > img {
+        width: auto;
+        max-width: 100%;
+        max-height: 100%;
+        margin: 0 auto;
+        display: block;
+      }
+    }
+  }
+}

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Switch, Route} from 'react-router';
+import {Route, Switch} from 'react-router';
 import {JourneyContainer} from "../invitation/journey/JourneyContainer";
 import {ApprovalContainer} from "../invitation/approval/ApprovalContainer";
 import {RoomReservationContainer} from "../invitation/overnight-stay/RoomReservationContainer";
@@ -10,7 +10,7 @@ import {QAndAContainer} from "../invitation/q-and-a/QAndAContainer";
 import {ProcedureContainer} from "../invitation/procedure/ProcedureContainer";
 import {NotFound} from "../not-found/NotFound";
 import './Skeleton.scss';
-import {GalleryModule} from '../gallery/GalleryModule';
+import {Gallery} from '../gallery/Gallery';
 
 export const JOURNEY_PATH = '/journey';
 export const GALLERY_PATH = '/gallery';
@@ -34,7 +34,7 @@ export const Skeleton = () => (
     <Switch>
       <Route path={JOURNEY_PATH} component={JourneyContainer}/>
       <Route path={APPROVAL_PATH} component={ApprovalContainer}/>
-      <Route path={GALLERY_PATH} component={GalleryModule}/>
+      <Route path={GALLERY_PATH} component={Gallery}/>
       <Route path={OVERNIGHT_STAY_PATH} component={RoomReservationContainer}/>
       <Route path={MUSIC_REQUESTS_PATH} component={MusicRequestsContainer}/>
       <Route path={Q_AND_A_PATH} component={QAndAContainer}/>

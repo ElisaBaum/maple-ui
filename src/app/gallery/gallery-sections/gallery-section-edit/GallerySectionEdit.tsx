@@ -1,11 +1,11 @@
 import * as React from 'react';
-import {Form} from '../../layout/components/form/Form';
-import {FormTextField} from '../../layout/components/form/form-text-field/FormTextField';
-import {GalleryItemTile} from '../gallery-items/GalleryItemTile';
-import {FileSelectButton} from '../../layout/components/file-select/FileSelect';
-import {Item} from '../../layout/components/item/Item';
-import {GalleryItemsContainer} from '../gallery-items/GalleryItemsContainer';
-import {Tile, TileContent, TileIcon, TileProgress} from '../../layout/components/tile/Tile';
+import {Form} from '../../../layout/components/form/Form';
+import {FormTextField} from '../../../layout/components/form/form-text-field/FormTextField';
+import {GalleryItemTile} from '../../gallery-items/GalleryItemTile';
+import {FileSelectButton} from '../../../layout/components/file-select/FileSelect';
+import {Item} from '../../../layout/components/item/Item';
+import {GalleryItemsContainer} from '../../gallery-items/GalleryItemsContainer';
+import {Tile, TileContent, TileIcon, TileProgress} from '../../../layout/components/tile/Tile';
 
 interface GallerySectionEditProps {
   section;

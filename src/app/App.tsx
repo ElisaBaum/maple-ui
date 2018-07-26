@@ -8,13 +8,15 @@ import {centered} from './layout/decorators/center/center';
 import {LoginContainer} from './login/LoginContainer';
 import {APPROVAL_PATH, Skeleton} from './skeleton/Skeleton';
 import {Toast} from './layout/components/toast/Toast';
+import {OverlayContainer} from './layout/components/overlay/OverlayContainer';
 import {AuthModule} from './auth/AuthModule';
 import {CommonModule} from './common/CommonModule';
 import {HttpModule} from './http/HttpModule';
 import {DynamicContentModule} from './dynamic-content/DynamicContentModule';
 import {UserModule} from './user/UserModule';
-import './App.scss';
 import {NavigationModule} from "./layout/components/navigation/NavigationModule";
+import {GalleryModule} from './gallery/GalleryModule';
+import './App.scss';
 
 export const LOGIN_PATH = '/login';
 export const ROOT_PATH = '/';
@@ -25,6 +27,7 @@ const CenteredLoginContainer = centered(LoginContainer);
   imports: [
     AuthModule,
     CommonModule,
+    GalleryModule,
     HttpModule,
     DynamicContentModule,
     NavigationModule,
@@ -51,6 +54,7 @@ export class App extends Component {
           </Switch>
         </Router>
         <Toast/>
+        <OverlayContainer/>
       </div>
     );
   }

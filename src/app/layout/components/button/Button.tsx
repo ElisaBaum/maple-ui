@@ -6,7 +6,7 @@ export type ButtonType = 'primary' | 'link' | 'inverse' | 'default';
 
 interface ButtonProps {
   htmlType: string;
-  children: string;
+  children: any;
   block?: boolean;
   loading?: boolean;
   type?: ButtonType;

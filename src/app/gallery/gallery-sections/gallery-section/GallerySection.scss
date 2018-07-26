@@ -7,6 +7,11 @@
 .gallery-section {
   .gallery-section-items {
     margin-right: -2px;
+    > div:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
   }
   .gallery-section-video-wrapper {
     @include galler-section-item();
@@ -19,5 +24,13 @@
     @include galler-section-item();
     height: 175px;
     width: 33.33%;
+  }
+}
+
+
+.gallery-section-carousel {
+  height: 100% !important;
+  .slider-frame {
+    height: 100% !important;
   }
 }

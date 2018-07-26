@@ -1,15 +1,15 @@
 import * as React from 'react';
 import {Component} from 'react';
 import {Inject} from 'react.di';
-import {GallerySectionsHttpService} from './GallerySectionsHttpService';
+import {GallerySectionsHttpService} from '../GallerySectionsHttpService';
 import {toast} from 'react-toastify';
-import {UserService} from '../../user/UserService';
-import {S3UploadService} from '../../common/S3UploadService';
+import {UserService} from '../../../user/UserService';
+import {S3UploadService} from '../../../common/S3UploadService';
 import {GallerySectionEdit} from './GallerySectionEdit';
-import {GalleryItemsHttpService} from '../gallery-items/GalleryItemsHttpService';
-import {GalleryItem} from '../gallery-items/GalleryItem';
+import {GalleryItemsHttpService} from '../../gallery-items/GalleryItemsHttpService';
+import {GalleryItem} from '../../gallery-items/GalleryItem';
 import {RouteComponentProps} from 'react-router';
-import {NewGalleryItem} from '../gallery-items/NewGalleryItem';
+import {NewGalleryItem} from '../../gallery-items/NewGalleryItem';
 
 interface GallerySectionEditContainerState {
   section?: any;
@@ -107,7 +107,7 @@ export class GallerySectionEditContainer extends Component<GallerySectionEditCon
           type: file.type,
           sectionId: section.id,
           access: 'All',
-          lastModifiedAt: file.lastModifiedDate,
+          lastModifiedAt: file.lastModifiedDate || file['lastModified'],
         });
         onItemComplete(item);
       }, Promise.resolve());
