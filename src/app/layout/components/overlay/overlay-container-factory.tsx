@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {Component} from 'react';
 import {Overlay} from './Overlay';
+import ScrollLock from 'react-scrolllock';
 
 export const createOverlayContainer = () => {
   let overlayContainer: OverlayContainer;
@@ -14,12 +15,14 @@ export const createOverlayContainer = () => {
     overlayContainer.setState({
       overlayRenders: [...overlayRenders, overlayRender],
     });
+
     return overlayRender;
   };
-  const removeOverlay = overlayToRemove => overlayContainer.setState({
-    overlayRenders: overlayContainer.state.overlayRenders
-      .filter(overlay => overlay !== overlayToRemove),
-  });
+  const removeOverlay = overlayToRemove => {
+    const overlayRenders = overlayContainer.state.overlayRenders
+      .filter(overlay => overlay !== overlayToRemove);
+    overlayContainer.setState({overlayRenders});
+  };
 
   interface OverlayContainerState {
     overlayRenders: any[];
@@ -40,6 +43,7 @@ export const createOverlayContainer = () => {
     render() {
       const {overlayRenders} = this.state;
       return (<div>
+        {!!overlayRenders.length && <ScrollLock/>}
         {overlayRenders.map((render, i) => render(i))}
       </div>);
     }

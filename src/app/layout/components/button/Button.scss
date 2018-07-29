@@ -99,6 +99,11 @@
     &:active,
     &.active {
       color: $link-color-dark;
+      .er-icon {
+        background: white;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
     }
     padding: 0;
     .material-icons {

@@ -3,6 +3,8 @@
 @import "app/layout/mixins/common";
 @import "../node_modules/spectre.css/src/utilities";
 @import "app/layout/base";
+@import "../node_modules/slick-carousel/slick/slick.scss";
+@import "../node_modules/slick-carousel/slick/slick-theme.scss";
 
 html, body {
   height: 100%;

@@ -30,7 +30,8 @@ export const GallerySection = ({section}) => (
                                                                    onLoadMore={onLoadMore}
                                                                    initialIndex={i} />))}
                                       className={'gallery-section-image-wrapper'}>
-                                   <Image size={'cover'} src={item.resizedUrl}/>
+                                   <Image size={'cover'}
+                                          position={'center'} src={item.resizedUrl}/>
                                  </div>
                                );
                              })}>
