@@ -2,6 +2,7 @@ import * as React from 'react';
 // import Carousel from '@baum/nuka-carousel';
 import Slider from 'react-slick';
 import {Button} from '../../layout/components/button/Button';
+import {Image} from '../../layout/components/image/Image';
 import './CarouselGallery.scss';
 import {Icon} from '../../layout/components/icon/Icon';
 // import '../../../../node_modules/slick-carousel/slick/slick.scss';
@@ -37,8 +38,8 @@ export const CarouselGallery = ({items, onClose, currentIndex, onIndexChange}) =
             afterChange={onIndexChange}>
       {items
         .map((_item, _i) => (
-          <img key={_i}
-               src={_item.resizedUrl}/>
+          <Image key={_i}
+                 src={_item.resizedUrl}/>
         ))
       }
     </Slider>

@@ -5,10 +5,8 @@ import {toast} from 'react-toastify';
 import {Inject} from 'react.di';
 import {GallerySectionsHttpService} from '../gallery-sections/GallerySectionsHttpService';
 import {GalleryItemsHttpService} from './GalleryItemsHttpService';
-import {GalleryItemsService} from './GalleryItemsService';
+import {GALLERY_ITEMS_LIMIT, GalleryItemsService} from './GalleryItemsService';
 import {Subscription} from 'rxjs';
-
-const LIMIT = 6;
 
 interface GalleryItemsContainerProps {
   sectionId: number;
@@ -22,7 +20,9 @@ interface GalleryItemsContainerState {
 
 interface ItemRenderProps {
   items: any[];
+
   onDeleteItem(item: any);
+
   onLoadMore(offset: number);
 }
 
@@ -84,14 +84,20 @@ export class GalleryItemsContainer extends Component<GalleryItemsContainerProps,
     const {itemsRender} = this.props;
     const {hasMoreItems, items} = this.state;
     return (
-      <InfiniteScroll loadMore={() => this.loadItems()}
-                      limit={LIMIT}
+      <InfiniteScroll loadMore={page => {
+        console.log('from infinite ' + page);
+        this.loadItems();
+      }}
+                      limit={GALLERY_ITEMS_LIMIT}
                       hasMore={hasMoreItems}
                       loader={<div className="loader" style={{float: 'left'}} key={0}>Loading ...</div>}>
         {itemsRender({
           items,
-          onLoadMore: () => this.loadItems(),
-          onDeleteItem: item => this.deleteItem(item)
+          onLoadMore: () => {
+            console.log('from render');
+            this.loadItems();
+          },
+          onDeleteItem: item => this.deleteItem(item),
         })}
       </InfiniteScroll>
     );

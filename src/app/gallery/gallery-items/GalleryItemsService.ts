@@ -3,7 +3,7 @@ import {GallerySectionsHttpService} from '../gallery-sections/GallerySectionsHtt
 import {Observable} from 'rxjs/Observable';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
-const LIMIT = 6;
+export const GALLERY_ITEMS_LIMIT = 20;
 
 @Injectable
 export class GalleryItemsService {
@@ -39,7 +39,7 @@ export class GalleryItemsService {
     const items = this.itemsSubject.getValue();
     const {data, headers} = await this.gallerySectionsHttpService.getGalleryItemsBySection(
       this.sectionId,
-      LIMIT,
+      GALLERY_ITEMS_LIMIT,
       items.length,
     );
     const newItems = [...items, ...data];
