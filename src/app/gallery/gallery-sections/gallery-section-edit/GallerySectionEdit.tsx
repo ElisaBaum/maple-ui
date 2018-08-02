@@ -6,6 +6,7 @@ import {FileSelectButton} from '../../../layout/components/file-select/FileSelec
 import {Item} from '../../../layout/components/item/Item';
 import {GalleryItemsContainer} from '../../gallery-items/GalleryItemsContainer';
 import {Tile, TileContent, TileIcon, TileProgress} from '../../../layout/components/tile/Tile';
+import {Card} from '../../../layout/components/card/Card';
 
 interface GallerySectionEditProps {
   section;
@@ -25,7 +26,7 @@ export const GallerySectionEdit = ({
   const completedItems = newItems.filter(item => item.completed);
 
   return (
-    <div>
+    <Card>
       <Form values={section}
             onSubmit={({isValid, values}) => isValid && onSectionChange(values)}>
         <FormTextField submitOnChange
@@ -51,6 +52,6 @@ export const GallerySectionEdit = ({
                              itemsRender={({items, onDeleteItem}) => [...newItems, ...items].map((item, i) => (
                                <GalleryItemTile key={i} item={item} onDelete={onDeleteItem}/>
                              ))}/>
-    </div>
+    </Card>
   );
 };

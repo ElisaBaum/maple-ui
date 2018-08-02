@@ -2,12 +2,11 @@ import * as React from 'react';
 import {Component} from 'react';
 import {GallerySections} from './GallerySections';
 import {Inject} from 'react.di';
-import {GallerySectionsHttpService} from './GallerySectionsHttpService';
+import {GallerySectionsHttpService} from '../GallerySectionsHttpService';
 import {toast} from 'react-toastify';
-import {Card} from '../../layout/components/card/Card';
-import {UserService} from '../../user/UserService';
+import {UserService} from '../../../user/UserService';
 import {RouteComponentProps} from 'react-router';
-import {User} from '../../user/User';
+import {User} from '../../../user/User';
 
 interface GallerySectionsContainerProps extends RouteComponentProps<any> {
 
@@ -77,12 +76,10 @@ export class GallerySectionsContainer extends Component<GallerySectionsContainer
   render() {
     const {user, sections} = this.state;
     return (
-      <Card>
-        <GallerySections sections={sections}
-                         user={user}
-                         onCreateSection={() => this.createGallerySectionAndRouteToIt()}
-                         onDeleteSection={section => this.deleteGallerySection(section)}/>
-      </Card>
+      <GallerySections sections={sections}
+                       user={user}
+                       onCreateSection={() => this.createGallerySectionAndRouteToIt()}
+                       onDeleteSection={section => this.deleteGallerySection(section)}/>
     );
   }
 }

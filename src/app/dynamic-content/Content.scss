@@ -5,6 +5,7 @@
 
   &.nav-open {
     max-height: 100%;
+    width: 100%;
     overflow: hidden;
     position: fixed;
   }
@@ -14,6 +15,9 @@
     height: 75vh;
     width: 100%;
     overflow: hidden;
+    &.header-sm {
+      height: 40vh;
+    }
 
     .header-content {
       height: 100%;
@@ -53,8 +57,9 @@
 
 
 @media only screen and (min-width: $size-md) {
-  $left-side-flex: 2;
-  $right-side-flex: 1.5;
+  $right-side-width: 42%;
+  $left-side-flex: 0 0 58%;
+  $right-side-flex: 0 0 $right-side-width;
 
   .content {
     display: block;
@@ -66,6 +71,9 @@
       @include display-flex(flex);
       @include flex-direction(row);
       height: 100vh;
+      &.header-sm {
+        height: 100vh;
+      }
       position: fixed;
       display: flex;
       flex-direction: row;
@@ -94,14 +102,15 @@
       }
       > * {
         @include flex($right-side-flex);
+        max-width: $right-side-width;
       }
     }
   }
 }
 
 @media only screen and (min-width: $size-lg) {
-  $left-side-flex: 2;
-  $right-side-flex: 1.25;
+  $left-side-flex: 0 0 62%;
+  $right-side-flex: 0 0 38%;
 
   .content {
     .header {

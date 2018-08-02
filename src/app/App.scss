@@ -3,9 +3,18 @@
 .app {
   min-height: 100%;
   font-family: 'Quicksand', sans-serif;
-  background: $main-bg;
+  background: transparent;
 
   a[href^="mailto:"] {
     color: $text-primary-color;
+  }
+  .app-background {
+    position: fixed;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: $main-bg;
   }
 }

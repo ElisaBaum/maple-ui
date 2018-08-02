@@ -41,6 +41,7 @@ export class App extends Component {
   render() {
     return (
       <div className={'app'}>
+        <div className={'app-background'}></div>
         <Router history={this.history}>
           <Switch>
             <Route path={LOGIN_PATH} component={CenteredLoginContainer}/>

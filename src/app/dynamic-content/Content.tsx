@@ -55,14 +55,18 @@ export class Content extends Component<ContentProps, ContentState> {
   render() {
     const {header, children, className, style, isNavOpen} = this.props;
     return (
-      <div className={classNames('content', {'nav-open': isNavOpen}, className)} style={style}>
-        <div className={'header'}>
+      <div className={classNames('content', {'nav-open': isNavOpen}, className)}
+           style={style}>
+        <div className={classNames('header', {'header-sm': !header.images.length})}>
           <div className={'header-content'}>
             <FadeGallery>
               {this.filterImages(header.images).map((image, index) => (
                 <GalleryItem key={index}>
                   <FadeIn whenLoaded>
-                    <Image src={image} size={'cover'} positionX={'center'} positionY={'top'}/>
+                    <Image src={image}
+                           size={'cover'}
+                           positionX={'center'}
+                           positionY={'top'}/>
                   </FadeIn>
                 </GalleryItem>
               ))}

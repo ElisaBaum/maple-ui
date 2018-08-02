@@ -9,8 +9,8 @@ import {MusicRequestsContainer} from '../music-requests/MusicRequestsContainer';
 import {QAndAContainer} from "../invitation/q-and-a/QAndAContainer";
 import {ProcedureContainer} from "../invitation/procedure/ProcedureContainer";
 import {NotFound} from "../not-found/NotFound";
+import {GalleryContainer} from '../gallery/GalleryContainer';
 import './Skeleton.scss';
-import {Gallery} from '../gallery/Gallery';
 
 export const JOURNEY_PATH = '/journey';
 export const GALLERY_PATH = '/gallery';
@@ -34,7 +34,7 @@ export const Skeleton = () => (
     <Switch>
       <Route path={JOURNEY_PATH} component={JourneyContainer}/>
       <Route path={APPROVAL_PATH} component={ApprovalContainer}/>
-      <Route path={GALLERY_PATH} component={Gallery}/>
+      <Route path={GALLERY_PATH} component={GalleryContainer}/>
       <Route path={OVERNIGHT_STAY_PATH} component={RoomReservationContainer}/>
       <Route path={MUSIC_REQUESTS_PATH} component={MusicRequestsContainer}/>
       <Route path={Q_AND_A_PATH} component={QAndAContainer}/>
