@@ -100,10 +100,13 @@
     &.active {
       color: $link-color-dark;
       .er-icon {
-        background: white;
+        background: $link-color-dark;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
       }
+    }
+    .er-icon {
+      float: left;
     }
     padding: 0;
     .material-icons {

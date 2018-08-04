@@ -23,7 +23,7 @@ interface ItemRenderProps {
 
   onDeleteItem(item: any);
 
-  onLoadMore(offset: number);
+  onLoadMore();
 }
 
 export class GalleryItemsContainer extends Component<GalleryItemsContainerProps, GalleryItemsContainerState> {
@@ -84,19 +84,13 @@ export class GalleryItemsContainer extends Component<GalleryItemsContainerProps,
     const {itemsRender} = this.props;
     const {hasMoreItems, items} = this.state;
     return (
-      <InfiniteScroll loadMore={page => {
-        console.log('from infinite ' + page);
-        this.loadItems();
-      }}
+      <InfiniteScroll loadMore={() => this.loadItems()}
                       limit={GALLERY_ITEMS_LIMIT}
                       hasMore={hasMoreItems}
                       loader={<div className="loader" style={{float: 'left'}} key={0}>Loading ...</div>}>
         {itemsRender({
           items,
-          onLoadMore: () => {
-            console.log('from render');
-            this.loadItems();
-          },
+          onLoadMore: () => this.loadItems(),
           onDeleteItem: item => this.deleteItem(item),
         })}
       </InfiniteScroll>

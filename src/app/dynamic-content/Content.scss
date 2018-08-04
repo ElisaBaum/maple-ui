@@ -55,8 +55,33 @@
   }
 }
 
+@mixin lg-view {
+  $right-side-width: 38%;
+  $left-side-flex: 0 0 62%;
+  $right-side-flex: 0 0 $right-side-width;
 
-@media only screen and (min-width: $size-md) {
+  .content {
+    .header {
+      .header-content {
+        @include flex($left-side-flex);
+      }
+      &:after {
+        @include flex($right-side-flex);
+      }
+    }
+    .content-content {
+      &:before {
+        @include flex($left-side-flex);
+      }
+      > * {
+        @include flex($right-side-flex);
+        max-width: $right-side-width;
+      }
+    }
+  }
+}
+
+@mixin md-view {
   $right-side-width: 42%;
   $left-side-flex: 0 0 58%;
   $right-side-flex: 0 0 $right-side-width;
@@ -108,26 +133,10 @@
   }
 }
 
-@media only screen and (min-width: $size-lg) {
-  $left-side-flex: 0 0 62%;
-  $right-side-flex: 0 0 38%;
+@media only screen and (min-width: $size-md) {
+  @include md-view();
+}
 
-  .content {
-    .header {
-      .header-content {
-        @include flex($left-side-flex);
-      }
-      &:after {
-        @include flex($right-side-flex);
-      }
-    }
-    .content-content {
-      &:before {
-        @include flex($left-side-flex);
-      }
-      > * {
-        @include flex($right-side-flex);
-      }
-    }
-  }
+@media only screen and (min-width: $size-lg) {
+  @include lg-view();
 }

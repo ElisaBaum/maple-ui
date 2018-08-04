@@ -1,3 +1,5 @@
+@import "../../../layout/constants";
+
 @mixin galler-section-item() {
   float: left;
   padding-right: 2px;
@@ -5,6 +7,11 @@
 }
 
 .gallery-section {
+  background: white;
+
+  .gallery-section-headline {
+    padding: 0;
+  }
   .gallery-section-items {
     margin-right: -2px;
     > div:after {
@@ -23,14 +30,52 @@
   .gallery-section-image-wrapper {
     @include galler-section-item();
     height: 175px;
-    width: 33.33%;
+    width: 50%;
+    @media only screen and (min-width: 380px) {
+      width: 33.33%;
+    }
+    @media only screen and (min-width: $size-sm) {
+      width: 20%;
+    }
+    @media only screen and (min-width: $size-md) {
+      width: 16.66%;
+    }
+    @media only screen and (min-width: $size-lg) {
+      width: 12.5%;
+    }
+    &:focus,
+    &:active,
+    &.active {
+      opacity: 0.8;
+    }
+    cursor: pointer;
   }
 }
-
 
 .gallery-section-carousel {
   height: 100% !important;
   .slider-frame {
     height: 100% !important;
+  }
+}
+
+.g-nav {
+  display: flex;
+  padding: .5rem .8rem;
+
+  @media only screen and (min-width: $size-md) {
+    flex-direction: row-reverse;
+  }
+
+  .g-nav-controls {
+    padding: 0 1.5rem;
+    > * {
+      margin: 0 .2rem;
+    }
+  }
+
+  .headline {
+    height: 2.4rem;
+    line-height: 2.4rem;
   }
 }

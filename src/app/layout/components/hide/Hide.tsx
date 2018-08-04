@@ -1,5 +1,4 @@
 import * as React from 'react';
-import './Hide.scss';
 import {HTMLAttributes} from 'react';
 import MediaQuery from 'react-responsive';
 import {atLeast, lessThan, sizes} from '../../../utils/media-query';
