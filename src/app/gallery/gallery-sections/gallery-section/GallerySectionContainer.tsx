@@ -39,6 +39,11 @@ export class GallerySectionContainer extends Component<GallerySectionContainerPr
     });
   }
 
+  async downloadSection() {
+    const {section} = this.state;
+    this.gallerySectionsHttpService.zipGallerySection(section);
+  }
+
   async processAction(action) {
     try {
       await action();
@@ -51,7 +56,7 @@ export class GallerySectionContainer extends Component<GallerySectionContainerPr
     const {section} = this.state;
     if (section) {
       return (
-        <GallerySection section={section}/>
+        <GallerySection section={section} download={() => this.downloadSection()}/>
       );
     }
     return (<div></div>);

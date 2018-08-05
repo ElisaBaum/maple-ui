@@ -98,7 +98,7 @@ export class GallerySectionEditContainer extends Component<GallerySectionEditCon
       await newItems.reduce(async (promise, item) => {
         const file = item.file;
         await promise;
-        const {data} = await this.galleryItemsHttpService.getGalleryItemS3Policy(file.name, file.type);
+        const {data} = await this.gallerySectionsHttpService.getGalleryItemS3Policy(section, file.name, file.type);
         await this.s3UploadService.uploadFile(file, data, onFileProgress);
         await this.galleryItemsHttpService.createGalleryItem({
           key: data.key,

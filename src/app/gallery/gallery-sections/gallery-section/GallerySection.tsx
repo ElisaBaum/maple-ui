@@ -9,10 +9,10 @@ import {Button} from '../../../layout/components/button/Button';
 import './GallerySection.scss';
 import {Hide} from '../../../layout/components/hide/Hide';
 
-export const GallerySection = ({section}) => {
+export const GallerySection = ({section, download}) => {
   const renderDownloadButton = (props: any = {}) => (<Button type={'primary'}
                                                              htmlType={'button'}
-                                                             onClick={() => null}
+                                                             onClick={() => download()}
                                                              {...props}>
     Download
   </Button>);
