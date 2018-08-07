@@ -6,8 +6,11 @@ import {GalleryItemsContainer} from '../../gallery-items/GalleryItemsContainer';
 import {CarouselGalleryContainer} from '../../carousel-gallery/CarouselGalleryContainer';
 import {Headline} from '../../../layout/components/headline/Headline';
 import {Button} from '../../../layout/components/button/Button';
-import './GallerySection.scss';
 import {Hide} from '../../../layout/components/hide/Hide';
+import {LinkButton} from '../../../layout/components/link-button/LinkButton';
+import {GALLERY_SECTION_EDIT} from '../../Gallery';
+import {ShowIfOwner} from '../../../layout/components/show-if-owner/ShowIfOwner';
+import './GallerySection.scss';
 
 export const GallerySection = ({section}) => {
   const renderDownloadButton = (props: any = {}) => (<Button type={'primary'}
@@ -16,12 +19,13 @@ export const GallerySection = ({section}) => {
                                                              {...props}>
     Download
   </Button>);
-  const renderEditButton = (props: any = {}) => (<Button type={'primary'}
-                                                         htmlType={'button'}
-                                                         onClick={() => null}
-                                                         {...props}>
-    Bearbeiten
-  </Button>);
+  const renderEditButton = (props: any = {}) => (<ShowIfOwner partyId={section.partyId}>
+    <LinkButton target={GALLERY_SECTION_EDIT(section.id)}
+                type={'primary'}
+                {...props}>
+      Bearbeiten
+    </LinkButton>
+  </ShowIfOwner>);
 
   return (
     <div className={'gallery-section'}>
@@ -37,8 +41,8 @@ export const GallerySection = ({section}) => {
       </Item>
       <Hide whenAtLeast={'md'}>
         <Item style={{display: 'flex'}}>
-          {renderDownloadButton({className: 'btn-block', style: {margin: '0 .2rem'}})}
-          {renderEditButton({className: 'btn-block', style: {margin: '0 .2rem'}})}
+          {renderDownloadButton({style: {width: '100%', margin: '0 .2rem'}})}
+          {renderEditButton({style: {width: '100%', margin: '0 .2rem'}})}
         </Item>
       </Hide>
       <div className={'gallery-section-items'}>
@@ -47,7 +51,7 @@ export const GallerySection = ({section}) => {
                                  if (/video/.test(item.type)) {
                                    return (
                                      <div key={i} className={'gallery-section-video-wrapper'}>
-                                       <video width={'100%'} controls>
+                                       <video width={'100%'} height={'100%'} controls>
                                          <source src={item.originalUrl} type={item.type}/>
                                        </video>
                                      </div>
@@ -60,8 +64,11 @@ export const GallerySection = ({section}) => {
                                                                      onLoadMore={onLoadMore}
                                                                      initialIndex={i}/>))}
                                         className={'gallery-section-image-wrapper'}>
-                                     <Image size={'cover'}
-                                            position={'center'} src={item.resizedUrl}/>
+                                     <div className={'gallery-section-image-wrapper-wrapper'}>
+                                       <Image size={'cover'}
+                                              className={'gallery-section-image '}
+                                              position={'center'} src={item.resizedUrl}/>
+                                     </div>
                                    </div>
                                  );
                                })}>

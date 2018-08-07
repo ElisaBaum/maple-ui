@@ -9,6 +9,7 @@ interface CarouselGalleryContainerProps {
   initialIndex: number;
 
   onLoadMore();
+
   onClose();
 }
 
@@ -20,6 +21,8 @@ interface CarouselGalleryContainerState {
 export class CarouselGalleryContainer extends Component<CarouselGalleryContainerProps, CarouselGalleryContainerState> {
 
   @Inject galleryItemsService: GalleryItemsService;
+
+  itemsToShow: any[] = [];
 
   private itemsSubscription: Subscription;
 

@@ -1,4 +1,5 @@
 @import "../../../layout/constants";
+@import "../../../layout/mixins/common";
 
 @mixin galler-section-item() {
   float: left;
@@ -23,6 +24,27 @@
   .gallery-section-video-wrapper {
     @include galler-section-item();
     width: 100%;
+    video {
+      background-color: #595959;
+    }
+
+    @media only screen and (min-width: 380px) {
+      height: 175px;
+      width: 66.66%;
+    }
+    @media only screen and (min-width: $size-sm) {
+      height: 175px;
+      width: 40%;
+    }
+    @media only screen and (min-width: $size-md) {
+      height: 175px;
+      width: 33.33%;
+    }
+    @media only screen and (min-width: $size-lg) {
+      height: 175px;
+      width: 25%;
+    }
+
     video {
       display: block;
     }
@@ -49,6 +71,14 @@
       opacity: 0.8;
     }
     cursor: pointer;
+
+    .gallery-section-image-wrapper-wrapper {
+      overflow: hidden;
+      height: 100%;
+    }
+    .gallery-section-image {
+      @include transform(scale(1.23, 1.23));
+    }
   }
 }
 
