@@ -27,11 +27,6 @@
     video {
       background-color: #595959;
     }
-
-    @media only screen and (min-width: 380px) {
-      height: 175px;
-      width: 66.66%;
-    }
     @media only screen and (min-width: $size-sm) {
       height: 175px;
       width: 40%;
@@ -44,7 +39,6 @@
       height: 175px;
       width: 25%;
     }
-
     video {
       display: block;
     }

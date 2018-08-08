@@ -7,6 +7,7 @@ import {GallerySectionsHttpService} from '../gallery-sections/GallerySectionsHtt
 import {GalleryItemsHttpService} from './GalleryItemsHttpService';
 import {GALLERY_ITEMS_LIMIT, GalleryItemsService} from './GalleryItemsService';
 import {Subscription} from 'rxjs';
+import {InfiniteScrollSpinner} from '../../layout/components/infinite-scroll/InfiniteScrollSpinner';
 
 interface GalleryItemsContainerProps {
   sectionId: number;
@@ -87,7 +88,7 @@ export class GalleryItemsContainer extends Component<GalleryItemsContainerProps,
       <InfiniteScroll loadMore={() => this.loadItems()}
                       limit={GALLERY_ITEMS_LIMIT}
                       hasMore={hasMoreItems}
-                      loader={<div className="loader" style={{float: 'left'}} key={0}>Loading ...</div>}>
+                      loader={<InfiniteScrollSpinner key={0}/>}>
         {itemsRender({
           items,
           onLoadMore: () => this.loadItems(),
