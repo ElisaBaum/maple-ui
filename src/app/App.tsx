@@ -6,7 +6,7 @@ import {HISTORY_TOKEN} from './common/history';
 import {AuthService} from './auth/AuthService';
 import {centered} from './layout/decorators/center/center';
 import {LoginContainer} from './login/LoginContainer';
-import {APPROVAL_PATH, Skeleton} from './skeleton/Skeleton';
+import {GALLERY_PATH, Skeleton} from './skeleton/Skeleton';
 import {Toast} from './layout/components/toast/Toast';
 import {OverlayContainer} from './layout/components/overlay/OverlayContainer';
 import {AuthModule} from './auth/AuthModule';
@@ -47,7 +47,7 @@ export class App extends Component {
             <Route path={LOGIN_PATH} component={CenteredLoginContainer}/>
             <Route path={ROOT_PATH} exact render={() => {
               if (this.authService.isLoggedIn()) {
-                return <Redirect to={APPROVAL_PATH}/>;
+                return <Redirect to={GALLERY_PATH}/>;
               }
               return <Redirect to={LOGIN_PATH}/>;
             }}/>

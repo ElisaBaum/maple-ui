@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {Route, Switch} from 'react-router';
-import {ApprovalContainer} from "../invitation/approval/ApprovalContainer";
 import {Navigation} from '../layout/components/navigation/Navigation';
 import {NavigationItem} from "../layout/components/navigation/NavigationItem";
 import {QAndAContainer} from "../invitation/q-and-a/QAndAContainer";
@@ -23,11 +22,9 @@ export const Skeleton = () => (
       <NavigationItem target={GALLERY_PATH} text='Fotos'/>
       <NavigationItem target={PROCEDURE_PATH} text='Ablauf'/>
       <NavigationItem target={Q_AND_A_PATH} text='Fragen & Antworten'/>
-      <NavigationItem target={APPROVAL_PATH} text='Anmeldung'/>
     </Navigation>
     <Switch>
       <Route path={GALLERY_PATH} component={Gallery}/>
-      <Route path={APPROVAL_PATH} component={ApprovalContainer}/>
       <Route path={Q_AND_A_PATH} component={QAndAContainer}/>
       <Route path={PROCEDURE_PATH} component={ProcedureContainer}/>
       <Route component={NotFound}/>
