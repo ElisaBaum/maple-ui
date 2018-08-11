@@ -37,7 +37,7 @@ export class GallerySectionsHttpService {
   }
 
   zipGallerySection(section) {
-    return this.http.get<any[]>(`/users/me/gallery-sections/${section.id}/zipped`);
+    return this.http.get<string>(`/users/me/gallery-sections/${section.id}/zipped`);
   }
 
   getGalleryItemS3Policy(section, key: string, contentType: string) {

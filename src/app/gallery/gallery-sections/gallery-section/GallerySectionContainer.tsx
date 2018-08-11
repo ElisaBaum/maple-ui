@@ -10,6 +10,7 @@ import {GallerySection} from './GallerySection';
 
 interface GallerySectionContainerState {
   section?: any;
+  zipping?: boolean;
 }
 
 interface GallerySectionContainerProps extends RouteComponentProps<any> {
@@ -40,8 +41,27 @@ export class GallerySectionContainer extends Component<GallerySectionContainerPr
   }
 
   async downloadSection() {
-    const {section} = this.state;
-    this.gallerySectionsHttpService.zipGallerySection(section);
+    await this.processAction(async () => {
+      this.setState({
+        zipping: true,
+      });
+
+      const {section} = this.state;
+      const {data} = await this.gallerySectionsHttpService.zipGallerySection(section);
+
+      const element = document.createElement('a');
+      element.setAttribute('href', data);
+      element.style.display = 'none';
+      document.body.appendChild(element);
+
+      element.click();
+
+      document.body.removeChild(element);
+
+      this.setState({
+        zipping: false,
+      });
+    });
   }
 
   async processAction(action) {
@@ -53,10 +73,10 @@ export class GallerySectionContainer extends Component<GallerySectionContainerPr
   }
 
   render() {
-    const {section} = this.state;
+    const {section, zipping} = this.state;
     if (section) {
       return (
-        <GallerySection section={section} download={() => this.downloadSection()}/>
+        <GallerySection section={section} download={() => this.downloadSection()} zipping={zipping}/>
       );
     }
     return (<div></div>);

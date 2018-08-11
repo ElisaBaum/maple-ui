@@ -72,6 +72,7 @@
       color: $light-color;
     }
     &.loading {
+      color: #fff!important;
       &::after {
         border-bottom-color: $light-color;
         border-left-color: $light-color;

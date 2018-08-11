@@ -23,6 +23,7 @@ export function Button({children, className, htmlType, loading, block, type, ...
         loading,
         'btn-block': block,
       },
+      {disabled: loading},
       className
     )} type={htmlType}>{children}</button>
   );
