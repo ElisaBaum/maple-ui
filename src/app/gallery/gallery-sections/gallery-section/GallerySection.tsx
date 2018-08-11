@@ -12,10 +12,10 @@ import {GALLERY_SECTION_EDIT} from '../../Gallery';
 import {ShowIfOwner} from '../../../layout/components/show-if-owner/ShowIfOwner';
 import './GallerySection.scss';
 
-export const GallerySection = ({section}) => {
+export const GallerySection = ({section, download}) => {
   const renderDownloadButton = (props: any = {}) => (<Button type={'primary'}
                                                              htmlType={'button'}
-                                                             onClick={() => null}
+                                                             onClick={() => download()}
                                                              {...props}>
     Download
   </Button>);

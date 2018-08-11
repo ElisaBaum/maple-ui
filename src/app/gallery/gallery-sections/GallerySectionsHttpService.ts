@@ -36,4 +36,14 @@ export class GallerySectionsHttpService {
     return this.http.delete<any[]>(`/users/me/gallery-sections/${section.id}`);
   }
 
+  zipGallerySection(section) {
+    return this.http.get<any[]>(`/users/me/gallery-sections/${section.id}/zipped`);
+  }
+
+  getGalleryItemS3Policy(section, key: string, contentType: string) {
+    return this.http.get<any>(`/users/me/gallery-sections/${section.id}/gallery-item-s3-policy`, {
+      params: {key, contentType}
+    });
+  }
+
 }
