@@ -26,32 +26,34 @@ export const GallerySectionEdit = ({
   const completedItems = newItems.filter(item => item.completed);
 
   return (
-    <Card>
-      <Form values={section}
-            onSubmit={({isValid, values}) => isValid && onSectionChange(values)}>
-        <FormTextField submitOnChange
-                       name="name"
-                       label="Galleriename"
-                       required={'Bitte Namen eingeben!'}/>
-      </Form>
-      <Item>
-        <FileSelectButton button
-                          onFilesChanged={fileList => onUpload(fileList)}
-                          accept={['image/*', 'video/*', 'audio/*']}>
-          Lade neue Bilder/Videos hoch
-        </FileSelectButton>
-      </Item>
-      {!!newItems.length && (
-        <Tile item centered>
-          <TileIcon icon={'collections'} size={'large'}/>
-          <TileContent title={`${completedItems.length} von ${newItems.length} verarbeitet`}/>
-          <TileProgress progress={completedItems.length / newItems.length}/>
-        </Tile>
-      )}
-      <GalleryItemsContainer sectionId={section.id}
-                             itemsRender={({items, onDeleteItem}) => [...newItems, ...items].map((item, i) => (
-                               <GalleryItemTile key={i} item={item} onDelete={onDeleteItem}/>
-                             ))}/>
-    </Card>
+    <div className={'gallery-section-edit'}>
+      <Card>
+        <Form values={section}
+              onSubmit={({isValid, values}) => isValid && onSectionChange(values)}>
+          <FormTextField submitOnChange
+                         name="name"
+                         label="Galleriename"
+                         required={'Bitte Namen eingeben!'}/>
+        </Form>
+        <Item>
+          <FileSelectButton button
+                            onFilesChanged={fileList => onUpload(fileList)}
+                            accept={['image/*', 'video/*', 'audio/*']}>
+            Lade neue Bilder/Videos hoch
+          </FileSelectButton>
+        </Item>
+        {!!newItems.length && (
+          <Tile item centered>
+            <TileIcon icon={'collections'} size={'large'}/>
+            <TileContent title={`${completedItems.length} von ${newItems.length} verarbeitet`}/>
+            <TileProgress progress={completedItems.length / newItems.length}/>
+          </Tile>
+        )}
+        <GalleryItemsContainer sectionId={section.id}
+                               itemsRender={({items, onDeleteItem}) => [...newItems, ...items].map((item, i) => (
+                                 <GalleryItemTile key={i} item={item} onDelete={onDeleteItem}/>
+                               ))}/>
+      </Card>
+    </div>
   );
 };
