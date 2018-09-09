@@ -4,6 +4,8 @@ import {CarouselGallery} from './CarouselGallery';
 import {GalleryItemsService} from '../gallery-items/GalleryItemsService';
 import {Inject} from 'react.di';
 import {Subscription} from 'rxjs';
+import axios from 'axios';
+import {toast} from 'react-toastify';
 
 interface CarouselGalleryContainerProps {
   initialIndex: number;
@@ -16,13 +18,12 @@ interface CarouselGalleryContainerProps {
 interface CarouselGalleryContainerState {
   items: any[];
   currentIndex: number;
+  isDownloadingItem?: boolean;
 }
 
 export class CarouselGalleryContainer extends Component<CarouselGalleryContainerProps, CarouselGalleryContainerState> {
 
   @Inject galleryItemsService: GalleryItemsService;
-
-  itemsToShow: any[] = [];
 
   private itemsSubscription: Subscription;
 
@@ -53,13 +54,35 @@ export class CarouselGalleryContainer extends Component<CarouselGalleryContainer
     }
   }
 
+  async handleDownload(item) {
+    this.setState({isDownloadingItem: true});
+    try {
+      const response = await axios({
+        url: item.originalUrl,
+        method: 'GET',
+        responseType: 'blob',
+      });
+      const link = document.createElement('a');
+      link.href = window.URL.createObjectURL(new Blob([response.data]));
+      link.setAttribute('download', item.originalName);
+      document.body.appendChild(link);
+      link.click();
+    } catch (e) {
+      toast.error(e.toString());
+    } finally {
+      this.setState({isDownloadingItem: false});
+    }
+  }
+
   render() {
-    const {currentIndex, items} = this.state;
+    const {currentIndex, items, isDownloadingItem} = this.state;
     const {onClose} = this.props;
     return (
       <CarouselGallery items={items}
+                       isDownloadingItem={isDownloadingItem}
                        onIndexChange={(curr) => this.handleIndexChange(curr)}
                        onClose={onClose}
+                       onDownloadItem={item => this.handleDownload(item)}
                        currentIndex={currentIndex}/>
     );
   }

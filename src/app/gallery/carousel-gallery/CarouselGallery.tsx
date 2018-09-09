@@ -3,10 +3,9 @@ import Slider from 'react-slick';
 import {Button} from '../../layout/components/button/Button';
 import {Image} from '../../layout/components/image/Image';
 import {Icon} from '../../layout/components/icon/Icon';
-import {ExtLinkButton} from '../../layout/components/link-button/LinkButton';
 import './CarouselGallery.scss';
 
-export const CarouselGallery = ({items, onClose, currentIndex, onIndexChange}) => {
+export const CarouselGallery = ({items, onClose, currentIndex, isDownloadingItem, onDownloadItem, onIndexChange}) => {
   // react-slick slide arbitrary loses focus
   // (set focus is needed to use keyboard to
   //  slide back and forth),
@@ -16,11 +15,12 @@ export const CarouselGallery = ({items, onClose, currentIndex, onIndexChange}) =
   return (
     <div className={'carousel-gallery'}>
       <div className={'carousel-gallery-nav'}>
-        <ExtLinkButton type={'link'}
-                       download
-                       target={items[currentIndex].originalUrl}>
-          <Icon name={'cloud_download'}/>
-        </ExtLinkButton>
+        <Button htmlType={'button'}
+                loading={isDownloadingItem}
+                type={'link'}
+                onClick={() => onDownloadItem(items[currentIndex])}>
+          {!isDownloadingItem && <Icon name={'cloud_download'}/>}
+        </Button>
         <Button type={'link'}
                 htmlType={'button'}
                 onClick={onClose}>
