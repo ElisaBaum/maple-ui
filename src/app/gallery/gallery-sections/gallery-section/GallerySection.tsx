@@ -26,12 +26,10 @@ export const GallerySection = ({section, download, zipping}) => {
       Bearbeiten
     </LinkButton>
   </ShowIfOwner>);
-  const renderAllButtonLink = () => (<ShowIfOwner partyId={section.partyId}>
-    <LinkButton target={GALLERY_SECTIONS}
-                type={'primary'}>
-      Zurück
-    </LinkButton>
-  </ShowIfOwner>);
+  const renderAllButtonLink = () => (<LinkButton target={GALLERY_SECTIONS}
+                                                     type={'primary'}>
+    Zurück
+  </LinkButton>);
 
   return (
     <div className={'gallery-section'}>
