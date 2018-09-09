@@ -57,10 +57,12 @@ export class GallerySectionEditContainer extends Component<GallerySectionEditCon
     if (this.updateSectionTimeoutId) clearTimeout(this.updateSectionTimeoutId);
     if (this.cancelUpdateSectionRequest) this.cancelUpdateSectionRequest();
     this.updateSectionTimeoutId = setTimeout(async () => {
-      await this.gallerySectionsHttpService.updateGallerySectionPartially(
-        {...section, ...sectionToUpdate},
-        cancel => this.cancelUpdateSectionRequest = cancel,
-      );
+      await this.processAction(async () => {
+        await this.gallerySectionsHttpService.updateGallerySectionPartially(
+          {...section, ...sectionToUpdate},
+          cancel => this.cancelUpdateSectionRequest = cancel,
+        );
+      });
     }, DELAY);
   }
 

@@ -66,11 +66,13 @@ export class GalleryItemsContainer extends Component<GalleryItemsContainerProps,
   }
 
   async deleteItem(itemToDelete) {
-    const {items} = this.state;
-    this.setState({
-      items: items.filter(item => item !== itemToDelete),
+    await this.processAction(async () => {
+      const {items} = this.state;
+      this.setState({
+        items: items.filter(item => item !== itemToDelete),
+      });
+      await this.galleryItemsHttpService.deleteGalleryItem(itemToDelete);
     });
-    await this.galleryItemsHttpService.deleteGalleryItem(itemToDelete);
   }
 
   async processAction(action) {
