@@ -17,6 +17,7 @@
   .slick-track {
     height: 100%
   }
+  .slick-slide, .slick-slide *{ outline: none !important; }
   .slick-slide {
     display: flex !important;
     align-items: center;

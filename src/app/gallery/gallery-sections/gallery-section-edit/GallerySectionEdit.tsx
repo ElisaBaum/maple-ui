@@ -7,6 +7,9 @@ import {Item} from '../../../layout/components/item/Item';
 import {GalleryItemsContainer} from '../../gallery-items/GalleryItemsContainer';
 import {Tile, TileContent, TileIcon, TileProgress} from '../../../layout/components/tile/Tile';
 import {Card} from '../../../layout/components/card/Card';
+import {LinkButton} from '../../../layout/components/link-button/LinkButton';
+import {GALLERY_SECTION} from '../../Gallery';
+import './GallerySectionEdit.scss';
 
 interface GallerySectionEditProps {
   section;
@@ -35,7 +38,11 @@ export const GallerySectionEdit = ({
                          label="Galleriename"
                          required={'Bitte Namen eingeben!'}/>
         </Form>
-        <Item>
+        <Item className={'gallery-section-edit-btns-item'}>
+          <LinkButton target={GALLERY_SECTION(section.id)}
+                      type={'primary'}>
+            Zurück
+          </LinkButton>
           <FileSelectButton button
                             onFilesChanged={fileList => onUpload(fileList)}
                             accept={['image/*', 'video/*', 'audio/*']}>

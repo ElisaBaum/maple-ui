@@ -10,7 +10,6 @@ import {Gallery} from '../gallery/Gallery';
 
 export const JOURNEY_PATH = '/journey';
 export const GALLERY_PATH = '/gallery';
-export const APPROVAL_PATH = '/approval';
 export const OVERNIGHT_STAY_PATH = '/overnight-stay';
 export const MUSIC_REQUESTS_PATH = '/music-requests';
 export const Q_AND_A_PATH = '/q-and-a';

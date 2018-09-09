@@ -42,6 +42,8 @@ export class FormTextField extends FormInput<FormTextFieldProps, FormInputState>
     const floatLabel = !!value;
     const showLabel = !hasErrors || (!value || !hasErrors);
     const errorMessageElements = this.renderErrorMessages();
+    const additionalProps = {} as any;
+    if (type === 'password') additionalProps.autoComplete = "current-password";
     return (
       <TextField item labels={() => (
         <span>
@@ -52,7 +54,8 @@ export class FormTextField extends FormInput<FormTextFieldProps, FormInputState>
                  type={type || 'text'}
                  name={name}
                  value={value}
-                 onChange={e => this.handleChange(e)}/>
+                 onChange={e => this.handleChange(e)}
+                 {...additionalProps}/>
     );
   }
 }

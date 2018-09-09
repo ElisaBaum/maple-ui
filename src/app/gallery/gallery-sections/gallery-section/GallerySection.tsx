@@ -8,7 +8,7 @@ import {Headline} from '../../../layout/components/headline/Headline';
 import {Button} from '../../../layout/components/button/Button';
 import {Hide} from '../../../layout/components/hide/Hide';
 import {LinkButton} from '../../../layout/components/link-button/LinkButton';
-import {GALLERY_SECTION_EDIT} from '../../Gallery';
+import {GALLERY_SECTION_EDIT, GALLERY_SECTIONS} from '../../Gallery';
 import {ShowIfOwner} from '../../../layout/components/show-if-owner/ShowIfOwner';
 import './GallerySection.scss';
 
@@ -20,11 +20,16 @@ export const GallerySection = ({section, download, zipping}) => {
                                                              {...props}>
     Download
   </Button>);
-  const renderEditButton = (props: any = {}) => (<ShowIfOwner partyId={section.partyId}>
+  const renderEditButton = () => (<ShowIfOwner partyId={section.partyId}>
     <LinkButton target={GALLERY_SECTION_EDIT(section.id)}
-                type={'primary'}
-                {...props}>
+                type={'primary'}>
       Bearbeiten
+    </LinkButton>
+  </ShowIfOwner>);
+  const renderAllButtonLink = () => (<ShowIfOwner partyId={section.partyId}>
+    <LinkButton target={GALLERY_SECTIONS}
+                type={'primary'}>
+      Zurück
     </LinkButton>
   </ShowIfOwner>);
 
@@ -35,15 +40,17 @@ export const GallerySection = ({section, download, zipping}) => {
                   text={section.name}/>
         <Hide whenLessThan={'md'}>
           <div className={'g-nav-controls'}>
+            {renderAllButtonLink()}
             {renderDownloadButton()}
             {renderEditButton()}
           </div>
         </Hide>
       </Item>
       <Hide whenAtLeast={'md'}>
-        <Item style={{display: 'flex'}}>
-          {renderDownloadButton({style: {width: '100%', margin: '0 .2rem'}})}
-          {renderEditButton({style: {width: '100%', margin: '0 .2rem'}})}
+        <Item className={'gallery-section-btns-item'}>
+          {renderAllButtonLink()}
+          {renderDownloadButton()}
+          {renderEditButton()}
         </Item>
       </Hide>
       <div className={'gallery-section-items'}>

@@ -33,6 +33,31 @@
     border-color: $primary-color-dark;
     text-decoration: none;
   }
+  &.loading {
+    &::after {
+      all: initial;
+    }
+    &::before {
+      animation: loading 500ms infinite linear;
+      border: $border-width-lg solid $primary-color;
+      border-radius: 50%;
+      border-right-color: transparent;
+      border-top-color: transparent;
+      content: "";
+      height: $unit-4;
+      left: 50%;
+      top: 50%;
+      width: $unit-4;
+      z-index: $zindex-0;
+      border-bottom-color: $light-color;
+      border-left-color: $light-color;
+      display: inline-block;
+      position: static;
+      margin: 0;
+      margin-bottom: -.2rem;
+      margin-right: .4rem;
+    }
+  }
   &:active,
   &.active {
     background: $primary-color-dark;
@@ -40,7 +65,7 @@
     color: $light-color;
     text-decoration: none;
     &.loading {
-      &::after {
+      &::before {
         border-bottom-color: $light-color;
         border-left-color: $light-color;
       }
@@ -74,6 +99,9 @@
     &.loading {
       color: #fff!important;
       &::after {
+        all: initial;
+      }
+      &::before {
         border-bottom-color: $light-color;
         border-left-color: $light-color;
       }
@@ -205,6 +233,9 @@
     }
     &.loading {
       &::after {
+        all: initial;
+      }
+      &::before {
         border-bottom-color: $light-color;
         border-left-color: $light-color;
       }

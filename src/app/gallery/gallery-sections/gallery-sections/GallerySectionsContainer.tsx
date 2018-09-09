@@ -7,8 +7,10 @@ import {toast} from 'react-toastify';
 import {UserService} from '../../../user/UserService';
 import {RouteComponentProps} from 'react-router';
 import {User} from '../../../user/User';
+import {ContentComponentProps} from '../../../dynamic-content/ContentContainer';
+import {displayUnseenHints} from '../../hints';
 
-interface GallerySectionsContainerProps extends RouteComponentProps<any> {
+interface GallerySectionsContainerProps extends RouteComponentProps<any>, ContentComponentProps<any> {
 
 }
 
@@ -32,6 +34,7 @@ export class GallerySectionsContainer extends Component<GallerySectionsContainer
   async componentDidMount() {
     this.setState({user: this.userService.getUser()});
     await this.loadSections();
+    this.initializeHints();
   }
 
   async loadSections() {
@@ -73,11 +76,26 @@ export class GallerySectionsContainer extends Component<GallerySectionsContainer
     return `Deine Gallerie #${sections.length}`;
   }
 
+  initializeHints() {
+    const scrollListener = () => {
+      displayUnseenHints(this.props.content.gallerySections.hints);
+      document.removeEventListener('scroll', scrollListener);
+    };
+    document.addEventListener('scroll', scrollListener);
+  }
+
   render() {
+    const {content} = this.props;
     const {user, sections} = this.state;
+
+    if (!user) {
+      return (<div></div>);
+    }
+
     return (
       <GallerySections sections={sections}
                        user={user}
+                       content={content}
                        onCreateSection={() => this.createGallerySectionAndRouteToIt()}
                        onDeleteSection={section => this.deleteGallerySection(section)}/>
     );

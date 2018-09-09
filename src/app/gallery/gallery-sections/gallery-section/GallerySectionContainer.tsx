@@ -42,25 +42,29 @@ export class GallerySectionContainer extends Component<GallerySectionContainerPr
 
   async downloadSection() {
     await this.processAction(async () => {
-      this.setState({
-        zipping: true,
-      });
+      try {
+        this.setState({
+          zipping: true,
+        });
 
-      const {section} = this.state;
-      const {data} = await this.gallerySectionsHttpService.zipGallerySection(section);
+        const {section} = this.state;
+        const {data} = await this.gallerySectionsHttpService.zipGallerySection(section);
 
-      const element = document.createElement('a');
-      element.setAttribute('href', data);
-      element.style.display = 'none';
-      document.body.appendChild(element);
+        const element = document.createElement('a');
+        element.setAttribute('href', data);
+        element.style.display = 'none';
+        document.body.appendChild(element);
 
-      element.click();
+        element.click();
 
-      document.body.removeChild(element);
-
-      this.setState({
-        zipping: false,
-      });
+        document.body.removeChild(element);
+      } catch (e) {
+        throw e;
+      } finally {
+        this.setState({
+          zipping: false,
+        });
+      }
     });
   }
 

@@ -25,7 +25,7 @@ export const Gallery = () => (
              render={routeProps => (
                <ContentContainer
                  contentKey={'gallery'}
-                 render={() => <GallerySectionsContainer {...routeProps} />}/>
+                 render={content => <GallerySectionsContainer content={content} {...routeProps} />}/>
              )}/>
       <Route render={() => (<Redirect to={GALLERY_SECTIONS}/>)}/>
     </Switch>

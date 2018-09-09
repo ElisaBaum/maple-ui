@@ -6,9 +6,10 @@ import './Icon.scss';
 interface IconProps extends HTMLAttributes<{}> {
   name: string;
   size?: 'lg';
+  inverse?: boolean;
 }
 
-export function Icon({name, size, className, ...props}: IconProps) {
+export function Icon({name, size, className, inverse, ...props}: IconProps) {
   return (<i {...props}
-             className={classNames('er-icon', 'material-icons', size)}>{name}</i>);
+             className={classNames('er-icon', 'material-icons', size, {inverse})}>{name}</i>);
 }

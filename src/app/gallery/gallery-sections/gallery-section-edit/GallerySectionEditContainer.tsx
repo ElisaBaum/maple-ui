@@ -94,6 +94,11 @@ export class GallerySectionEditContainer extends Component<GallerySectionEditCon
 
   async uploadItems(newItems: NewGalleryItem[], onFileProgress, onItemComplete) {
     const {section} = this.state;
+    const getISODateString = file => file.lastModified
+      ? new Date(file.lastModified).toJSON()
+      : ((file.lastModifiedDate && file.lastModifiedDate.toJSON)
+        ? file.lastModifiedDate.toJSON()
+        : undefined);
     await this.processAction(async () => {
       await newItems.reduce(async (promise, item) => {
         const file = item.file;
@@ -107,7 +112,7 @@ export class GallerySectionEditContainer extends Component<GallerySectionEditCon
           type: file.type,
           sectionId: section.id,
           access: 'All',
-          lastModifiedAt: file.lastModifiedDate || file['lastModified'],
+          lastModifiedAt: getISODateString(file),
         });
         onItemComplete(item);
       }, Promise.resolve());
