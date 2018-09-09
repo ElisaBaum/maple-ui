@@ -78,9 +78,14 @@
   .g-nav {
     display: flex;
     padding: .5rem .8rem;
+    padding-right: 3rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
     @media only screen and (min-width: $size-md) {
       flex-direction: row-reverse;
+      padding-right: .8rem;
     }
 
     .g-nav-controls {
@@ -93,6 +98,9 @@
     .headline {
       height: 2.4rem;
       line-height: 2.4rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 
