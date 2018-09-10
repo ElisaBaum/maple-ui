@@ -63,7 +63,7 @@ export class CarouselGalleryContainer extends Component<CarouselGalleryContainer
         responseType: 'blob',
       });
       const link = document.createElement('a');
-      link.href = window.URL.createObjectURL(new Blob([response.data]));
+      link.href = window.URL.createObjectURL(response.data);
       link.setAttribute('download', item.originalName);
       document.body.appendChild(link);
       link.click();

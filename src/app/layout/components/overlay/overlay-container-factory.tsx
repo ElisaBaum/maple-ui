@@ -1,14 +1,14 @@
 import * as React from 'react';
 import {Component} from 'react';
-import {Overlay} from './Overlay';
+import {Overlay, OverlayOptions} from './Overlay';
 import ScrollLock from 'react-scrolllock';
 
 export const createOverlayContainer = () => {
   let overlayContainer: OverlayContainer;
 
-  const addOverlay = (render) => {
+  const addOverlay = (render, options: OverlayOptions = {}) => {
     const {overlayRenders} = overlayContainer.state;
-    const overlayRender = i => (<Overlay key={i}>{render({
+    const overlayRender = i => (<Overlay key={i} {...options}>{render({
       onCloseOverlay: () => removeOverlay(overlayRender),
     })}</Overlay>);
 

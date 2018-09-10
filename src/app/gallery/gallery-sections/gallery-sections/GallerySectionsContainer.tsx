@@ -9,6 +9,8 @@ import {RouteComponentProps} from 'react-router';
 import {User} from '../../../user/User';
 import {ContentComponentProps} from '../../../dynamic-content/ContentContainer';
 import {displayUnseenHints} from '../../hints';
+import {addOverlay} from '../../../layout/components/overlay/OverlayContainer';
+import {DeleteSectionModal} from './delete-section-modal/DeleteSectionModal';
 
 interface GallerySectionsContainerProps extends RouteComponentProps<any>, ContentComponentProps<any> {
 
@@ -53,11 +55,20 @@ export class GallerySectionsContainer extends Component<GallerySectionsContainer
     });
   }
 
-  async deleteGallerySection(section) {
-    await this.processAction(async () => {
+  deleteGallerySection(section) {
+    const deleteSection = () => this.processAction(async () => {
       await this.gallerySectionsHttpService.deleteGallerySection(section);
       await this.loadSections();
     });
+    addOverlay(({onCloseOverlay}) => (
+        <DeleteSectionModal section={section}
+                            onDeleteSection={async () => {
+                              onCloseOverlay();
+                              await deleteSection();
+                            }}
+                            onClose={onCloseOverlay}/>),
+      {light: true, className: 'modal modal-sm active'},
+    );
   }
 
   async processAction(action) {

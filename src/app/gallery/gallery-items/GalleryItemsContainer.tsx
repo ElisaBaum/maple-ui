@@ -8,6 +8,8 @@ import {GalleryItemsHttpService} from './GalleryItemsHttpService';
 import {GALLERY_ITEMS_LIMIT, GalleryItemsService} from './GalleryItemsService';
 import {Subscription} from 'rxjs';
 import {InfiniteScrollSpinner} from '../../layout/components/infinite-scroll/InfiniteScrollSpinner';
+import {addOverlay} from '../../layout/components/overlay/OverlayContainer';
+import {DeleteItemModal} from './delete-item-modal/DeleteItemModal';
 
 interface GalleryItemsContainerProps {
   sectionId: number;
@@ -65,14 +67,23 @@ export class GalleryItemsContainer extends Component<GalleryItemsContainerProps,
     await this.processAction(() => this.galleryItemsService.loadItems());
   }
 
-  async deleteItem(itemToDelete) {
-    await this.processAction(async () => {
+  deleteItem(itemToDelete) {
+    const deleteItem = () => this.processAction(async () => {
       const {items} = this.state;
       this.setState({
         items: items.filter(item => item !== itemToDelete),
       });
       await this.galleryItemsHttpService.deleteGalleryItem(itemToDelete);
     });
+    addOverlay(({onCloseOverlay}) => (
+        <DeleteItemModal item={itemToDelete}
+                         onDeleteItem={async () => {
+                           onCloseOverlay();
+                           await deleteItem();
+                         }}
+                         onClose={onCloseOverlay}/>),
+      {light: true, className: 'modal modal-sm active'},
+    );
   }
 
   async processAction(action) {
