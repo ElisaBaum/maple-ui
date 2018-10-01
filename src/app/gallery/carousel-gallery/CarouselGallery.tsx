@@ -5,6 +5,15 @@ import {Image} from '../../layout/components/image/Image';
 import {Icon} from '../../layout/components/icon/Icon';
 import './CarouselGallery.scss';
 
+function Arrow(props) {
+  const {className, onClick, iconName} = props;
+  return (
+    <div className={className} onClick={onClick}>
+      <Icon name={iconName} size='lg'/>
+    </div>
+  );
+}
+
 export const CarouselGallery = ({items, onClose, currentIndex, isDownloadingItem, onDownloadItem, onIndexChange}) => {
   // react-slick slide arbitrary loses focus
   // (set focus is needed to use keyboard to
@@ -29,7 +38,9 @@ export const CarouselGallery = ({items, onClose, currentIndex, isDownloadingItem
       </div>
       <Slider speed={200}
               initialSlide={currentIndex}
-              afterChange={onIndexChange}>
+              afterChange={onIndexChange}
+              nextArrow={<Arrow iconName='keyboard_arrow_right'/>}
+              prevArrow={<Arrow iconName='keyboard_arrow_left' />}>
         {items
           .map((item, i) => (
             isInRange(i, currentIndex)
