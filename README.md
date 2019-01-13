@@ -1,13 +1,4 @@
-# react hello world
-This project is an application skeleton for a moden web app. It uses
- typescript with react and redux.
-
-The seed contains a sample react application and is preconfigured to 
-install the react framework and a bunch of development and testing 
-tools for instant web development gratification.
-
-The seed provides some example modules as a kind of guideline for how
-a application module should be structured.
+# maple-ui
 
 ## Installation
 
